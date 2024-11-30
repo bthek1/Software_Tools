@@ -1,0 +1,958 @@
+[
+  {
+    "objectID": "vim.html",
+    "href": "vim.html",
+    "title": "Vim",
+    "section": "",
+    "text": "Vim operates in several modes, each with a different purpose:\n\n\nNormal Mode (Command Mode):\n\nThe default mode when you open Vim.\nUsed for navigating and editing text.\nCommon commands: h, j, k, l (move cursor), x (delete character), dd (delete line), yy (copy line), p (paste).\n\nInsert Mode:\n\nEntered by pressing i, a, o, etc.\nUsed for inserting or modifying text.\nReturn to Normal mode by pressing Esc.\n\nVisual Mode:\n\nEntered by pressing v (character-wise), V (line-wise), or Ctrl+v (block-wise).\nUsed to select text for operations like copying or deleting.\nCommands: y (yank/copy), d (delete), &gt;, &lt; (indentation).\n\nCommand-Line Mode: Entered by pressing : in Normal mode. Used for executing commands like saving, quitting, searching, and more. Example: :w (save), :q (quit), :wq (save and quit), :x (save and quit).",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "vim.html#vim-modes",
+    "href": "vim.html#vim-modes",
+    "title": "Vim",
+    "section": "",
+    "text": "Vim operates in several modes, each with a different purpose:\n\n\nNormal Mode (Command Mode):\n\nThe default mode when you open Vim.\nUsed for navigating and editing text.\nCommon commands: h, j, k, l (move cursor), x (delete character), dd (delete line), yy (copy line), p (paste).\n\nInsert Mode:\n\nEntered by pressing i, a, o, etc.\nUsed for inserting or modifying text.\nReturn to Normal mode by pressing Esc.\n\nVisual Mode:\n\nEntered by pressing v (character-wise), V (line-wise), or Ctrl+v (block-wise).\nUsed to select text for operations like copying or deleting.\nCommands: y (yank/copy), d (delete), &gt;, &lt; (indentation).\n\nCommand-Line Mode: Entered by pressing : in Normal mode. Used for executing commands like saving, quitting, searching, and more. Example: :w (save), :q (quit), :wq (save and quit), :x (save and quit).",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "vim.html#basic-vim-commands",
+    "href": "vim.html#basic-vim-commands",
+    "title": "Vim",
+    "section": "Basic Vim Commands",
+    "text": "Basic Vim Commands\n\nOpening a File:\n\nvim filename: Opens a file in Vim.\nvim -R filename: Opens a file in read-only mode.\n\nSaving and Quitting:\n\n:w: Save the file.\n:w filename: Save as a new file.\n:q: Quit Vim.\n:wq: Save and quit.\n:q!: Quit without saving.\nZZ: Save and quit (Normal mode).\n\nNavigation:\n\nh, j, k, l: Move cursor left, down, up, right.\n0: Move to the beginning of the line.\n$: Move to the end of the line.\ngg: Move to the beginning of the file.\nG: Move to the end of the file.\nCtrl+d, Ctrl+u: Scroll half-page down, up.\nCtrl+f, Ctrl+b: Scroll full-page down, up.\n\nEditing:\n\ni: Enter Insert mode before the cursor.\na: Enter Insert mode after the cursor.\no: Open a new line below and enter Insert mode.\nO: Open a new line above and enter Insert mode.\nx: Delete the character under the cursor.\ndw: Delete word.\ndd: Delete line.\nu: Undo.\nCtrl+r: Redo.\ny: Yank (copy) selected text.\np: Paste after the cursor.\nP: Paste before the cursor.\n\nSearch and Replace:\n\n/pattern: Search for a pattern.\nn: Repeat search forward.\nN: Repeat search backward.\n:%s/old/new/g: Replace all occurrences of old with new in the entire file.\n:s/old/new/g: Replace in the current line.",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "vim.html#advanced-vim-features",
+    "href": "vim.html#advanced-vim-features",
+    "title": "Vim",
+    "section": "Advanced Vim Features",
+    "text": "Advanced Vim Features\n\nRegisters:\n\nVim has named registers (\"a, \"b, …) for copying and pasting.\nUse \"ay to yank into register a and \"ap to paste from register a.\n\nMacros:\n\nRecord and replay sequences of commands.\nq&lt;register&gt;: Start recording a macro into a register (e.g., qa).\nq: Stop recording.\n@a: Replay the macro in register a.\n\nMarks:\n\nSet marks to jump between points in a file.\nm&lt;letter&gt;: Set a mark (e.g., ma).\n'a: Jump to the mark a.\n\nBuffers, Windows, and Tabs:\n\nBuffers: Multiple files opened in Vim.\n\n:bnext, :bprev: Navigate between buffers.\n\nWindows: Split screen for editing multiple files simultaneously.\n\n:split filename, :vsplit filename: Split horizontally or vertically.\nCtrl+w + h/j/k/l: Navigate between windows.\n\nTabs: Open files in tabs.\n\n:tabnew filename: Open a file in a new tab.\ngt, gT: Navigate between tabs.\n\n\nText Objects:\n\nOperate on text objects like words, sentences, paragraphs.\ndiw: Delete inside word.\ndap: Delete a paragraph.",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "vim.html#customization",
+    "href": "vim.html#customization",
+    "title": "Vim",
+    "section": "Customization",
+    "text": "Customization\n\n.vimrc File:\n\nVim configuration file located in your home directory.\nExample settings:\n\nset number          \" Show line numbers\nsyntax on           \" Enable syntax highlighting\nset tabstop=4       \" Set tab width to 4 spaces\nset expandtab       \" Convert tabs to spaces\nset shiftwidth=4    \" Indentation width\nset autoindent      \" Enable automatic indentation\nPlugins:\n\nExtend Vim’s functionality with plugins.\nVim Plugin Managers:\n\nVundle: Plugin manager for Vim.\nPathogen: Simplifies plugin management.\nvim-plug: A minimalist plugin manager.\n\nExample .vimrc for plugins:\n\n\ncall plug#begin('~/.vim/plugged')\nPlug 'scrooloose/nerdtree'           \" File explorer\nPlug 'tpope/vim-fugitive'            \" Git integration\ncall plug#end()\n\n\nThemes:\n\nChange the color scheme of Vim.\nExample: ```vim colorscheme desert ” Set color scheme to desert\n\n\n\n### Using Vundle\n\n```sh\ngit clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim\nvim +PluginInstall +qall\n\ninside .vimrc\n\n\nset nocompatible              \" Required for Vundle\nfiletype off                  \" Required for Vundle\n\n\" Set the runtime path to include Vundle and initialize\nset rtp+=~/.vim/bundle/Vundle.vim\ncall vundle#begin()\n\n\" Let Vundle manage Vundle, required\nPlugin 'VundleVim/Vundle.vim'\n\n\" === Example Plugins ===\n\n\" NERDTree: File system explorer for Vim\nPlugin 'preservim/nerdtree'\n\n\" vim-airline: Lean & mean status/tabline for Vim\nPlugin 'vim-airline/vim-airline'\n\n\" vim-fugitive: A Git wrapper so awesome, it should be illegal\nPlugin 'tpope/vim-fugitive'\n\n\" lightline.vim: A lightweight statusline\nPlugin 'itchyny/lightline.vim'\n\n\" syntastic: Syntax checking plugin\nPlugin 'vim-syntastic/syntastic'\n\n\" vim-surround: Surround text objects easily\nPlugin 'tpope/vim-surround'\n\n\" ctrlp.vim: Fuzzy file, buffer, MRU, tag, etc. finder\nPlugin 'ctrlpvim/ctrlp.vim'\n\n\" vim-commentary: Comment stuff out\nPlugin 'tpope/vim-commentary'\n\n\" vim-gitgutter: Shows a git diff in the 'gutter' (sign column)\nPlugin 'airblade/vim-gitgutter'\n\n\" YouCompleteMe: Fast, as-you-type, fuzzy-search code completion\nPlugin 'ycm-core/YouCompleteMe'\n\n\" vim-polyglot: Language pack for Vim (syntax highlighting for many languages)\nPlugin 'sheerun/vim-polyglot'\n\n\" vim-indent-guides: A Vim plugin for visually displaying indent levels in code\nPlugin 'nathanaelkane/vim-indent-guides'\n\n\" vim-markdown: Markdown syntax highlighting and editing\nPlugin 'preservim/vim-markdown'\n\n\" vim-easymotion: EasyMotion provides a much simpler way to use some motions in Vim\nPlugin 'easymotion/vim-easymotion'\n\n\" vim-startify: A fancy start screen for Vim\nPlugin 'mhinz/vim-startify'\n\ncall vundle#end()            \" Required for Vundle\nfiletype plugin indent on    \" Required for Vundle",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "coding_design_patterns.html",
+    "href": "coding_design_patterns.html",
+    "title": "Coding Design Patterns",
+    "section": "",
+    "text": "Design patterns are proven solutions to common software design problems. They provide a standardized way to structure your code, making it more maintainable, scalable, and robust. In Python, design patterns are particularly useful due to the language’s flexibility and support for multiple programming paradigms.\nThis guide covers the most common design patterns in Python, categorized into Creational, Structural, and Behavioral patterns. Each pattern includes a brief explanation and a Python example to illustrate its implementation.",
+    "crumbs": [
+      "Blog",
+      "Coding Design Patterns"
+    ]
+  },
+  {
+    "objectID": "coding_design_patterns.html#creational-design-patterns",
+    "href": "coding_design_patterns.html#creational-design-patterns",
+    "title": "Coding Design Patterns",
+    "section": "1. Creational Design Patterns",
+    "text": "1. Creational Design Patterns\nCreational patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. They abstract the instantiation process, making a system independent of how its objects are created, composed, and represented.\n\na. Singleton\nPurpose: Ensure a class has only one instance and provide a global point of access to it.\nUse Case: When exactly one object is needed to coordinate actions across the system (e.g., configuration manager, logger).\nPython Implementation:\nclass SingletonMeta(type):\n    \"\"\"\n    This is a thread-safe implementation of Singleton.\n    \"\"\"\n    _instances = {}\n\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass SingletonClass(metaclass=SingletonMeta):\n    def __init__(self, value):\n        self.value = value\n\n# Usage\nsingleton1 = SingletonClass(10)\nsingleton2 = SingletonClass(20)\n\nprint(singleton1.value)  # Output: 10\nprint(singleton2.value)  # Output: 10\nprint(singleton1 is singleton2)  # Output: True\nExplanation: - SingletonMeta is a metaclass that overrides the __call__ method to control object creation. - When SingletonClass is instantiated, it checks if an instance already exists. If not, it creates one; otherwise, it returns the existing instance. - Both singleton1 and singleton2 refer to the same instance.\n\n\nb. Factory Method\nPurpose: Define an interface for creating an object, but let subclasses alter the type of objects that will be created.\nUse Case: When a class cannot anticipate the class of objects it needs to create.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Product\nclass Button(ABC):\n    @abstractmethod\n    def render(self):\n        pass\n\n# Concrete Products\nclass WindowsButton(Button):\n    def render(self):\n        return \"Render a button in Windows style.\"\n\nclass MacOSButton(Button):\n    def render(self):\n        return \"Render a button in MacOS style.\"\n\n# Creator\nclass Dialog(ABC):\n    @abstractmethod\n    def create_button(self) -&gt; Button:\n        pass\n\n    def render_dialog(self):\n        button = self.create_button()\n        print(button.render())\n\n# Concrete Creators\nclass WindowsDialog(Dialog):\n    def create_button(self) -&gt; Button:\n        return WindowsButton()\n\nclass MacOSDialog(Dialog):\n    def create_button(self) -&gt; Button:\n        return MacOSButton()\n\n# Usage\ndef client_code(dialog: Dialog):\n    dialog.render_dialog()\n\n# Create a Windows dialog\nwindows_dialog = WindowsDialog()\nclient_code(windows_dialog)  # Output: Render a button in Windows style.\n\n# Create a MacOS dialog\nmac_dialog = MacOSDialog()\nclient_code(mac_dialog)  # Output: Render a button in MacOS style.\nExplanation: - Button is an abstract product with a render method. - WindowsButton and MacOSButton are concrete implementations. - Dialog is an abstract creator with a factory method create_button. - WindowsDialog and MacOSDialog override the factory method to create specific button types. - The client_code function uses the Dialog interface to render buttons without knowing their concrete classes.\n\n\nc. Abstract Factory\nPurpose: Provide an interface for creating families of related or dependent objects without specifying their concrete classes.\nUse Case: When a system needs to be independent of how its products are created and composed.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Abstract Products\nclass Button(ABC):\n    @abstractmethod\n    def paint(self):\n        pass\n\nclass Checkbox(ABC):\n    @abstractmethod\n    def paint(self):\n        pass\n\n# Concrete Products for Windows\nclass WindowsButton(Button):\n    def paint(self):\n        return \"Render a button in Windows style.\"\n\nclass WindowsCheckbox(Checkbox):\n    def paint(self):\n        return \"Render a checkbox in Windows style.\"\n\n# Concrete Products for MacOS\nclass MacOSButton(Button):\n    def paint(self):\n        return \"Render a button in MacOS style.\"\n\nclass MacOSCheckbox(Checkbox):\n    def paint(self):\n        return \"Render a checkbox in MacOS style.\"\n\n# Abstract Factory\nclass GUIFactory(ABC):\n    @abstractmethod\n    def create_button(self) -&gt; Button:\n        pass\n\n    @abstractmethod\n    def create_checkbox(self) -&gt; Checkbox:\n        pass\n\n# Concrete Factories\nclass WindowsFactory(GUIFactory):\n    def create_button(self) -&gt; Button:\n        return WindowsButton()\n\n    def create_checkbox(self) -&gt; Checkbox:\n        return WindowsCheckbox()\n\nclass MacOSFactory(GUIFactory):\n    def create_button(self) -&gt; Button:\n        return MacOSButton()\n\n    def create_checkbox(self) -&gt; Checkbox:\n        return MacOSCheckbox()\n\n# Client Code\ndef client_code(factory: GUIFactory):\n    button = factory.create_button()\n    checkbox = factory.create_checkbox()\n    print(button.paint())\n    print(checkbox.paint())\n\n# Usage\nprint(\"Client: Testing client code with the WindowsFactory:\")\nclient_code(WindowsFactory())\n# Output:\n# Render a button in Windows style.\n# Render a checkbox in Windows style.\n\nprint(\"\\nClient: Testing the same client code with the MacOSFactory:\")\nclient_code(MacOSFactory())\n# Output:\n# Render a button in MacOS style.\n# Render a checkbox in MacOS style.\nExplanation: - Button and Checkbox are abstract products with a paint method. - WindowsButton, WindowsCheckbox, MacOSButton, and MacOSCheckbox are concrete implementations. - GUIFactory is an abstract factory with methods to create buttons and checkboxes. - WindowsFactory and MacOSFactory are concrete factories that produce Windows and MacOS styled products, respectively. - The client_code function uses the factory to create and paint UI elements without knowing their concrete classes.\n\n\nd. Builder\nPurpose: Separate the construction of a complex object from its representation, allowing the same construction process to create different representations.\nUse Case: When creating complex objects with many optional parameters or when the construction process involves multiple steps.\nPython Implementation:\nclass Car:\n    def __init__(self):\n        self.make = None\n        self.model = None\n        self.engine = None\n        self.color = None\n\n    def __str__(self):\n        return f\"Car(make={self.make}, model={self.model}, engine={self.engine}, color={self.color})\"\n\nclass CarBuilder:\n    def __init__(self):\n        self.car = Car()\n\n    def set_make(self, make: str):\n        self.car.make = make\n        return self\n\n    def set_model(self, model: str):\n        self.car.model = model\n        return self\n\n    def set_engine(self, engine: str):\n        self.car.engine = engine\n        return self\n\n    def set_color(self, color: str):\n        self.car.color = color\n        return self\n\n    def build(self):\n        return self.car\n\n# Usage\nbuilder = CarBuilder()\ncar = (builder.set_make(\"Toyota\")\n            .set_model(\"Corolla\")\n            .set_engine(\"V4\")\n            .set_color(\"Blue\")\n            .build())\n\nprint(car)  # Output: Car(make=Toyota, model=Corolla, engine=V4, color=Blue)\nExplanation: - Car is the complex object with multiple attributes. - CarBuilder provides methods to set each attribute and returns self to allow method chaining. - The build method returns the fully constructed Car object. - The client uses the builder to construct a Car step-by-step, resulting in a clear and flexible construction process.\n\n\ne. Prototype\nPurpose: Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.\nUse Case: When object creation is expensive, and cloning is more efficient, or when you need to create objects with identical or similar states.\nPython Implementation:\nimport copy\n\nclass Prototype:\n    def clone(self):\n        return copy.deepcopy(self)\n\nclass ComplexObject(Prototype):\n    def __init__(self, name, components):\n        self.name = name\n        self.components = components\n\n    def __str__(self):\n        return f\"ComplexObject(name={self.name}, components={self.components})\"\n\n# Usage\noriginal = ComplexObject(\"Original\", [\"Component1\", \"Component2\"])\nclone = original.clone()\n\nprint(original)  # Output: ComplexObject(name=Original, components=['Component1', 'Component2'])\nprint(clone)     # Output: ComplexObject(name=Original, components=['Component1', 'Component2'])\nprint(original is clone)  # Output: False\nExplanation: - Prototype provides a clone method using deepcopy to create a new instance. - ComplexObject inherits from Prototype and represents an object with multiple components. - The clone method creates a deep copy of the original object, ensuring that changes to the clone do not affect the original.",
+    "crumbs": [
+      "Blog",
+      "Coding Design Patterns"
+    ]
+  },
+  {
+    "objectID": "coding_design_patterns.html#structural-design-patterns",
+    "href": "coding_design_patterns.html#structural-design-patterns",
+    "title": "Coding Design Patterns",
+    "section": "2. Structural Design Patterns",
+    "text": "2. Structural Design Patterns\nStructural patterns deal with object composition, identifying simple ways to realize relationships between different objects to form larger structures.\n\na. Adapter\nPurpose: Allow the interface of an existing class to be used as another interface. It enables classes to work together that couldn’t otherwise because of incompatible interfaces.\nUse Case: When integrating third-party libraries or legacy code that doesn’t match the current system’s interfaces.\nPython Implementation:\nclass EuropeanSocketInterface:\n    def voltage(self) -&gt; int:\n        pass\n\n    def live(self) -&gt; int:\n        pass\n\n    def neutral(self) -&gt; int:\n        pass\n\n    def earth(self) -&gt; int:\n        pass\n\nclass EuropeanSocket(EuropeanSocketInterface):\n    def voltage(self):\n        return 230\n\n    def live(self):\n        return 1\n\n    def neutral(self):\n        return -1\n\n    def earth(self):\n        return 0\n\nclass USPlug:\n    def __init__(self, device):\n        self.device = device\n\n    def connect_to_socket(self, socket: EuropeanSocketInterface):\n        if socket.voltage() &gt; 120:\n            self.device.electrical_needs = socket.voltage() // 2\n        else:\n            self.device.electrical_needs = socket.voltage()\n        self.device.power_on()\n\nclass Device:\n    def power_on(self):\n        print(f\"Device powered on with {self.electrical_needs}V.\")\n\n# Adapter\nclass USAdapter(EuropeanSocketInterface):\n    def __init__(self, us_device: USPlug):\n        self.us_device = us_device\n\n    def voltage(self):\n        return 120  # Adapter converts voltage\n\n    def live(self):\n        return 1\n\n    def neutral(self):\n        return -1\n\n    def earth(self):\n        return 0\n\n# Usage\ndevice = Device()\nus_plug = USPlug(device)\nadapter = USAdapter(us_plug)\neuropean_socket = EuropeanSocket()\n\nus_plug.connect_to_socket(adapter)\n# Output: Device powered on with 120V.\nExplanation: - EuropeanSocketInterface defines the interface for European sockets. - EuropeanSocket implements the European socket interface. - USPlug expects a socket with 120V. - USAdapter adapts the USPlug to work with the EuropeanSocketInterface by converting the voltage. - This allows USPlug to connect to a European socket seamlessly.\n\n\nb. Decorator\nPurpose: Attach additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.\nUse Case: When you need to add behavior to individual objects without affecting other objects of the same class.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Component\nclass Coffee(ABC):\n    @abstractmethod\n    def cost(self) -&gt; float:\n        pass\n\n    @abstractmethod\n    def ingredients(self) -&gt; str:\n        pass\n\n# Concrete Component\nclass SimpleCoffee(Coffee):\n    def cost(self) -&gt; float:\n        return 2.0\n\n    def ingredients(self) -&gt; str:\n        return \"Coffee\"\n\n# Decorator\nclass CoffeeDecorator(Coffee):\n    def __init__(self, coffee: Coffee):\n        self._coffee = coffee\n\n    def cost(self) -&gt; float:\n        return self._coffee.cost()\n\n    def ingredients(self) -&gt; str:\n        return self._coffee.ingredients()\n\n# Concrete Decorators\nclass MilkDecorator(CoffeeDecorator):\n    def cost(self) -&gt; float:\n        return self._coffee.cost() + 0.5\n\n    def ingredients(self) -&gt; str:\n        return f\"{self._coffee.ingredients()}, Milk\"\n\nclass SugarDecorator(CoffeeDecorator):\n    def cost(self) -&gt; float:\n        return self._coffee.cost() + 0.3\n\n    def ingredients(self) -&gt; str:\n        return f\"{self._coffee.ingredients()}, Sugar\"\n\n# Usage\ncoffee = SimpleCoffee()\nprint(coffee.cost())          # Output: 2.0\nprint(coffee.ingredients())   # Output: Coffee\n\ncoffee_with_milk = MilkDecorator(coffee)\nprint(coffee_with_milk.cost())          # Output: 2.5\nprint(coffee_with_milk.ingredients())   # Output: Coffee, Milk\n\ncoffee_with_milk_sugar = SugarDecorator(coffee_with_milk)\nprint(coffee_with_milk_sugar.cost())          # Output: 2.8\nprint(coffee_with_milk_sugar.ingredients())   # Output: Coffee, Milk, Sugar\nExplanation: - Coffee is the abstract component with cost and ingredients methods. - SimpleCoffee is the concrete component. - CoffeeDecorator is the abstract decorator that holds a reference to a Coffee object. - MilkDecorator and SugarDecorator are concrete decorators that add functionality. - Decorators are applied dynamically, allowing flexible combinations of added features.\n\n\nc. Facade\nPurpose: Provide a simplified interface to a complex subsystem. Facades define a higher-level interface that makes the subsystem easier to use.\nUse Case: When you want to simplify interactions with a complex system, such as a library or a set of classes.\nPython Implementation:\nclass CPU:\n    def freeze(self):\n        print(\"CPU: Freezing processor.\")\n\n    def jump(self, position: int):\n        print(f\"CPU: Jumping to address {position}.\")\n\n    def execute(self):\n        print(\"CPU: Executing instructions.\")\n\nclass Memory:\n    def load(self, position: int, data: str):\n        print(f\"Memory: Loading data '{data}' at position {position}.\")\n\nclass HardDrive:\n    def read(self, lba: int, size: int) -&gt; str:\n        data = \"OS Boot Data\"\n        print(f\"HardDrive: Reading data from LBA {lba} with size {size}.\")\n        return data\n\n# Facade\nclass ComputerFacade:\n    def __init__(self):\n        self.cpu = CPU()\n        self.memory = Memory()\n        self.hard_drive = HardDrive()\n\n    def start_computer(self):\n        self.cpu.freeze()\n        boot_data = self.hard_drive.read(0, 1024)\n        self.memory.load(0, boot_data)\n        self.cpu.jump(0)\n        self.cpu.execute()\n\n# Usage\ncomputer = ComputerFacade()\ncomputer.start_computer()\n# Output:\n# CPU: Freezing processor.\n# HardDrive: Reading data from LBA 0 with size 1024.\n# Memory: Loading data 'OS Boot Data' at position 0.\n# CPU: Jumping to address 0.\n# CPU: Executing instructions.\nExplanation: - CPU, Memory, and HardDrive represent complex subsystems. - ComputerFacade provides a simplified start_computer method that internally coordinates interactions between subsystems. - The client interacts only with the facade, hiding the complexities of the underlying components.\n\n\nd. Proxy\nPurpose: Provide a surrogate or placeholder for another object to control access to it.\nUse Case: When you need to add a layer of control over access to an object, such as lazy initialization, access control, logging, or caching.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Subject Interface\nclass Image(ABC):\n    @abstractmethod\n    def display(self):\n        pass\n\n# Real Subject\nclass RealImage(Image):\n    def __init__(self, filename: str):\n        self.filename = filename\n        self.load_from_disk()\n\n    def load_from_disk(self):\n        print(f\"Loading {self.filename} from disk.\")\n\n    def display(self):\n        print(f\"Displaying {self.filename}.\")\n\n# Proxy\nclass ProxyImage(Image):\n    def __init__(self, filename: str):\n        self.filename = filename\n        self.real_image = None\n\n    def display(self):\n        if self.real_image is None:\n            self.real_image = RealImage(self.filename)\n        self.real_image.display()\n\n# Usage\nprint(\"Creating ProxyImage:\")\nimage = ProxyImage(\"photo.jpg\")\nprint(\"\\nFirst call to display():\")\nimage.display()\nprint(\"\\nSecond call to display():\")\nimage.display()\nOutput:\nCreating ProxyImage:\n\nFirst call to display():\nLoading photo.jpg from disk.\nDisplaying photo.jpg.\n\nSecond call to display():\nDisplaying photo.jpg.\nExplanation: - Image is the abstract subject with a display method. - RealImage loads and displays an image, simulating an expensive operation (loading from disk). - ProxyImage controls access to RealImage. It initializes RealImage only when display is called for the first time (lazy initialization). - Subsequent calls to display use the already loaded RealImage, avoiding redundant disk loads.\n\n\ne. Composite\nPurpose: Compose objects into tree structures to represent part-whole hierarchies. Composite lets clients treat individual objects and compositions uniformly.\nUse Case: When you need to represent hierarchical structures like file systems, organizational charts, or UI components.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Component\nclass Graphic(ABC):\n    @abstractmethod\n    def draw(self):\n        pass\n\n# Leaf\nclass Dot(Graphic):\n    def draw(self):\n        print(\"Drawing a dot.\")\n\nclass Circle(Graphic):\n    def draw(self):\n        print(\"Drawing a circle.\")\n\n# Composite\nclass CompoundGraphic(Graphic):\n    def __init__(self):\n        self.children = []\n\n    def add(self, graphic: Graphic):\n        self.children.append(graphic)\n\n    def remove(self, graphic: Graphic):\n        self.children.remove(graphic)\n\n    def draw(self):\n        for child in self.children:\n            child.draw()\n\n# Usage\ndot = Dot()\ncircle = Circle()\n\ncompound = CompoundGraphic()\ncompound.add(dot)\ncompound.add(circle)\n\nprint(\"Drawing individual graphics:\")\ndot.draw()\ncircle.draw()\n\nprint(\"\\nDrawing compound graphic:\")\ncompound.draw()\nOutput:\nDrawing individual graphics:\nDrawing a dot.\nDrawing a circle.\n\nDrawing compound graphic:\nDrawing a dot.\nDrawing a circle.\nExplanation: - Graphic is the abstract component with a draw method. - Dot and Circle are leaf nodes implementing Graphic. - CompoundGraphic is a composite that can contain multiple Graphic objects (both leaves and other composites). - The client can treat individual Graphic objects and CompoundGraphic uniformly by calling the draw method.",
+    "crumbs": [
+      "Blog",
+      "Coding Design Patterns"
+    ]
+  },
+  {
+    "objectID": "coding_design_patterns.html#behavioral-design-patterns",
+    "href": "coding_design_patterns.html#behavioral-design-patterns",
+    "title": "Coding Design Patterns",
+    "section": "3. Behavioral Design Patterns",
+    "text": "3. Behavioral Design Patterns\nBehavioral patterns are concerned with algorithms and the assignment of responsibilities between objects. They describe not just patterns of objects or classes but also the pattern of communication between them.\n\na. Observer\nPurpose: Define a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.\nUse Case: Implementing event handling systems, such as user interface event listeners or publish-subscribe mechanisms.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Subject\nclass Subject(ABC):\n    @abstractmethod\n    def attach(self, observer):\n        pass\n\n    @abstractmethod\n    def detach(self, observer):\n        pass\n\n    @abstractmethod\n    def notify(self):\n        pass\n\n# Concrete Subject\nclass ConcreteSubject(Subject):\n    def __init__(self):\n        self._observers = []\n        self._state = None\n\n    def attach(self, observer):\n        self._observers.append(observer)\n\n    def detach(self, observer):\n        self._observers.remove(observer)\n\n    def notify(self):\n        for observer in self._observers:\n            observer.update(self)\n\n    @property\n    def state(self):\n        return self._state\n\n    @state.setter\n    def state(self, value):\n        self._state = value\n        self.notify()\n\n# Observer\nclass Observer(ABC):\n    @abstractmethod\n    def update(self, subject: Subject):\n        pass\n\n# Concrete Observer\nclass ConcreteObserver(Observer):\n    def update(self, subject: Subject):\n        print(f\"Observer: Subject's state changed to {subject.state}\")\n\n# Usage\nsubject = ConcreteSubject()\nobserver1 = ConcreteObserver()\nobserver2 = ConcreteObserver()\n\nsubject.attach(observer1)\nsubject.attach(observer2)\n\nprint(\"Changing subject state to 10.\")\nsubject.state = 10\n# Output:\n# Observer: Subject's state changed to 10\n# Observer: Subject's state changed to 10\n\nprint(\"\\nChanging subject state to 20.\")\nsubject.state = 20\n# Output:\n# Observer: Subject's state changed to 20\n# Observer: Subject's state changed to 20\n\nsubject.detach(observer1)\nprint(\"\\nChanging subject state to 30 after detaching observer1.\")\nsubject.state = 30\n# Output:\n# Observer: Subject's state changed to 30\nExplanation: - Subject defines methods to attach, detach, and notify observers. - ConcreteSubject maintains a list of observers and notifies them when its state changes. - Observer defines an update method that observers must implement. - ConcreteObserver implements the update method to respond to state changes. - When the subject’s state is updated, all attached observers are notified automatically.\n\n\nb. Strategy\nPurpose: Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it.\nUse Case: When you have multiple ways of performing an operation and want to choose the algorithm at runtime.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Strategy Interface\nclass SortingStrategy(ABC):\n    @abstractmethod\n    def sort(self, data: list) -&gt; list:\n        pass\n\n# Concrete Strategies\nclass QuickSortStrategy(SortingStrategy):\n    def sort(self, data: list) -&gt; list:\n        print(\"Sorting using QuickSort.\")\n        return sorted(data)  # Simplified for illustration\n\nclass MergeSortStrategy(SortingStrategy):\n    def sort(self, data: list) -&gt; list:\n        print(\"Sorting using MergeSort.\")\n        return sorted(data)  # Simplified for illustration\n\nclass BubbleSortStrategy(SortingStrategy):\n    def sort(self, data: list) -&gt; list:\n        print(\"Sorting using BubbleSort.\")\n        return sorted(data)  # Simplified for illustration\n\n# Context\nclass Sorter:\n    def __init__(self, strategy: SortingStrategy):\n        self._strategy = strategy\n\n    def set_strategy(self, strategy: SortingStrategy):\n        self._strategy = strategy\n\n    def sort_data(self, data: list) -&gt; list:\n        return self._strategy.sort(data)\n\n# Usage\ndata = [5, 2, 9, 1, 5, 6]\n\nsorter = Sorter(QuickSortStrategy())\nsorted_data = sorter.sort_data(data)\nprint(sorted_data)\n# Output:\n# Sorting using QuickSort.\n# [1, 2, 5, 5, 6, 9]\n\nsorter.set_strategy(BubbleSortStrategy())\nsorted_data = sorter.sort_data(data)\nprint(sorted_data)\n# Output:\n# Sorting using BubbleSort.\n# [1, 2, 5, 5, 6, 9]\nExplanation: - SortingStrategy is the abstract strategy interface with a sort method. - QuickSortStrategy, MergeSortStrategy, and BubbleSortStrategy are concrete strategies implementing different sorting algorithms. - Sorter is the context that uses a SortingStrategy to sort data. It can change its strategy at runtime. - The client can choose different sorting algorithms by setting different strategies without changing the Sorter’s implementation.\n\n\nc. Command\nPurpose: Encapsulate a request as an object, thereby allowing for parameterization of clients with queues, requests, and operations.\nUse Case: Implementing undo/redo functionality, transactional behavior, or scheduling tasks.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Command Interface\nclass Command(ABC):\n    @abstractmethod\n    def execute(self):\n        pass\n\n    @abstractmethod\n    def undo(self):\n        pass\n\n# Receiver\nclass Light:\n    def __init__(self):\n        self.is_on = False\n\n    def turn_on(self):\n        self.is_on = True\n        print(\"Light: turned on.\")\n\n    def turn_off(self):\n        self.is_on = False\n        print(\"Light: turned off.\")\n\n# Concrete Commands\nclass TurnOnCommand(Command):\n    def __init__(self, light: Light):\n        self.light = light\n\n    def execute(self):\n        self.light.turn_on()\n\n    def undo(self):\n        self.light.turn_off()\n\nclass TurnOffCommand(Command):\n    def __init__(self, light: Light):\n        self.light = light\n\n    def execute(self):\n        self.light.turn_off()\n\n    def undo(self):\n        self.light.turn_on()\n\n# Invoker\nclass RemoteControl:\n    def __init__(self):\n        self.history = []\n\n    def execute_command(self, command: Command):\n        command.execute()\n        self.history.append(command)\n\n    def undo_last(self):\n        if self.history:\n            command = self.history.pop()\n            command.undo()\n        else:\n            print(\"No commands to undo.\")\n\n# Usage\nlight = Light()\nremote = RemoteControl()\n\nturn_on = TurnOnCommand(light)\nturn_off = TurnOffCommand(light)\n\nremote.execute_command(turn_on)   # Output: Light: turned on.\nremote.execute_command(turn_off)  # Output: Light: turned off.\nremote.undo_last()                # Output: Light: turned on.\nremote.undo_last()                # Output: Light: turned off.\nremote.undo_last()                # Output: No commands to undo.\nExplanation: - Command is the abstract command interface with execute and undo methods. - Light is the receiver that performs the actual operations. - TurnOnCommand and TurnOffCommand are concrete commands that call the receiver’s methods. - RemoteControl is the invoker that executes commands and maintains a history for undoing. - The client uses the RemoteControl to execute and undo commands without knowing the underlying receiver’s implementation.\n\n\nd. Iterator\nPurpose: Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.\nUse Case: When you need to traverse different data structures (lists, trees, etc.) uniformly.\nPython Implementation:\nclass Iterator(ABC):\n    @abstractmethod\n    def __next__(self):\n        pass\n\nclass ConcreteIterator(Iterator):\n    def __init__(self, collection):\n        self._collection = collection\n        self._index = 0\n\n    def __next__(self):\n        try:\n            item = self._collection[self._index]\n            self._index += 1\n            return item\n        except IndexError:\n            raise StopIteration\n\nclass Aggregate(ABC):\n    @abstractmethod\n    def create_iterator(self):\n        pass\n\nclass ConcreteAggregate(Aggregate):\n    def __init__(self):\n        self._items = []\n\n    def add_item(self, item):\n        self._items.append(item)\n\n    def create_iterator(self):\n        return ConcreteIterator(self._items)\n\n# Usage\naggregate = ConcreteAggregate()\naggregate.add_item(\"Item1\")\naggregate.add_item(\"Item2\")\naggregate.add_item(\"Item3\")\n\niterator = aggregate.create_iterator()\n\nprint(\"Iterating over aggregate:\")\ntry:\n    while True:\n        item = next(iterator)\n        print(item)\nexcept StopIteration:\n    pass\n# Output:\n# Iterating over aggregate:\n# Item1\n# Item2\n# Item3\nExplanation: - Iterator is the abstract iterator interface with a __next__ method. - ConcreteIterator implements the Iterator interface to traverse a collection. - Aggregate is the abstract collection interface with a create_iterator method. - ConcreteAggregate maintains a list of items and returns a ConcreteIterator for traversal. - The client uses the iterator to traverse the collection without knowing its internal structure.\nPythonic Approach: Python’s built-in iterator protocol can often replace explicit iterator patterns.\nclass IterableAggregate:\n    def __init__(self):\n        self._items = []\n\n    def add_item(self, item):\n        self._items.append(item)\n\n    def __iter__(self):\n        return iter(self._items)\n\n# Usage\naggregate = IterableAggregate()\naggregate.add_item(\"Item1\")\naggregate.add_item(\"Item2\")\naggregate.add_item(\"Item3\")\n\nprint(\"Iterating over aggregate using Pythonic iterator:\")\nfor item in aggregate:\n    print(item)\n# Output:\n# Iterating over aggregate using Pythonic iterator:\n# Item1\n# Item2\n# Item3\n\n\ne. Mediator\nPurpose: Define an object that encapsulates how a set of objects interact. Mediator promotes loose coupling by keeping objects from referring to each other explicitly.\nUse Case: When you have complex communication between multiple objects and want to centralize control.\nPython Implementation:\n```python from abc import ABC, abstractmethod",
+    "crumbs": [
+      "Blog",
+      "Coding Design Patterns"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html",
+    "href": "Environments/direnv.html",
+    "title": "Direnv",
+    "section": "",
+    "text": "sudo apt-get install direnv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html#install",
+    "href": "Environments/direnv.html#install",
+    "title": "Direnv",
+    "section": "",
+    "text": "sudo apt-get install direnv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html#configure-your-shell",
+    "href": "Environments/direnv.html#configure-your-shell",
+    "title": "Direnv",
+    "section": "Configure Your Shell",
+    "text": "Configure Your Shell\n\nAdd to bash\n\neval \"$(direnv hook bash)\"\n\nReload bash\n\nsource ~/.bashrc",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html#create-a-.envrc-file-in-your-project-directory",
+    "href": "Environments/direnv.html#create-a-.envrc-file-in-your-project-directory",
+    "title": "Direnv",
+    "section": "Create a .envrc File in Your Project Directory",
+    "text": "Create a .envrc File in Your Project Directory\n\nNavigate to your project directory and create a .envrc file:\n\ncd /path/to/your/project\necho 'export POETRY_ACTIVE=1' &gt; .envrc\necho 'source \"$(poetry env info --path)/bin/activate\"' &gt;&gt; .envrc",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html#allow-the-.envrc-file",
+    "href": "Environments/direnv.html#allow-the-.envrc-file",
+    "title": "Direnv",
+    "section": "Allow the .envrc File",
+    "text": "Allow the .envrc File\ndirenv allow",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html",
+    "href": "Environments/conda.html",
+    "title": "Conda",
+    "section": "",
+    "text": "mkdir -p ~/miniconda3\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh\nbash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3\nrm ~/miniconda3/miniconda.sh",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#install-conda",
+    "href": "Environments/conda.html#install-conda",
+    "title": "Conda",
+    "section": "",
+    "text": "mkdir -p ~/miniconda3\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh\nbash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3\nrm ~/miniconda3/miniconda.sh",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#initialize-conda",
+    "href": "Environments/conda.html#initialize-conda",
+    "title": "Conda",
+    "section": "Initialize Conda",
+    "text": "Initialize Conda\n~/miniconda3/bin/conda init bash",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#creating-and-managing-environments",
+    "href": "Environments/conda.html#creating-and-managing-environments",
+    "title": "Conda",
+    "section": "Creating and Managing Environments",
+    "text": "Creating and Managing Environments\nconda create --name myenv\n\nExample\n\nconda create --name myenv python=3.8 numpy pandas",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#activating-an-environment",
+    "href": "Environments/conda.html#activating-an-environment",
+    "title": "Conda",
+    "section": "Activating an Environment",
+    "text": "Activating an Environment\nconda activate myenv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#deactivating-an-environment",
+    "href": "Environments/conda.html#deactivating-an-environment",
+    "title": "Conda",
+    "section": "Deactivating an Environment",
+    "text": "Deactivating an Environment\nconda deactivate",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#listing-environments",
+    "href": "Environments/conda.html#listing-environments",
+    "title": "Conda",
+    "section": "Listing Environments",
+    "text": "Listing Environments\nconda env list",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#installing-and-managing-packages",
+    "href": "Environments/conda.html#installing-and-managing-packages",
+    "title": "Conda",
+    "section": "Installing and Managing Packages",
+    "text": "Installing and Managing Packages\nconda install scipy",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#updating-packages",
+    "href": "Environments/conda.html#updating-packages",
+    "title": "Conda",
+    "section": "Updating Packages",
+    "text": "Updating Packages\nconda update numpy",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#removing-packages",
+    "href": "Environments/conda.html#removing-packages",
+    "title": "Conda",
+    "section": "Removing Packages",
+    "text": "Removing Packages\nconda remove scipy",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#removing-an-environment",
+    "href": "Environments/conda.html#removing-an-environment",
+    "title": "Conda",
+    "section": "Removing an Environment",
+    "text": "Removing an Environment\nconda env remove --name myenv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#searching-for-packages",
+    "href": "Environments/conda.html#searching-for-packages",
+    "title": "Conda",
+    "section": "Searching for Packages",
+    "text": "Searching for Packages\nconda search beautifulsoup4",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#using-channels",
+    "href": "Environments/conda.html#using-channels",
+    "title": "Conda",
+    "section": "Using Channels",
+    "text": "Using Channels\n\nConda channels are locations where packages are stored. By default, Conda uses the defaults channel, but you can add others like conda-forge.\n\n\nAdding a Channel\nconda config --add channels conda-forge\n\n\nInstalling from a Specific Channel\nconda install -c conda-forge opencv\n\n\nListing Conda Channels\nconda config --show channels\n\n!conda config --show channels\n\nchannels:\n  - defaults",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "bash.html",
+    "href": "bash.html",
+    "title": "Bash Scripts",
+    "section": "",
+    "text": "!touch script.sh\n\n\n\n\n\n!chmod +x script.sh\n\n\n\n\n\nTells the system to use bash to execute the script:\n\n\n!echo '#!/bin/bash' &gt; script.sh\n\n\n!cat script.sh\n\n#!/bin/bash\n\n\n\n\n\n\n!echo 'echo \"Hello, World!\"' &gt;&gt; script.sh\n\n\n\n\n\n!./script.sh\n\nHello, World!",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#basics-of-bash-scripting",
+    "href": "bash.html#basics-of-bash-scripting",
+    "title": "Bash Scripts",
+    "section": "",
+    "text": "!touch script.sh\n\n\n\n\n\n!chmod +x script.sh\n\n\n\n\n\nTells the system to use bash to execute the script:\n\n\n!echo '#!/bin/bash' &gt; script.sh\n\n\n!cat script.sh\n\n#!/bin/bash\n\n\n\n\n\n\n!echo 'echo \"Hello, World!\"' &gt;&gt; script.sh\n\n\n\n\n\n!./script.sh\n\nHello, World!",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#variables",
+    "href": "bash.html#variables",
+    "title": "Bash Scripts",
+    "section": "Variables",
+    "text": "Variables\n#!/bin/bash\nname=\"John\"\necho \"Hello, $name!\"",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#conditionals",
+    "href": "bash.html#conditionals",
+    "title": "Bash Scripts",
+    "section": "Conditionals",
+    "text": "Conditionals\n#!/bin/bash\nif [ \"$1\" -gt 10 ]; then\n  echo \"The number is greater than 10\"\nelse\n  echo \"The number is 10 or less\"\nfi",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#loops",
+    "href": "bash.html#loops",
+    "title": "Bash Scripts",
+    "section": "Loops",
+    "text": "Loops\n#!/bin/bash\nfor i in {1..5}; do\n  echo \"Iteration $i\"\ndone",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#functions",
+    "href": "bash.html#functions",
+    "title": "Bash Scripts",
+    "section": "Functions",
+    "text": "Functions\n#!/bin/bash\ngreet() {\n  echo \"Hello, $1!\"\n}\n\ngreet \"Alice\"\ngreet \"Bob\"",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#command-line-arguments",
+    "href": "bash.html#command-line-arguments",
+    "title": "Bash Scripts",
+    "section": "Command Line Arguments",
+    "text": "Command Line Arguments\n#!/bin/bash\necho \"First argument: $1\"\necho \"Second argument: $2\"\n\nRun the script with arguments:\n./script.sh arg1 arg2",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#error-handling",
+    "href": "bash.html#error-handling",
+    "title": "Bash Scripts",
+    "section": "Error Handling",
+    "text": "Error Handling\n#!/bin/bash\nset -e  # Exit on error\n\ntrap 'echo \"Error occurred on line $LINENO\"' ERR\n\n# Command that might fail\ncp non_existent_file.txt destination/",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#examples",
+    "href": "bash.html#examples",
+    "title": "Bash Scripts",
+    "section": "Examples",
+    "text": "Examples\n\nUpdate and Upgrade System\n#!/bin/bash\n\nsudo apt-get update\nsudo apt-get upgrade -y\nsudo apt-get dist-upgrade -y\nsudo apt-get autoremove -y\n\n\nExample Script for Setting Up a Django Project with PostgreSQL\n#!/bin/bash\n\n# Variables\nPROJECT_NAME=\"myproject\"\nDB_NAME=\"mydatabase\"\nDB_USER=\"myuser\"\nDB_PASSWORD=\"mypassword\"\n\n# Update and install dependencies\nsudo apt-get update\nsudo apt-get install -y python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl\n\n# Set up PostgreSQL\nsudo -u postgres psql &lt;&lt;EOF\nCREATE DATABASE $DB_NAME;\nCREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD';\nALTER ROLE $DB_USER SET client_encoding TO 'utf8';\nALTER ROLE $DB_USER SET default_transaction_isolation TO 'read committed';\nALTER ROLE $DB_USER SET timezone TO 'UTC';\nGRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;\nEOF\n\n# Create a virtual environment\npython3 -m venv myenv\nsource myenv/bin/activate\n\n# Install Django and psycopg2\npip install django psycopg2-binary\n\n# Create Django project\ndjango-admin startproject $PROJECT_NAME\n\n# Configure Django settings\ncd $PROJECT_NAME/$PROJECT_NAME\nsed -i \"s/ENGINE': 'django.db.backends.sqlite3/ENGINE': 'django.db.backends.postgresql/g\" settings.py\nsed -i \"s/NAME': BASE_DIR / 'db.sqlite3/NAME': '$DB_NAME'/g\" settings.py\nsed -i \"/'ENGINE': 'django.db.backends.postgresql/a \\        'USER': '$DB_USER',\\n        'PASSWORD': '$DB_PASSWORD',\\n        'HOST': 'localhost',\\n        'PORT': '',\" settings.py\n\n# Run migrations\ncd ..\npython manage.py migrate\n\n# Create superuser\npython manage.py createsuperuser\n\n# Start the development server\npython manage.py runserver",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Software_Tools",
+    "section": "",
+    "text": "This file will become your README and also the index of your documentation.",
+    "crumbs": [
+      "Blog",
+      "Software_Tools"
+    ]
+  },
+  {
+    "objectID": "index.html#developer-guide",
+    "href": "index.html#developer-guide",
+    "title": "Software_Tools",
+    "section": "Developer Guide",
+    "text": "Developer Guide\nIf you are new to using nbdev here are some useful pointers to get you started.\n\nInstall Software_Tools in Development mode\n# make sure Software_Tools package is installed in development mode\n$ pip install -e .\n\n# make changes under nbs/ directory\n# ...\n\n# compile to have changes apply to Software_Tools\n$ nbdev_prepare",
+    "crumbs": [
+      "Blog",
+      "Software_Tools"
+    ]
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "Software_Tools",
+    "section": "Usage",
+    "text": "Usage\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/bthek1/Software_Tools.git\nor from conda\n$ conda install -c bthek1 Software_Tools\nor from pypi\n$ pip install Software_Tools\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on conda and pypi respectively.",
+    "crumbs": [
+      "Blog",
+      "Software_Tools"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "Software_Tools",
+    "section": "How to use",
+    "text": "How to use\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2",
+    "crumbs": [
+      "Blog",
+      "Software_Tools"
+    ]
+  },
+  {
+    "objectID": "tmux.html",
+    "href": "tmux.html",
+    "title": "Tmux",
+    "section": "",
+    "text": "tmux\ntmux new\ntmux new -s &lt;session name&gt;\n\n\n\ntmux ls\ntmux list-sessions\ntmux new -s &lt;session name&gt;\n\n\n\ntmux a\ntmux at\ntmux a -t &lt;session name&gt;\n\n\n\ntmux kill-session -t &lt;session name&gt;\n\n\n\nCtrl + b $\n\n\n\nCtrl + b d\n\n\n\nCtrl + b w\n\n\n\nCtrl + b (\n\n\n\nCtrl + b )",
+    "crumbs": [
+      "Blog",
+      "Tmux"
+    ]
+  },
+  {
+    "objectID": "tmux.html#session",
+    "href": "tmux.html#session",
+    "title": "Tmux",
+    "section": "",
+    "text": "tmux\ntmux new\ntmux new -s &lt;session name&gt;\n\n\n\ntmux ls\ntmux list-sessions\ntmux new -s &lt;session name&gt;\n\n\n\ntmux a\ntmux at\ntmux a -t &lt;session name&gt;\n\n\n\ntmux kill-session -t &lt;session name&gt;\n\n\n\nCtrl + b $\n\n\n\nCtrl + b d\n\n\n\nCtrl + b w\n\n\n\nCtrl + b (\n\n\n\nCtrl + b )",
+    "crumbs": [
+      "Blog",
+      "Tmux"
+    ]
+  },
+  {
+    "objectID": "tmux.html#windows",
+    "href": "tmux.html#windows",
+    "title": "Tmux",
+    "section": "Windows",
+    "text": "Windows\n\nCreate session with named window\ntmux new -s mysession -n mywindow\n\n\nCreate new window\nCtrl + b c\n\n\nRename current window\nCtrl + b ,\n\n\nClose current window\nCtrl + b &\n\n\nList window\nCtrl + b w\n\n\nPrevious window\nCtrl + b p\n\n\nNext window\nCtrl + b n\n\n\nSwitch to window by number\nCtrl + b 0...9",
+    "crumbs": [
+      "Blog",
+      "Tmux"
+    ]
+  },
+  {
+    "objectID": "tmux.html#panes",
+    "href": "tmux.html#panes",
+    "title": "Tmux",
+    "section": "Panes",
+    "text": "Panes\n\nSplit window vertically\nCtrl + b %\n\n\nSplit window horizontally\nCtrl + b \"\n\n\nNavigate panes\nCtrl + b up, down, right, left\n\n\nClose current pane\nCtrl + b x\n\n\nMove the current pane left\nCtrl + b {\n\n\nMove the current pane right\nCtrl + b }\n\n\nSwitch to next pane\nCtrl + b o\n\n\nShow pane numbers\nCtrl + b q 0...9\n\n\nConvert pane to window\nCtrl + b !\n\n\nToggle pane zoom\nCtrl + b z\n\n\nResize pane\nCtrl + b + up, down, right, left",
+    "crumbs": [
+      "Blog",
+      "Tmux"
+    ]
+  },
+  {
+    "objectID": "linux_users.html",
+    "href": "linux_users.html",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "",
+    "text": "The root user has unrestricted access to the entire system.\nRoot can execute any command, access any file, and modify any configuration.\nTypically used for system administration tasks.\nHome directory is usually /root.\nCommands are run as root using sudo or by switching to the root user with su.\n\n\n\n\n\nRegular users have limited access to the system.\nEach user has a home directory under /home/username.\nRegular users can only access files and resources they own or have permission to access.\nUsed for day-to-day tasks and activities.\n\n\n\n\n\nSystem users are non-login accounts used by system services and daemons (e.g., www-data for web servers, mysql for databases).\nTypically, these users don’t have a home directory or an interactive shell.\nCreated to run specific services securely, without giving them unnecessary privileges.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#types-of-users-in-linux",
+    "href": "linux_users.html#types-of-users-in-linux",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "",
+    "text": "The root user has unrestricted access to the entire system.\nRoot can execute any command, access any file, and modify any configuration.\nTypically used for system administration tasks.\nHome directory is usually /root.\nCommands are run as root using sudo or by switching to the root user with su.\n\n\n\n\n\nRegular users have limited access to the system.\nEach user has a home directory under /home/username.\nRegular users can only access files and resources they own or have permission to access.\nUsed for day-to-day tasks and activities.\n\n\n\n\n\nSystem users are non-login accounts used by system services and daemons (e.g., www-data for web servers, mysql for databases).\nTypically, these users don’t have a home directory or an interactive shell.\nCreated to run specific services securely, without giving them unnecessary privileges.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-management",
+    "href": "linux_users.html#user-management",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User Management",
+    "text": "User Management\n\nCreating a User:\n\nUsers are created using the useradd or adduser command.\nuseradd is the low-level command, while adduser is a more user-friendly script that provides additional features.\nExample:\n\nsudo useradd -m username\nsudo passwd username\n\n-m creates a home directory for the user.\n\n\n\nDeleting a User:\n\nUsers can be deleted using the userdel command.\nuserdel -r will delete the user’s home directory as well.\nExample:\n\nsudo userdel -r username\n\n\nModifying a User:\n\nThe usermod command allows you to modify user details, such as changing the username, home directory, or adding the user to a group.\nExample:\n\nsudo usermod -d /new/home username\nsudo usermod -aG groupname username\n\n\nChanging User Passwords:\n\nThe passwd command is used to change a user’s password.\nUsers can change their own password using passwd, or an administrator can change another user’s password using sudo passwd username.\nExample:\n\nsudo passwd username",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-and-group-files",
+    "href": "linux_users.html#user-and-group-files",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User and Group Files",
+    "text": "User and Group Files\n\n/etc/passwd:\n\nThis file contains basic information about all user accounts, including the username, UID (User ID), GID (Group ID), home directory, and shell.\nEach line represents a user, with fields separated by colons.\n\n/etc/shadow:\n\nThis file stores secure password information, including the hashed passwords and password expiration data.\nIt is only readable by the root user for security purposes.\n\netc/group:\n\nThis file lists all groups on the system and the users belonging to each group.\nSimilar to /etc/passwd, each line represents a group, with fields separated by colons.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-ids-and-group-ids",
+    "href": "linux_users.html#user-ids-and-group-ids",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User IDs and Group IDs",
+    "text": "User IDs and Group IDs\n\nUID (User ID):\n\nA unique number assigned to each user.\nThe root user typically has a UID of 0.\nRegular users usually have UIDs starting from 1000 (depending on the distribution).\n\nGID (Group ID):\n\nA unique number assigned to each group.\nThe root group typically has a GID of 0.\nLike UIDs, system and service accounts usually have lower GIDs, while regular user groups start from 1000.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#groups-in-linux",
+    "href": "linux_users.html#groups-in-linux",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "Groups in Linux",
+    "text": "Groups in Linux\n\nPrimary and Secondary Groups:\n\nEach user belongs to a primary group, which is usually created with the same name as the user.\nUsers can also belong to secondary groups, which grant additional permissions.\n\n\n\nManaging Groups:\n\nCreating a Group:\n\nsudo groupadd groupname\n\nAdding a User to a Group\n\nsudo usermod -aG groupname username\n\nDeleting a Group\n\nsudo groupdel groupname\n\n\nListing Groups\n\nTo see the groups a user belongs to, use the groups command\n\ngroups username",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#file-permissions",
+    "href": "linux_users.html#file-permissions",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "File Permissions",
+    "text": "File Permissions\n\nUnderstanding File Permissions:\n\nEach file and directory has permissions set for three categories: owner, group, and others\nPermissions are represented as r (read), w (write), and x (execute).\nExample:\n\n-rwxr-xr--\n\nIn this example:\n\nrwx is the permission for the owner (read, write, execute).\nr-x is the permission for the group (read, execute).\nr-- is the permission for others (read only).\n\n\n\n\nChanging File Permissions:\n\nUse the chmod command to change permissions.\nNumeric representation:\n\n4: read (r)\n2: write (w)\n1: execute (x)\n\nchmod 755 filename\n\n\n\nChanging File Ownership:\n\nThe chown command is used to change the owner or group of a file.\nExample:\n\nsudo chown username:groupname filename",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#switching-users",
+    "href": "linux_users.html#switching-users",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "Switching Users",
+    "text": "Switching Users\n\nsu (Substitute User):\n\nThe su command allows you to switch to another user account.\nExample:\n\nsu - username\nsu -        # Switches to the root user\n\nThe - option ensures that the environment is set up as if the user had logged in directly\n\n\n\nsudo (Superuser Do):\n\nThe sudo command allows a permitted user to execute a command as the superuser or another user, as specified in the /etc/sudoers file.\nExample:\n\nsudo command\nsudo -u username command\n\n\nSudoers File:\n\nThe /etc/sudoers file controls which users have sudo privileges.\nUse the visudo command to edit the sudoers file safely.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-environment",
+    "href": "linux_users.html#user-environment",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User Environment",
+    "text": "User Environment\n\nHome Directory:\n\nA user’s personal space for storing files and configurations.\nLocated at /home/username for regular users and /root for the root user.\n\nShell:\n\nThe command-line interface that users interact with, typically bash, sh, or zsh.\nThe default shell is specified in the /etc/passwd file.\n\nEnvironment Variables:\n\nVariables that control the behavior of the user’s environment (e.g., PATH, HOME, USER).\nCan be configured in files like .bashrc, .bash_profile, .profile, etc.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-session-management",
+    "href": "linux_users.html#user-session-management",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User Session Management",
+    "text": "User Session Management\n\nwho Command: Displays who is currently logged into the system.\nw Command: Shows who is logged in and what they are doing.\nlast Command: Displays the last login history of users.\nkill Command: Use the kill command to terminate a user’s session or specific processes.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#security-considerations",
+    "href": "linux_users.html#security-considerations",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "Security Considerations",
+    "text": "Security Considerations\n\nPassword Policies:\n\nEnforce strong passwords using tools like pam_pwquality.\nSet password expiration and aging policies to ensure regular password changes.\n\nRestricting Root Access:\n\nDisable root login over SSH by setting PermitRootLogin no in /etc/ssh/sshd_config.\nUse sudo instead of direct root access for better security.\n\nMonitoring and Auditing:\n\nMonitor user activities by examining logs in /var/log/ (e.g., auth.log, secure).\nUse tools like auditd to track system events and user actions.\n\n\n\n!",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html",
+    "href": "Environments/pipenv.html",
+    "title": "Pipenv",
+    "section": "",
+    "text": "pip install pipenv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#installation-of-pipenv",
+    "href": "Environments/pipenv.html#installation-of-pipenv",
+    "title": "Pipenv",
+    "section": "",
+    "text": "pip install pipenv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#create-a-env",
+    "href": "Environments/pipenv.html#create-a-env",
+    "title": "Pipenv",
+    "section": "Create a env",
+    "text": "Create a env\npipenv install",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#create-a-env-1",
+    "href": "Environments/pipenv.html#create-a-env-1",
+    "title": "Pipenv",
+    "section": "Create a env",
+    "text": "Create a env\npipenv install django",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#remove-an-env",
+    "href": "Environments/pipenv.html#remove-an-env",
+    "title": "Pipenv",
+    "section": "Remove an env",
+    "text": "Remove an env\npipenv --rm",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#activate-already-created-pipenv-environment",
+    "href": "Environments/pipenv.html#activate-already-created-pipenv-environment",
+    "title": "Pipenv",
+    "section": "Activate already created pipenv environment",
+    "text": "Activate already created pipenv environment\npipenv shell",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#to-deactivate",
+    "href": "Environments/pipenv.html#to-deactivate",
+    "title": "Pipenv",
+    "section": "To Deactivate",
+    "text": "To Deactivate\ndeactivate",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#installuninstall-dependencies",
+    "href": "Environments/pipenv.html#installuninstall-dependencies",
+    "title": "Pipenv",
+    "section": "Install/Uninstall dependencies",
+    "text": "Install/Uninstall dependencies\npipenv install django\npipenv uninstall django\n\nInstall dev dependencies\npipenv install nose --dev\n\n\nInstall from requirements.txt\npipenv install -r requirements.txt\n\n\nCheck security vulnerabilities\npipenv check\n\n\nCheck dependency graph\npipenv graph",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/venv.html",
+    "href": "Environments/venv.html",
+    "title": "Venv",
+    "section": "",
+    "text": "Standard Library: venv is part of the Python standard library, so it doesn’t require additional installation.\nLightweight: It provides a minimal and straightforward way to create isolated environments.\nNo Dependency Management: venv focuses solely on environment isolation. You still need to use pip to manage dependencies manually.",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Venv"
+    ]
+  },
+  {
+    "objectID": "Environments/venv.html#create-a-virtual-enviroment",
+    "href": "Environments/venv.html#create-a-virtual-enviroment",
+    "title": "Venv",
+    "section": "Create a Virtual Enviroment",
+    "text": "Create a Virtual Enviroment\npython -m venv venv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Venv"
+    ]
+  },
+  {
+    "objectID": "Environments/venv.html#activate-the-virtual-environment",
+    "href": "Environments/venv.html#activate-the-virtual-environment",
+    "title": "Venv",
+    "section": "Activate the Virtual Environment",
+    "text": "Activate the Virtual Environment\nsource myenv/bin/activate",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Venv"
+    ]
+  },
+  {
+    "objectID": "Environments/venv.html#deactivate-the-virtual-enviroment",
+    "href": "Environments/venv.html#deactivate-the-virtual-enviroment",
+    "title": "Venv",
+    "section": "Deactivate the Virtual Enviroment",
+    "text": "Deactivate the Virtual Enviroment\ndeactivate",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Venv"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html",
+    "href": "Environments/poetry.html",
+    "title": "Poetry",
+    "section": "",
+    "text": "curl -sSL https://install.python-poetry.org | python3 -\nOr\npip install poetry",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#install-poetry",
+    "href": "Environments/poetry.html#install-poetry",
+    "title": "Poetry",
+    "section": "",
+    "text": "curl -sSL https://install.python-poetry.org | python3 -\nOr\npip install poetry",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#config-poetry",
+    "href": "Environments/poetry.html#config-poetry",
+    "title": "Poetry",
+    "section": "Config Poetry",
+    "text": "Config Poetry\npoetry config --list\n\n!poetry config --list\n\ncache-dir = \"/home/ben/.cache/pypoetry\"\nexperimental.system-git-client = false\ninstaller.max-workers = null\ninstaller.modern-installation = true\ninstaller.no-binary = null\ninstaller.parallel = true\nkeyring.enabled = true\nsolver.lazy-wheel = true\nvirtualenvs.create = true\nvirtualenvs.in-project = true\nvirtualenvs.options.always-copy = false\nvirtualenvs.options.no-pip = false\nvirtualenvs.options.no-setuptools = false\nvirtualenvs.options.system-site-packages = false\nvirtualenvs.path = \"{cache-dir}/virtualenvs\"  # /home/ben/.cache/pypoetry/virtualenvs\nvirtualenvs.prefer-active-python = false\nvirtualenvs.prompt = \"{project_name}-py{python_version}\"\nwarnings.export = true\n\n\n\n!poetry config virtualenvs.in-project true",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#initallise-poetry",
+    "href": "Environments/poetry.html#initallise-poetry",
+    "title": "Poetry",
+    "section": "Initallise Poetry",
+    "text": "Initallise Poetry\npoetry init",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#managing-dependencies",
+    "href": "Environments/poetry.html#managing-dependencies",
+    "title": "Poetry",
+    "section": "Managing Dependencies",
+    "text": "Managing Dependencies\npoetry add requests",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#managing-development-dependencies",
+    "href": "Environments/poetry.html#managing-development-dependencies",
+    "title": "Poetry",
+    "section": "Managing Development Dependencies",
+    "text": "Managing Development Dependencies\npoetry add --dev pytest",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#updating-dependencies",
+    "href": "Environments/poetry.html#updating-dependencies",
+    "title": "Poetry",
+    "section": "Updating Dependencies",
+    "text": "Updating Dependencies\npoetry update",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#managing-virtual-environments",
+    "href": "Environments/poetry.html#managing-virtual-environments",
+    "title": "Poetry",
+    "section": "Managing Virtual Environments",
+    "text": "Managing Virtual Environments\npoetry install",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#activating-the-virtual-environment",
+    "href": "Environments/poetry.html#activating-the-virtual-environment",
+    "title": "Poetry",
+    "section": "Activating the Virtual Environment",
+    "text": "Activating the Virtual Environment\npoetry shell",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#deactivating-the-virtual-environment",
+    "href": "Environments/poetry.html#deactivating-the-virtual-environment",
+    "title": "Poetry",
+    "section": "Deactivating the Virtual Environment",
+    "text": "Deactivating the Virtual Environment\nexit",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#running-scripts-and-commands",
+    "href": "Environments/poetry.html#running-scripts-and-commands",
+    "title": "Poetry",
+    "section": "Running Scripts and Commands",
+    "text": "Running Scripts and Commands\n\nYou can run scripts or commands within the Poetry-managed environment without activating it explicitly:\n\npoetry run python my_script.py",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#publishing-packages",
+    "href": "Environments/poetry.html#publishing-packages",
+    "title": "Poetry",
+    "section": "Publishing Packages",
+    "text": "Publishing Packages\npoetry build  # Builds the package\npoetry publish  # Publishes the package to PyPI",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#exporting-to-requirements.txt",
+    "href": "Environments/poetry.html#exporting-to-requirements.txt",
+    "title": "Poetry",
+    "section": "Exporting to requirements.txt",
+    "text": "Exporting to requirements.txt\npoetry self add poetry-plugin-export\npoetry export -f requirements.txt -o requirements.txt --without-hashes",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "vscode_debugging.html",
+    "href": "vscode_debugging.html",
+    "title": "Vscode Debugging",
+    "section": "",
+    "text": "poetry add debugpy",
+    "crumbs": [
+      "Blog",
+      "Vscode Debugging"
+    ]
+  },
+  {
+    "objectID": "vscode_debugging.html#install-debugpy",
+    "href": "vscode_debugging.html#install-debugpy",
+    "title": "Vscode Debugging",
+    "section": "",
+    "text": "poetry add debugpy",
+    "crumbs": [
+      "Blog",
+      "Vscode Debugging"
+    ]
+  },
+  {
+    "objectID": "vscode_debugging.html#vscode-launch.json-file",
+    "href": "vscode_debugging.html#vscode-launch.json-file",
+    "title": "Vscode Debugging",
+    "section": "VScode launch.json file",
+    "text": "VScode launch.json file\n\nThe launch.json file in Visual Studio Code (VS Code) is part of its debugging configuration. It allows you to define how your project or application should be launched and debugged. Below is everything you need to know about the launch.json file, including its structure, key fields, and advanced configurations.\n\n\nWhat is launch.json?\n\nA configuration file used by VS Code to define debugging settings.\nIt resides in the .vscode folder in your project directory.\nIt supports multiple configurations for debugging different scenarios (e.g., running a script, attaching to a remote debugger, or debugging tests).\n\n\n\n\nLocation of launch.json\n\nLocated in .vscode/launch.json in your project directory.\nIf it doesn’t exist, VS Code will prompt you to create one when you click the “Run and Debug” sidebar and select “Create a launch.json file.”\n\n\n\n\nStructure of launch.json\nA launch.json file consists of an array of configurations:\n{\n    \"version\": \"0.2.0\",\n    \"configurations\": [\n        {\n            \"name\": \"Launch Script\",\n            \"type\": \"python\",\n            \"request\": \"launch\",\n            \"program\": \"${workspaceFolder}/script.py\",\n            \"console\": \"integratedTerminal\"\n        }\n    ]\n}\n\nversion: Specifies the version of the debugging schema. Use 0.2.0.\nconfigurations: An array of objects, each defining a specific debugging scenario.\n\n\n\n\nKey Fields in launch.json\n\nGeneral Fields\n\nname: The display name of the configuration in the Run and Debug dropdown.\ntype: The debugger type (e.g., python, node, java, etc.).\nrequest:\n\nlaunch: Starts the program or application.\nattach: Attaches to a running process for debugging.\n\nprogram: The entry point of your application (e.g., a script path).\nargs: Arguments to pass to the program.\nconsole:\n\nintegratedTerminal: Use VS Code’s built-in terminal.\nexternalTerminal: Use an external terminal.\n\n\n\n\nPython-Specific Fields\n\npythonPath: Path to the Python interpreter. If omitted, VS Code uses the Python interpreter set in the workspace.\ndjango: Set to true to enable Django debugging.\njustMyCode: Set to false to step into library code during debugging.\n\n\n\nRemote Debugging\n\nhost: The remote machine’s hostname or IP address.\nport: The port to connect to (e.g., for debugpy).\npathMappings: Maps local and remote file paths for remote debugging.\n\n\n\nEnvironment Variables\n\nenv: Defines environment variables for the debug session.\nenvFile: Path to a .env file containing environment variables.\n\n\n\nAdvanced Debugging\n\nstopOnEntry: Stops execution at the entry point of the program.\nlogToFile: Saves debugger logs to a file.\ncwd: Sets the working directory of the application.\n\n\n\n\nCommon Configurations\n\n1. Run a Python Script\n{\n    \"name\": \"Run Script\",\n    \"type\": \"python\",\n    \"request\": \"launch\",\n    \"program\": \"${workspaceFolder}/script.py\",\n    \"console\": \"integratedTerminal\"\n}\n\n\n2. Debug Django\n{\n    \"name\": \"Django Debug\",\n    \"type\": \"python\",\n    \"request\": \"launch\",\n    \"program\": \"${workspaceFolder}/manage.py\",\n    \"args\": [\"runserver\", \"--noreload\"],\n    \"django\": true,\n    \"env\": {\n        \"DEBUG\": \"1\"\n    },\n    \"console\": \"integratedTerminal\"\n}\n\n\n3. Attach to Debugpy\n{\n    \"name\": \"Attach to Debugpy\",\n    \"type\": \"python\",\n    \"request\": \"attach\",\n    \"host\": \"localhost\",\n    \"port\": 5678,\n    \"pathMappings\": [\n        {\n            \"localRoot\": \"${workspaceFolder}\",\n            \"remoteRoot\": \"${workspaceFolder}\"\n        }\n    ]\n}\n\n\n4. Run Tests\n{\n    \"name\": \"Run Tests\",\n    \"type\": \"python\",\n    \"request\": \"test\",\n    \"console\": \"integratedTerminal\",\n    \"justMyCode\": true\n}\n\n\n5. Debug Flask\n{\n    \"name\": \"Flask Debug\",\n    \"type\": \"python\",\n    \"request\": \"launch\",\n    \"module\": \"flask\",\n    \"env\": {\n        \"FLASK_APP\": \"app.py\",\n        \"FLASK_ENV\": \"development\"\n    },\n    \"args\": [\"run\"],\n    \"console\": \"integratedTerminal\"\n}\n\n\n6. Node.js Application\n{\n    \"name\": \"Node.js Debug\",\n    \"type\": \"node\",\n    \"request\": \"launch\",\n    \"program\": \"${workspaceFolder}/app.js\"\n}\n\n\n\nPath Variables in launch.json\n\n${workspaceFolder}: Path to the root folder of your workspace.\n${file}: Path to the currently open file.\n${relativeFile}: Relative path of the open file.\n${cwd}: Current working directory.\n\n\n\n\nEnvironment Variables in launch.json\n\nInline Environment Variables\n\"env\": {\n    \"DEBUG\": \"true\",\n    \"API_KEY\": \"12345\"\n}\n\n\nUse an .env File\n\"envFile\": \"${workspaceFolder}/.env\"\n.env file example:\nDEBUG=true\nAPI_KEY=12345\n\n\n\n\nDebugging Scenarios\n\nRemote Debugging\nTo debug a process running on a remote server: 1. Run debugpy or equivalent on the server, exposing a port (e.g., 5678). 2. Use an attach configuration in launch.json with the server’s IP and port.\n\n\nDebugging Docker\n\nExpose the debug port in your Docker container.\nMap local paths to container paths using pathMappings.\n\n\n\nConditional Debugging\nUse conditions to enable debugging only for specific scenarios:\n\"condition\": \"process.env.DEBUG === 'true'\"\n\n\n\n\nCommon Issues and Solutions\n\nBreakpoints Not Hit\n\nEnsure the debugger is attached correctly.\nVerify file paths in pathMappings.\n\nPort Conflicts\n\nChange the debug port if another process uses it.\n\nDebugger Not Attaching\n\nEnsure the debugpy or equivalent is listening on the expected port.\nCheck firewall settings for remote debugging.\n\nLibrary Code Not Stepped Into\n\nSet \"justMyCode\": false to debug library code.\n\n\n\n\n\nBest Practices\n\nUse Descriptive Names Use meaningful names for configurations to identify them quickly.\nOrganize Configurations Group related configurations together, such as separate entries for running tests, debugging the server, or attaching to remote processes.\nEnvironment-Specific Settings Use different configurations for development, staging, and production environments.",
+    "crumbs": [
+      "Blog",
+      "Vscode Debugging"
+    ]
+  }
+]

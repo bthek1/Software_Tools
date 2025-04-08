@@ -1,0 +1,1948 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Software_Tools",
+    "section": "",
+    "text": "This file will become your README and also the index of your documentation.",
+    "crumbs": [
+      "Blog",
+      "Software_Tools"
+    ]
+  },
+  {
+    "objectID": "index.html#developer-guide",
+    "href": "index.html#developer-guide",
+    "title": "Software_Tools",
+    "section": "Developer Guide",
+    "text": "Developer Guide\nIf you are new to using nbdev here are some useful pointers to get you started.\n\nInstall Software_Tools in Development mode\n# make sure Software_Tools package is installed in development mode\n$ pip install -e .\n\n# make changes under nbs/ directory\n# ...\n\n# compile to have changes apply to Software_Tools\n$ nbdev_prepare",
+    "crumbs": [
+      "Blog",
+      "Software_Tools"
+    ]
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "Software_Tools",
+    "section": "Usage",
+    "text": "Usage\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/bthek1/Software_Tools.git\nor from conda\n$ conda install -c bthek1 Software_Tools\nor from pypi\n$ pip install Software_Tools\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on conda and pypi respectively.",
+    "crumbs": [
+      "Blog",
+      "Software_Tools"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "Software_Tools",
+    "section": "How to use",
+    "text": "How to use\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2",
+    "crumbs": [
+      "Blog",
+      "Software_Tools"
+    ]
+  },
+  {
+    "objectID": "sound_testing2.html",
+    "href": "sound_testing2.html",
+    "title": "Sound Testing",
+    "section": "",
+    "text": "import sounddevice as sd\n\ndevices = sd.query_devices()\n\nprint(\"🎙️ Available audio input devices:\")\nfor i, device in enumerate(devices):\n    if device['max_input_channels'] &gt; 0:\n        print(f\"[{i}] {device['name']} — Input — {device['hostapi']}\")\n\nprint(\"\\n🔊 Available audio output devices:\")\nfor i, device in enumerate(devices):\n    if device['max_output_channels'] &gt; 0:\n        print(f\"[{i}] {device['name']} — Output — {device['hostapi']}\")\n\n🎙️ Available audio input devices:\n[0] UM02: USB Audio (hw:1,0) — Input — 0\n[5] HD-Audio Generic: ALC897 Analog (hw:3,0) — Input — 0\n[7] HD-Audio Generic: ALC897 Alt Analog (hw:3,2) — Input — 0\n[8] UGREEN camera 2K: USB Audio (hw:4,0) — Input — 0\n\n🔊 Available audio output devices:\n[1] HDA NVidia: KAMN27UC6LA (hw:2,3) — Output — 0\n[2] HDA NVidia: KAMN27UC6LA (hw:2,7) — Output — 0\n[3] HDA NVidia: HDMI 2 (hw:2,8) — Output — 0\n[4] HDA NVidia: HDMI 3 (hw:2,9) — Output — 0\n[5] HD-Audio Generic: ALC897 Analog (hw:3,0) — Output — 0\n[6] HD-Audio Generic: ALC897 Digital (hw:3,1) — Output — 0\n\n\n\nimport sounddevice as sd\nimport numpy as np\nfrom scipy.io.wavfile import write\nimport os\nimport threading\n\n# Configuration\nsamplerate = 44100\nduration = 10  # seconds\n\n# Devices and labels\nmic_devices = {\n    0: \"mic\",\n    8: \"camera\"\n}\nrecordings = {}\n\n# Output folder\nos.makedirs(\"mic_tests\", exist_ok=True)\n\nprint(\"🎙️ Starting mic recordings...\\n\")\n\n# Thread worker to record from a mic\ndef record_mic(device_id, name):\n    try:\n        print(f\"⏺️ Recording from {name} (device {device_id})...\")\n        data = sd.rec(\n            int(samplerate * duration),\n            samplerate=samplerate,\n            channels=1,\n            dtype='float32',\n            device=device_id\n        )\n        sd.wait()  # Wait until recording is complete\n\n        # Save to WAV\n        int16_data = np.clip(data * 32767, -32768, 32767).astype(np.int16)\n        write(f\"mic_tests/{name}.wav\", samplerate, int16_data)\n\n        recordings[name] = data.flatten()\n        print(f\"✔️ Saved: {name} (device {device_id})\")\n    except Exception as e:\n        print(f\"❌ Error with {name} (device {device_id}): {e}\")\n\n# Start mic recording threads\nthreads = []\nfor device_id, name in mic_devices.items():\n    thread = threading.Thread(target=record_mic, args=(device_id, name))\n    thread.start()\n    threads.append(thread)\n\n# Wait for recordings to finish\nfor thread in threads:\n    thread.join()\n\nprint(\"\\n✅ All recordings complete.\")\n\n🎙️ Starting mic recordings...\n\n⏺️ Recording from mic (device 0)...\n⏺️ Recording from camera (device 8)...\n✔️ Saved: mic (device 0)\n✔️ Saved: camera (device 8)\n\n✅ All recordings complete.\n\n\n✅ You now have a 5-second recording from your default microphone.",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing2.html#record-audio-from-microphone-in-jupyter",
+    "href": "sound_testing2.html#record-audio-from-microphone-in-jupyter",
+    "title": "Sound Testing",
+    "section": "",
+    "text": "import sounddevice as sd\n\ndevices = sd.query_devices()\n\nprint(\"🎙️ Available audio input devices:\")\nfor i, device in enumerate(devices):\n    if device['max_input_channels'] &gt; 0:\n        print(f\"[{i}] {device['name']} — Input — {device['hostapi']}\")\n\nprint(\"\\n🔊 Available audio output devices:\")\nfor i, device in enumerate(devices):\n    if device['max_output_channels'] &gt; 0:\n        print(f\"[{i}] {device['name']} — Output — {device['hostapi']}\")\n\n🎙️ Available audio input devices:\n[0] UM02: USB Audio (hw:1,0) — Input — 0\n[5] HD-Audio Generic: ALC897 Analog (hw:3,0) — Input — 0\n[7] HD-Audio Generic: ALC897 Alt Analog (hw:3,2) — Input — 0\n[8] UGREEN camera 2K: USB Audio (hw:4,0) — Input — 0\n\n🔊 Available audio output devices:\n[1] HDA NVidia: KAMN27UC6LA (hw:2,3) — Output — 0\n[2] HDA NVidia: KAMN27UC6LA (hw:2,7) — Output — 0\n[3] HDA NVidia: HDMI 2 (hw:2,8) — Output — 0\n[4] HDA NVidia: HDMI 3 (hw:2,9) — Output — 0\n[5] HD-Audio Generic: ALC897 Analog (hw:3,0) — Output — 0\n[6] HD-Audio Generic: ALC897 Digital (hw:3,1) — Output — 0\n\n\n\nimport sounddevice as sd\nimport numpy as np\nfrom scipy.io.wavfile import write\nimport os\nimport threading\n\n# Configuration\nsamplerate = 44100\nduration = 10  # seconds\n\n# Devices and labels\nmic_devices = {\n    0: \"mic\",\n    8: \"camera\"\n}\nrecordings = {}\n\n# Output folder\nos.makedirs(\"mic_tests\", exist_ok=True)\n\nprint(\"🎙️ Starting mic recordings...\\n\")\n\n# Thread worker to record from a mic\ndef record_mic(device_id, name):\n    try:\n        print(f\"⏺️ Recording from {name} (device {device_id})...\")\n        data = sd.rec(\n            int(samplerate * duration),\n            samplerate=samplerate,\n            channels=1,\n            dtype='float32',\n            device=device_id\n        )\n        sd.wait()  # Wait until recording is complete\n\n        # Save to WAV\n        int16_data = np.clip(data * 32767, -32768, 32767).astype(np.int16)\n        write(f\"mic_tests/{name}.wav\", samplerate, int16_data)\n\n        recordings[name] = data.flatten()\n        print(f\"✔️ Saved: {name} (device {device_id})\")\n    except Exception as e:\n        print(f\"❌ Error with {name} (device {device_id}): {e}\")\n\n# Start mic recording threads\nthreads = []\nfor device_id, name in mic_devices.items():\n    thread = threading.Thread(target=record_mic, args=(device_id, name))\n    thread.start()\n    threads.append(thread)\n\n# Wait for recordings to finish\nfor thread in threads:\n    thread.join()\n\nprint(\"\\n✅ All recordings complete.\")\n\n🎙️ Starting mic recordings...\n\n⏺️ Recording from mic (device 0)...\n⏺️ Recording from camera (device 8)...\n✔️ Saved: mic (device 0)\n✔️ Saved: camera (device 8)\n\n✅ All recordings complete.\n\n\n✅ You now have a 5-second recording from your default microphone.",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing2.html#visualize-the-audio-waveform",
+    "href": "sound_testing2.html#visualize-the-audio-waveform",
+    "title": "Sound Testing",
+    "section": "📊 3. Visualize the Audio Waveform",
+    "text": "📊 3. Visualize the Audio Waveform\n\nimport plotly.graph_objects as go\nfrom plotly.subplots import make_subplots\n\n# Create subplots for each mic\nfig = make_subplots(rows=len(recordings), cols=1, shared_xaxes=True,\n                    vertical_spacing=0.05,\n                    subplot_titles=[f\"Waveform: {name}\" for name in recordings.keys()])\n\n# Plot each waveform\nfor idx, (name, signal) in enumerate(recordings.items(), start=1):\n    fig.add_trace(go.Scatter(\n        y=signal,\n        mode='lines',\n        name=name,\n        line=dict(width=1)\n    ), row=idx, col=1)\n\n# Layout\nfig.update_layout(\n    height=250 * len(recordings),\n    width=1000,\n    title_text=\"🎙️ Microphone Waveform Comparison\",\n    showlegend=False,\n)\n\nfig.update_xaxes(title_text=\"Samples\")\nfig.update_yaxes(title_text=\"Amplitude\")\n\nfig.show()",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing2.html#playback-in-notebook-optional",
+    "href": "sound_testing2.html#playback-in-notebook-optional",
+    "title": "Sound Testing",
+    "section": "🔊 4. Playback in Notebook (Optional)",
+    "text": "🔊 4. Playback in Notebook (Optional)\n\nfrom IPython.display import Audio, display\n\nprint(\"🎧 Playing back recorded audio...\\n\")\n\nfor name in recordings.keys():\n    filepath = f\"mic_tests/{name}.wav\"\n    print(f\"▶️ {name.capitalize()}\")\n    display(Audio(filepath))\n\n🎧 Playing back recorded audio...\n\n▶️ Mic\n\n\n\n                \n                    \n                    Your browser does not support the audio element.\n                \n              \n\n\n▶️ Camera\n\n\n\n                \n                    \n                    Your browser does not support the audio element.",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing2.html#quality-checks",
+    "href": "sound_testing2.html#quality-checks",
+    "title": "Sound Testing",
+    "section": "Quality Checks",
+    "text": "Quality Checks\n\nfor name, signal in recordings.items():\n    rms = np.sqrt(np.mean(signal**2))\n    peak = np.max(np.abs(signal))\n    print(f\"{name.capitalize()}: RMS = {rms:.4f}, Peak Amplitude = {peak:.4f}\")\n\nMic: RMS = 0.0130, Peak Amplitude = 0.1201\nCamera: RMS = 0.0642, Peak Amplitude = 1.0000\n\n\n\nfrom IPython.display import Audio, display\nimport wave\nimport numpy as np\nimport plotly.graph_objects as go\nimport plotly.io as pio\n\npio.renderers.default = 'notebook'  # Change to 'iframe' or 'browser' if needed\n\nprint(\"\\n📊 Microphone Quality Analysis:\\n\")\n\nfor name in sorted(recordings.keys()):\n    filepath = f\"mic_tests/{name}.wav\"\n    print(f\"\\n🎙️ {name.capitalize()}: {filepath}\")\n    \n    # Playback\n    display(Audio(filepath))\n\n    # Load audio file\n    with wave.open(filepath, 'rb') as wf:\n        n_channels = wf.getnchannels()\n        sampwidth = wf.getsampwidth()\n        framerate = wf.getframerate()\n        n_frames = wf.getnframes()\n        audio_bytes = wf.readframes(n_frames)\n\n    # Determine dtype\n    dtype = np.int16 if sampwidth == 2 else np.uint8\n    audio = np.frombuffer(audio_bytes, dtype=dtype)\n\n    # Normalize if needed\n    if dtype == np.int16:\n        audio = audio.astype(np.float32) / 32768.0\n\n    # === Waveform Plot ===\n    waveform_fig = go.Figure()\n    waveform_fig.add_trace(go.Scatter(\n        y=audio,\n        mode='lines',\n        name='Amplitude',\n        line=dict(width=1),\n    ))\n    waveform_fig.update_layout(\n        title=f\"{name.capitalize()} - Waveform\",\n        xaxis_title=\"Samples\",\n        yaxis_title=\"Amplitude (normalized)\",\n        height=300,\n        margin=dict(l=40, r=40, t=40, b=40),\n    )\n    waveform_fig.show()\n\n    # === Metrics ===\n    rms = np.sqrt(np.mean(audio**2))\n    peak = np.max(np.abs(audio))\n    noise_est = np.sqrt(np.mean(audio[:samplerate]**2))  # First second\n\n    print(f\"  • RMS Amplitude: {rms:.4f}\")\n    print(f\"  • Peak Amplitude: {peak:.4f}\")\n    print(f\"  • Estimated Noise Floor (RMS, first second): {noise_est:.4f}\")\n\n    # === Frequency Spectrum ===\n    fft_data = np.fft.fft(audio)\n    freqs = np.fft.fftfreq(len(audio), 1 / framerate)\n    magnitude_db = 20 * np.log10(np.abs(fft_data[:len(freqs)//2]) + 1e-6)\n\n    spectrum_fig = go.Figure()\n    spectrum_fig.add_trace(go.Scatter(\n        x=freqs[:len(freqs)//2],\n        y=magnitude_db,\n        mode='lines',\n        name='Magnitude (dB)',\n        line=dict(width=1),\n    ))\n    spectrum_fig.update_layout(\n        title=f\"{name.capitalize()} - Frequency Spectrum\",\n        xaxis_title=\"Frequency (Hz)\",\n        yaxis_title=\"Magnitude (dB)\",\n        height=300,\n        margin=dict(l=40, r=40, t=40, b=40),\n    )\n    spectrum_fig.show()\n\n\n📊 Microphone Quality Analysis:\n\n\n🎙️ Camera: mic_tests/camera.wav\n\n\n\n                \n                    \n                    Your browser does not support the audio element.\n                \n              \n\n\n        \n        \n        \n\n\n                            \n                                            \n\n\n  • RMS Amplitude: 0.0642\n  • Peak Amplitude: 1.0000\n  • Estimated Noise Floor (RMS, first second): 0.0020\n\n\n                            \n                                            \n\n\n\n🎙️ Mic: mic_tests/mic.wav\n\n\n\n                \n                    \n                    Your browser does not support the audio element.\n                \n              \n\n\n                            \n                                            \n\n\n  • RMS Amplitude: 0.0129\n  • Peak Amplitude: 0.1201\n  • Estimated Noise Floor (RMS, first second): 0.0085",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "camera_testing.html",
+    "href": "camera_testing.html",
+    "title": "Camera Testing",
+    "section": "",
+    "text": "import cv2\n\nprint(\"🔍 Scanning for available camera devices...\\n\")\n\navailable_cams = []\nfor index in range(10):\n    cap = cv2.VideoCapture(index)\n    if cap is not None and cap.read()[0]:\n        print(f\"  ✅ Camera [{index}] is available and working.\")\n        available_cams.append(index)\n        cap.release()\n    else:\n        print(f\"  ❌ Camera [{index}] not found or cannot be opened.\")\n\n# Summary\nprint(\"\\n📊 Scan Complete\")\nprint(f\"🔢 Total cameras scanned: 10\")\nprint(f\"📷 Working cameras found: {len(available_cams)}\")\n\nif available_cams:\n    print(\"✅ Available camera indices:\", available_cams)\nelse:\n    print(\"🚫 No working cameras were detected.\")\n\n🔍 Scanning for available camera devices...\n\n  ❌ Camera [0] not found or cannot be opened.\n\n\n[ WARN:0@10.018] global cap_v4l.cpp:1136 tryIoctl VIDEOIO(V4L2:/dev/video0): select() timeout.\n\n\n  ✅ Camera [1] is available and working.\n  ❌ Camera [2] not found or cannot be opened.\n  ❌ Camera [3] not found or cannot be opened.\n  ❌ Camera [4] not found or cannot be opened.\n  ❌ Camera [5] not found or cannot be opened.\n  ❌ Camera [6] not found or cannot be opened.\n  ❌ Camera [7] not found or cannot be opened.\n  ❌ Camera [8] not found or cannot be opened.\n  ❌ Camera [9] not found or cannot be opened.\n\n📊 Scan Complete\n🔢 Total cameras scanned: 10\n📷 Working cameras found: 1\n✅ Available camera indices: [1]\n\n\n[ WARN:0@10.640] global cap_v4l.cpp:999 open VIDEOIO(V4L2:/dev/video2): can't open camera by index\n[ERROR:0@10.640] global obsensor_uvc_stream_channel.cpp:158 getStreamChannelGroup Camera index out of range\n[ WARN:0@10.640] global cap_v4l.cpp:999 open VIDEOIO(V4L2:/dev/video3): can't open camera by index\n[ERROR:0@10.641] global obsensor_uvc_stream_channel.cpp:158 getStreamChannelGroup Camera index out of range\n[ WARN:0@10.641] global cap_v4l.cpp:999 open VIDEOIO(V4L2:/dev/video4): can't open camera by index\n[ERROR:0@10.641] global obsensor_uvc_stream_channel.cpp:158 getStreamChannelGroup Camera index out of range\n[ WARN:0@10.641] global cap_v4l.cpp:999 open VIDEOIO(V4L2:/dev/video5): can't open camera by index\n[ERROR:0@10.642] global obsensor_uvc_stream_channel.cpp:158 getStreamChannelGroup Camera index out of range\n[ WARN:0@10.642] global cap_v4l.cpp:999 open VIDEOIO(V4L2:/dev/video6): can't open camera by index\n[ERROR:0@10.642] global obsensor_uvc_stream_channel.cpp:158 getStreamChannelGroup Camera index out of range\n[ WARN:0@10.642] global cap_v4l.cpp:999 open VIDEOIO(V4L2:/dev/video7): can't open camera by index\n[ERROR:0@10.643] global obsensor_uvc_stream_channel.cpp:158 getStreamChannelGroup Camera index out of range\n[ WARN:0@10.643] global cap_v4l.cpp:999 open VIDEOIO(V4L2:/dev/video8): can't open camera by index\n[ERROR:0@10.643] global obsensor_uvc_stream_channel.cpp:158 getStreamChannelGroup Camera index out of range\n[ WARN:0@10.643] global cap_v4l.cpp:999 open VIDEOIO(V4L2:/dev/video9): can't open camera by index\n[ERROR:0@10.644] global obsensor_uvc_stream_channel.cpp:158 getStreamChannelGroup Camera index out of range\n\n\n\nimport cv2\nimport numpy as np\nimport time\nimport threading\nfrom IPython.display import display\nimport ipywidgets as widgets\n\n# --- Camera defaults ---\ncamera_index = 1\ndefault_width = 640\ndefault_height = 480\ndefault_delay = 0.05  # seconds (20 FPS)\n\n# Global mutable state\nframe_width = default_width\nframe_height = default_height\nframe_delay = default_delay\nstreaming = False\ncap = None\nstream_thread = None\n\n# --- UI widgets ---\n# Live video widget\nlive_widget = widgets.Image(\n    format='jpg',\n    width=frame_width,\n    height=frame_height\n)\n\n# Camera status\nstatus_label = widgets.Label(\"📷 Camera ready\", layout=widgets.Layout(margin='10px 0 0 10px'))\n\n# Resolution selector\nresolution_dropdown = widgets.Dropdown(\n    options=[\n        (\"640x480\", (640, 480)),\n        (\"800x600\", (800, 600)),\n        (\"1280x720\", (1280, 720)),\n        (\"1920x1080\", (1920, 1080))\n    ],\n    value=(default_width, default_height),\n    description='Resolution:'\n)\n\n# FPS selector\nfps_dropdown = widgets.Dropdown(\n    options=[\n        (\"10 FPS\", 0.1),\n        (\"20 FPS\", 0.05),\n        (\"30 FPS\", 0.033)\n    ],\n    value=default_delay,\n    description='Frame rate:'\n)\n\n# Control buttons\nstart_button = widgets.Button(description=\"▶️ Start Camera\", button_style='success')\nstop_button = widgets.Button(description=\"⏹️ Stop Camera\", button_style='danger', disabled=True)\n\n# Output log\noutput_box = widgets.Output()\n\n# --- Layout ---\ncontrol_panel = widgets.VBox([status_label, resolution_dropdown, fps_dropdown])\nvideo_row = widgets.HBox([live_widget, control_panel])\nbutton_row = widgets.HBox([start_button, stop_button])\nlayout = widgets.VBox([video_row, button_row, output_box])\ndisplay(layout)\n\n# --- Helper functions ---\ndef frame_to_bytes(frame):\n    _, jpeg = cv2.imencode('.jpg', frame)\n    return jpeg.tobytes()\n\ndef update_camera_settings():\n    global frame_width, frame_height, frame_delay\n    frame_width, frame_height = resolution_dropdown.value\n    frame_delay = fps_dropdown.value\n\ndef stream_camera():\n    global cap, streaming\n    with output_box:\n        print(\"📸 Camera stream started.\")\n    status_label.value = \"🟢 Camera streaming...\"\n    try:\n        while streaming:\n            ret, frame = cap.read()\n            if not ret:\n                status_label.value = \"❌ Frame read failed\"\n                break\n            live_widget.value = frame_to_bytes(frame)\n            time.sleep(frame_delay)\n    finally:\n        if cap is not None:\n            cap.release()\n        status_label.value = \"🔴 Camera stopped\"\n        with output_box:\n            print(\"🎥 Camera released.\")\n\ndef start_camera(_=None):\n    global cap, streaming, stream_thread\n    update_camera_settings()  # Update settings based on dropdowns\n    \n    # Stop the previous camera stream if it's running\n    if cap is not None:\n        cap.release()\n    \n    # Reinitialize the camera with new settings\n    cap = cv2.VideoCapture(camera_index)\n    cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)\n    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)\n    \n    # Try to set the frame rate (this may or may not work depending on the camera)\n    cap.set(cv2.CAP_PROP_FPS, 1.0 / frame_delay)\n\n    streaming = True\n    stream_thread = threading.Thread(target=stream_camera, daemon=True)\n    stream_thread.start()\n    start_button.disabled = True\n    stop_button.disabled = False\n\ndef stop_camera(_=None):\n    global streaming\n    streaming = False\n    start_button.disabled = False\n    stop_button.disabled = True\n    if cap is not None:\n        cap.release()\n\n# --- Bind actions ---\nstart_button.on_click(start_camera)\nstop_button.on_click(stop_camera)\n\n# Automatically apply new settings if dropdowns change while streaming\ndef on_setting_change(change):\n    # Print the updated resolution and frame rate when settings are changed\n    print(f\"Resolution: {frame_width}x{frame_height}\")\n    print(f\"Frame rate: {1 / frame_delay:.2f} FPS\")\n    \n    if streaming:\n        stop_camera()  # Stop the camera\n        while streaming:  # Wait for the stream to stop\n            time.sleep(0.1)  # Wait a bit before restarting\n        start_camera()  # Restart with new settings\n\n# Observing dropdown changes\nresolution_dropdown.observe(on_setting_change, names='value')\nfps_dropdown.observe(on_setting_change, names='value')\n\n\n\n\n\nimport cv2\nimport numpy as np\nimport time\nimport threading\nfrom IPython.display import display\nimport ipywidgets as widgets\n\n# --- Camera defaults ---\ncamera_index = 1\n# frame_width = 1920\n# frame_height = 1080\nframe_width = 640\nframe_height = 480\nframe_delay = 0.015  # seconds (20 FPS)\n\n# Global mutable state\nstreaming = False\ncap = None\nstream_thread = None\n\n# --- UI widgets ---\n# Live video widget\nlive_widget = widgets.Image(\n    format='jpg',\n    width=frame_width,\n    height=frame_height\n)\n\n# Camera status\nstatus_label = widgets.Label(\"📷 Camera ready\", layout=widgets.Layout(margin='10px 0 0 10px'))\n\n# Control buttons\nstart_button = widgets.Button(description=\"▶️ Start Camera\", button_style='success')\nstop_button = widgets.Button(description=\"⏹️ Stop Camera\", button_style='danger', disabled=True)\n\n# Output log\noutput_box = widgets.Output()\n\n# --- Layout ---\nbutton_row = widgets.HBox([start_button, stop_button])\nlayout = widgets.VBox([live_widget, button_row, output_box])\ndisplay(layout)\n\n# --- Helper functions ---\ndef frame_to_bytes(frame):\n    _, jpeg = cv2.imencode('.jpg', frame)\n    return jpeg.tobytes()\n\ndef stream_camera():\n    global cap, streaming\n    with output_box:\n        print(\"📸 Camera stream started.\")\n    status_label.value = \"🟢 Camera streaming...\"\n    try:\n        while streaming:\n            ret, frame = cap.read()\n            if not ret:\n                status_label.value = \"❌ Frame read failed\"\n                break\n            live_widget.value = frame_to_bytes(frame)\n            time.sleep(frame_delay)\n    finally:\n        if cap is not None:\n            cap.release()\n        status_label.value = \"🔴 Camera stopped\"\n        with output_box:\n            print(\"🎥 Camera released.\")\n\ndef start_camera(_=None):\n    global cap, streaming, stream_thread\n    # Initialize camera with default resolution and frame rate\n    cap = cv2.VideoCapture(camera_index)\n    cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)\n    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)\n    cap.set(cv2.CAP_PROP_FPS, 1.0 / frame_delay)  # Set frame rate\n    \n    streaming = True\n    stream_thread = threading.Thread(target=stream_camera, daemon=True)\n    stream_thread.start()\n    start_button.disabled = True\n    stop_button.disabled = False\n\ndef stop_camera(_=None):\n    global streaming\n    streaming = False\n    start_button.disabled = False\n    stop_button.disabled = True\n    if cap is not None:\n        cap.release()\n\n# --- Bind actions ---\nstart_button.on_click(start_camera)\nstop_button.on_click(stop_camera)\n\n\n\n\n\nimport cv2\nimport numpy as np\nimport time\nimport threading\nfrom IPython.display import display\nimport ipywidgets as widgets\n\n# --- Camera defaults ---\ncamera_index = 1\nframe_width = 1920\nframe_height = 1080\n\nframe_delay = 0.015  # seconds (20 FPS)\n\n# Global mutable state\nstreaming = False\ncap = None\nstream_thread = None\n\n# --- UI widgets ---\n# Live video widget\nlive_widget = widgets.Image(\n    format='jpg',\n    width=frame_width,\n    height=frame_height\n)\n\n# Camera status\nstatus_label = widgets.Label(\"📷 Camera ready\", layout=widgets.Layout(margin='10px 0 0 10px'))\n\n# Control buttons\nstart_button = widgets.Button(description=\"▶️ Start Camera\", button_style='success')\nstop_button = widgets.Button(description=\"⏹️ Stop Camera\", button_style='danger', disabled=True)\n\n# Output log\noutput_box = widgets.Output()\n\n# --- Layout ---\nbutton_row = widgets.HBox([start_button, stop_button])\nlayout = widgets.VBox([live_widget, button_row, output_box])\ndisplay(layout)\n\n# --- Helper functions ---\ndef frame_to_bytes(frame):\n    _, jpeg = cv2.imencode('.jpg', frame)\n    return jpeg.tobytes()\n\ndef stream_camera():\n    global cap, streaming\n    with output_box:\n        print(\"📸 Camera stream started.\")\n    status_label.value = \"🟢 Camera streaming...\"\n    try:\n        while streaming:\n            ret, frame = cap.read()\n            if not ret:\n                status_label.value = \"❌ Frame read failed\"\n                break\n            live_widget.value = frame_to_bytes(frame)\n            time.sleep(frame_delay)\n    finally:\n        if cap is not None:\n            cap.release()\n        status_label.value = \"🔴 Camera stopped\"\n        with output_box:\n            print(\"🎥 Camera released.\")\n\ndef start_camera(_=None):\n    global cap, streaming, stream_thread\n    # Initialize camera with default resolution and frame rate\n    cap = cv2.VideoCapture(camera_index)\n    cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)\n    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)\n    cap.set(cv2.CAP_PROP_FPS, 1.0 / frame_delay)  # Set frame rate\n    \n    streaming = True\n    stream_thread = threading.Thread(target=stream_camera, daemon=True)\n    stream_thread.start()\n    start_button.disabled = True\n    stop_button.disabled = False\n\ndef stop_camera(_=None):\n    global streaming\n    streaming = False\n    start_button.disabled = False\n    stop_button.disabled = True\n    if cap is not None:\n        cap.release()\n\n# --- Bind actions ---\nstart_button.on_click(start_camera)\nstop_button.on_click(stop_camera)\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Blog",
+      "Camera Testing"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html",
+    "href": "1_proxmox_storage.html",
+    "title": "Proxmox Storage",
+    "section": "",
+    "text": "Storage Type\nDescription\nCommon Use Case\nPros\nCons\n\n\n\n\nDirectory (dir)\nLocal filesystem directory\nISOs, backups, templates\nEasy setup, local access\nNo redundancy, limited scalability\n\n\nLVM (lvm)\nLogical Volume Manager\nVM disks\nHigh performance, snapshots\nNo thin provisioning\n\n\nLVM-Thin (lvmthin)\nThin-provisioned LVM\nVM disks, snapshots\nEfficient space usage, snapshots\nComplex management\n\n\nZFS (zfspool)\nAdvanced filesystem and volume manager\nVM disks, snapshots\nSnapshots, compression, RAID\nHigh RAM usage\n\n\nCeph (rbd)\nDistributed block storage\nHigh availability\nScalability, redundancy\nComplex setup, network dependency\n\n\nNFS (nfs)\nNetwork file system\nShared storage, backups\nCentralized storage, scalable\nNetwork dependency\n\n\nCIFS/SMB (cifs)\nWindows share\nBackups, ISOs\nEasy integration with NAS\nSlower network performance\n\n\niSCSI (iscsi)\nNetwork block storage\nVM disks\nHigh performance SAN\nComplex setup, network dependency\n\n\nGlusterFS (glusterfs)\nDistributed file system\nHigh availability\nScalability, redundancy\nPerformance overhead",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#overview-of-storage-types",
+    "href": "1_proxmox_storage.html#overview-of-storage-types",
+    "title": "Proxmox Storage",
+    "section": "",
+    "text": "Storage Type\nDescription\nCommon Use Case\nPros\nCons\n\n\n\n\nDirectory (dir)\nLocal filesystem directory\nISOs, backups, templates\nEasy setup, local access\nNo redundancy, limited scalability\n\n\nLVM (lvm)\nLogical Volume Manager\nVM disks\nHigh performance, snapshots\nNo thin provisioning\n\n\nLVM-Thin (lvmthin)\nThin-provisioned LVM\nVM disks, snapshots\nEfficient space usage, snapshots\nComplex management\n\n\nZFS (zfspool)\nAdvanced filesystem and volume manager\nVM disks, snapshots\nSnapshots, compression, RAID\nHigh RAM usage\n\n\nCeph (rbd)\nDistributed block storage\nHigh availability\nScalability, redundancy\nComplex setup, network dependency\n\n\nNFS (nfs)\nNetwork file system\nShared storage, backups\nCentralized storage, scalable\nNetwork dependency\n\n\nCIFS/SMB (cifs)\nWindows share\nBackups, ISOs\nEasy integration with NAS\nSlower network performance\n\n\niSCSI (iscsi)\nNetwork block storage\nVM disks\nHigh performance SAN\nComplex setup, network dependency\n\n\nGlusterFS (glusterfs)\nDistributed file system\nHigh availability\nScalability, redundancy\nPerformance overhead",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#directory-storage-dir",
+    "href": "1_proxmox_storage.html#directory-storage-dir",
+    "title": "Proxmox Storage",
+    "section": "2. Directory Storage (dir)",
+    "text": "2. Directory Storage (dir)\n\nDescription:\n\nUses a local directory on the Proxmox host.\nCan store ISOs, backups, LXC templates, and VM images.\n\n\n\nCommon Use Case:\n\nLocal storage for ISOs, backups, and VM templates.\n\n\n\nPros:\n\nEasy to set up and manage.\nFast since it’s local storage.\nSupports multiple content types (e.g., ISO, backup, images).\n\n\n\nCons:\n\nNo redundancy. If the local disk fails, data is lost.\nNot scalable. Limited by local disk capacity.\n\n\n\nExample Configuration:\ndir: local\n    path /var/lib/vz\n    content iso,backup,vztmpl\n    maxfiles 5",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#lvm-lvm",
+    "href": "1_proxmox_storage.html#lvm-lvm",
+    "title": "Proxmox Storage",
+    "section": "3. LVM (lvm)",
+    "text": "3. LVM (lvm)\n\nDescription:\n\nUses Logical Volume Manager for block storage.\nNo thin provisioning; each LV is fully allocated.\n\n\n\nCommon Use Case:\n\nVM disks that require high performance and stability.\n\n\n\nPros:\n\nHigh performance for VM disks.\nSupports snapshots.\nEasy to expand by adding physical volumes.\n\n\n\nCons:\n\nNo thin provisioning. Allocates the entire disk space upfront.\nNo native redundancy.\n\n\n\nExample Configuration:\nlvm: vmdata\n    vgname vg_data\n    content images",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#lvm-thin-lvmthin",
+    "href": "1_proxmox_storage.html#lvm-thin-lvmthin",
+    "title": "Proxmox Storage",
+    "section": "4. LVM-Thin (lvmthin)",
+    "text": "4. LVM-Thin (lvmthin)\n\nDescription:\n\nThin-provisioned LVM that allocates space on demand.\nEfficient snapshots using Copy-on-Write (CoW).\n\n\n\nCommon Use Case:\n\nVM disks with snapshots and dynamic space usage.\n\n\n\nPros:\n\nEfficient space usage. Only allocates space as needed.\nFast snapshots with minimal overhead.\n\n\n\nCons:\n\nComplex management. Requires monitoring to avoid over-provisioning.\nNo built-in redundancy.\n\n\n\nExample Configuration:\nlvmthin: thin_data\n    vgname vg_data\n    thinpool thinpool\n    content images",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#zfs-zfspool",
+    "href": "1_proxmox_storage.html#zfs-zfspool",
+    "title": "Proxmox Storage",
+    "section": "5. ZFS (zfspool)",
+    "text": "5. ZFS (zfspool)\n\nDescription:\n\nAdvanced filesystem and volume manager.\nFeatures snapshots, compression, checksums, and RAID-like redundancy.\n\n\n\nCommon Use Case:\n\nHigh availability, data integrity, and VM storage with snapshots.\n\n\n\nPros:\n\nBuilt-in redundancy with RAID-Z or mirrors.\nSnapshots and rollback without performance impact.\nCompression reduces storage space.\n\n\n\nCons:\n\nHigh RAM usage. Minimum 8 GB RAM recommended.\nComplex management compared to LVM.\n\n\n\nExample Configuration:\nzfspool: zdata\n    pool zdata\n    content images,rootdir\n    sparse 1",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#ceph-rbd",
+    "href": "1_proxmox_storage.html#ceph-rbd",
+    "title": "Proxmox Storage",
+    "section": "6. Ceph (rbd)",
+    "text": "6. Ceph (rbd)\n\nDescription:\n\nDistributed block storage system.\nOffers high availability, scalability, and redundancy.\n\n\n\nCommon Use Case:\n\nHighly available VM disks across multiple Proxmox nodes.\n\n\n\nPros:\n\nScalable and redundant across nodes.\nNo single point of failure.\nDynamic growth by adding more nodes.\n\n\n\nCons:\n\nComplex setup and maintenance.\nRequires high network bandwidth and low latency.\n\n\n\nExample Configuration:\nrbd: ceph_pool\n    pool rbd\n    content images,rootdir\n    krbd 1",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#nfs-nfs",
+    "href": "1_proxmox_storage.html#nfs-nfs",
+    "title": "Proxmox Storage",
+    "section": "7. NFS (nfs)",
+    "text": "7. NFS (nfs)\n\nDescription:\n\nNetwork File System for shared storage.\nAccessible by multiple Proxmox nodes.\n\n\n\nCommon Use Case:\n\nCentralized storage for ISOs, backups, and templates.\n\n\n\nPros:\n\nEasy to set up and manage.\nCentralized storage for multiple nodes.\nScalable by expanding the NFS server.\n\n\n\nCons:\n\nNetwork dependency. Performance affected by network speed.\nNo built-in redundancy.\n\n\n\nExample Configuration:\nnfs: nfs_data\n    server 192.168.2.100\n    export /mnt/nfs\n    path /mnt/pve/nfs_data\n    content images,iso,backup",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#cifssmb-cifs",
+    "href": "1_proxmox_storage.html#cifssmb-cifs",
+    "title": "Proxmox Storage",
+    "section": "8. CIFS/SMB (cifs)",
+    "text": "8. CIFS/SMB (cifs)\n\nDescription:\n\nWindows network share for storage.\nUsed for backups, ISOs, and templates.\n\n\n\nCommon Use Case:\n\nBacking up to a NAS or Windows file server.\n\n\n\nPros:\n\nEasy integration with Windows and NAS systems.\nGood for backups and non-critical storage.\n\n\n\nCons:\n\nSlower network performance compared to NFS.\nNetwork dependency.\n\n\n\nExample Configuration:\ncifs: smb_data\n    path /mnt/pve/smb_data\n    server 192.168.2.100\n    share backups\n    content images,iso,backup",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#iscsi-iscsi",
+    "href": "1_proxmox_storage.html#iscsi-iscsi",
+    "title": "Proxmox Storage",
+    "section": "9. iSCSI (iscsi)",
+    "text": "9. iSCSI (iscsi)\n\nDescription:\n\nNetwork block storage protocol.\nUses external SAN for VM disks.\n\n\n\nCommon Use Case:\n\nHigh-performance VM disks with external SAN.\n\n\n\nPros:\n\nHigh performance and low latency.\nCentralized storage with SAN features.\n\n\n\nCons:\n\nComplex configuration and management.\nNetwork dependency.\n\n\n\nExample Configuration:\niscsi: iscsi_data\n    portal 192.168.2.100\n    target iqn.2024-02.com.example:target1\n    content images",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#glusterfs-glusterfs",
+    "href": "1_proxmox_storage.html#glusterfs-glusterfs",
+    "title": "Proxmox Storage",
+    "section": "10. GlusterFS (glusterfs)",
+    "text": "10. GlusterFS (glusterfs)\n\nDescription:\n\nDistributed file system for scalability.\nIdeal for high availability and redundancy.\n\n\n\nCommon Use Case:\n\nShared VM storage across multiple nodes.\n\n\n\nPros:\n\nScalable and redundant across nodes.\nEasy to expand by adding nodes.\n\n\n\nCons:\n\nPerformance overhead.\nComplex management and troubleshooting.\n\n\n\nExample Configuration:\nglusterfs: gluster_data\n    server 192.168.2.200\n    volume gv0\n    path /mnt/pve/gluster_data\n    content images,rootdir",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "1_proxmox_storage.html#conclusion",
+    "href": "1_proxmox_storage.html#conclusion",
+    "title": "Proxmox Storage",
+    "section": "Conclusion",
+    "text": "Conclusion\nEach storage type in Proxmox has its own strengths and use cases. Choose based on: - Performance needs (LVM, iSCSI) - Redundancy and scalability (Ceph, ZFS, GlusterFS) - Centralized storage (NFS, CIFS)\nIf you need help with choosing the right storage type, configuration, or troubleshooting, let me know! 🚀",
+    "crumbs": [
+      "Blog",
+      "Proxmox Storage"
+    ]
+  },
+  {
+    "objectID": "linux_users.html",
+    "href": "linux_users.html",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "",
+    "text": "The root user has unrestricted access to the entire system.\nRoot can execute any command, access any file, and modify any configuration.\nTypically used for system administration tasks.\nHome directory is usually /root.\nCommands are run as root using sudo or by switching to the root user with su.\n\n\n\n\n\nRegular users have limited access to the system.\nEach user has a home directory under /home/username.\nRegular users can only access files and resources they own or have permission to access.\nUsed for day-to-day tasks and activities.\n\n\n\n\n\nSystem users are non-login accounts used by system services and daemons (e.g., www-data for web servers, mysql for databases).\nTypically, these users don’t have a home directory or an interactive shell.\nCreated to run specific services securely, without giving them unnecessary privileges.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#types-of-users-in-linux",
+    "href": "linux_users.html#types-of-users-in-linux",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "",
+    "text": "The root user has unrestricted access to the entire system.\nRoot can execute any command, access any file, and modify any configuration.\nTypically used for system administration tasks.\nHome directory is usually /root.\nCommands are run as root using sudo or by switching to the root user with su.\n\n\n\n\n\nRegular users have limited access to the system.\nEach user has a home directory under /home/username.\nRegular users can only access files and resources they own or have permission to access.\nUsed for day-to-day tasks and activities.\n\n\n\n\n\nSystem users are non-login accounts used by system services and daemons (e.g., www-data for web servers, mysql for databases).\nTypically, these users don’t have a home directory or an interactive shell.\nCreated to run specific services securely, without giving them unnecessary privileges.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-management",
+    "href": "linux_users.html#user-management",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User Management",
+    "text": "User Management\n\nCreating a User:\n\nUsers are created using the useradd or adduser command.\nuseradd is the low-level command, while adduser is a more user-friendly script that provides additional features.\nExample:\n\nsudo useradd -m username\nsudo passwd username\n\n-m creates a home directory for the user.\n\n\n\nDeleting a User:\n\nUsers can be deleted using the userdel command.\nuserdel -r will delete the user’s home directory as well.\nExample:\n\nsudo userdel -r username\n\n\nModifying a User:\n\nThe usermod command allows you to modify user details, such as changing the username, home directory, or adding the user to a group.\nExample:\n\nsudo usermod -d /new/home username\nsudo usermod -aG groupname username\n\n\nChanging User Passwords:\n\nThe passwd command is used to change a user’s password.\nUsers can change their own password using passwd, or an administrator can change another user’s password using sudo passwd username.\nExample:\n\nsudo passwd username",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-and-group-files",
+    "href": "linux_users.html#user-and-group-files",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User and Group Files",
+    "text": "User and Group Files\n\n/etc/passwd:\n\nThis file contains basic information about all user accounts, including the username, UID (User ID), GID (Group ID), home directory, and shell.\nEach line represents a user, with fields separated by colons.\n\n/etc/shadow:\n\nThis file stores secure password information, including the hashed passwords and password expiration data.\nIt is only readable by the root user for security purposes.\n\netc/group:\n\nThis file lists all groups on the system and the users belonging to each group.\nSimilar to /etc/passwd, each line represents a group, with fields separated by colons.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-ids-and-group-ids",
+    "href": "linux_users.html#user-ids-and-group-ids",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User IDs and Group IDs",
+    "text": "User IDs and Group IDs\n\nUID (User ID):\n\nA unique number assigned to each user.\nThe root user typically has a UID of 0.\nRegular users usually have UIDs starting from 1000 (depending on the distribution).\n\nGID (Group ID):\n\nA unique number assigned to each group.\nThe root group typically has a GID of 0.\nLike UIDs, system and service accounts usually have lower GIDs, while regular user groups start from 1000.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#groups-in-linux",
+    "href": "linux_users.html#groups-in-linux",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "Groups in Linux",
+    "text": "Groups in Linux\n\nPrimary and Secondary Groups:\n\nEach user belongs to a primary group, which is usually created with the same name as the user.\nUsers can also belong to secondary groups, which grant additional permissions.\n\n\n\nManaging Groups:\n\nCreating a Group:\n\nsudo groupadd groupname\n\nAdding a User to a Group\n\nsudo usermod -aG groupname username\n\nDeleting a Group\n\nsudo groupdel groupname\n\n\nListing Groups\n\nTo see the groups a user belongs to, use the groups command\n\ngroups username",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#file-permissions",
+    "href": "linux_users.html#file-permissions",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "File Permissions",
+    "text": "File Permissions\n\nUnderstanding File Permissions:\n\nEach file and directory has permissions set for three categories: owner, group, and others\nPermissions are represented as r (read), w (write), and x (execute).\nExample:\n\n-rwxr-xr--\n\nIn this example:\n\nrwx is the permission for the owner (read, write, execute).\nr-x is the permission for the group (read, execute).\nr-- is the permission for others (read only).\n\n\n\n\nChanging File Permissions:\n\nUse the chmod command to change permissions.\nNumeric representation:\n\n4: read (r)\n2: write (w)\n1: execute (x)\n\nchmod 755 filename\n\n\n\nChanging File Ownership:\n\nThe chown command is used to change the owner or group of a file.\nExample:\n\nsudo chown username:groupname filename",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#switching-users",
+    "href": "linux_users.html#switching-users",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "Switching Users",
+    "text": "Switching Users\n\nsu (Substitute User):\n\nThe su command allows you to switch to another user account.\nExample:\n\nsu - username\nsu -        # Switches to the root user\n\nThe - option ensures that the environment is set up as if the user had logged in directly\n\n\n\nsudo (Superuser Do):\n\nThe sudo command allows a permitted user to execute a command as the superuser or another user, as specified in the /etc/sudoers file.\nExample:\n\nsudo command\nsudo -u username command\n\n\nSudoers File:\n\nThe /etc/sudoers file controls which users have sudo privileges.\nUse the visudo command to edit the sudoers file safely.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-environment",
+    "href": "linux_users.html#user-environment",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User Environment",
+    "text": "User Environment\n\nHome Directory:\n\nA user’s personal space for storing files and configurations.\nLocated at /home/username for regular users and /root for the root user.\n\nShell:\n\nThe command-line interface that users interact with, typically bash, sh, or zsh.\nThe default shell is specified in the /etc/passwd file.\n\nEnvironment Variables:\n\nVariables that control the behavior of the user’s environment (e.g., PATH, HOME, USER).\nCan be configured in files like .bashrc, .bash_profile, .profile, etc.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#user-session-management",
+    "href": "linux_users.html#user-session-management",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "User Session Management",
+    "text": "User Session Management\n\nwho Command: Displays who is currently logged into the system.\nw Command: Shows who is logged in and what they are doing.\nlast Command: Displays the last login history of users.\nkill Command: Use the kill command to terminate a user’s session or specific processes.",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "linux_users.html#security-considerations",
+    "href": "linux_users.html#security-considerations",
+    "title": "Linux Users, Groups and Permissions",
+    "section": "Security Considerations",
+    "text": "Security Considerations\n\nPassword Policies:\n\nEnforce strong passwords using tools like pam_pwquality.\nSet password expiration and aging policies to ensure regular password changes.\n\nRestricting Root Access:\n\nDisable root login over SSH by setting PermitRootLogin no in /etc/ssh/sshd_config.\nUse sudo instead of direct root access for better security.\n\nMonitoring and Auditing:\n\nMonitor user activities by examining logs in /var/log/ (e.g., auth.log, secure).\nUse tools like auditd to track system events and user actions.\n\n\n\n!",
+    "crumbs": [
+      "Blog",
+      "Linux Users, Groups and Permissions"
+    ]
+  },
+  {
+    "objectID": "bash.html",
+    "href": "bash.html",
+    "title": "Bash Scripts",
+    "section": "",
+    "text": "!touch script.sh\n\n\n\n\n\n!chmod +x script.sh\n\n\n\n\n\nTells the system to use bash to execute the script:\n\n\n!echo '#!/bin/bash' &gt; script.sh\n\n\n!cat script.sh\n\n#!/bin/bash\n\n\n\n\n\n\n!echo 'echo \"Hello, World!\"' &gt;&gt; script.sh\n\n\n\n\n\n!./script.sh\n\nHello, World!",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#basics-of-bash-scripting",
+    "href": "bash.html#basics-of-bash-scripting",
+    "title": "Bash Scripts",
+    "section": "",
+    "text": "!touch script.sh\n\n\n\n\n\n!chmod +x script.sh\n\n\n\n\n\nTells the system to use bash to execute the script:\n\n\n!echo '#!/bin/bash' &gt; script.sh\n\n\n!cat script.sh\n\n#!/bin/bash\n\n\n\n\n\n\n!echo 'echo \"Hello, World!\"' &gt;&gt; script.sh\n\n\n\n\n\n!./script.sh\n\nHello, World!",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#variables",
+    "href": "bash.html#variables",
+    "title": "Bash Scripts",
+    "section": "Variables",
+    "text": "Variables\n#!/bin/bash\nname=\"John\"\necho \"Hello, $name!\"",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#conditionals",
+    "href": "bash.html#conditionals",
+    "title": "Bash Scripts",
+    "section": "Conditionals",
+    "text": "Conditionals\n#!/bin/bash\nif [ \"$1\" -gt 10 ]; then\n  echo \"The number is greater than 10\"\nelse\n  echo \"The number is 10 or less\"\nfi",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#loops",
+    "href": "bash.html#loops",
+    "title": "Bash Scripts",
+    "section": "Loops",
+    "text": "Loops\n#!/bin/bash\nfor i in {1..5}; do\n  echo \"Iteration $i\"\ndone",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#functions",
+    "href": "bash.html#functions",
+    "title": "Bash Scripts",
+    "section": "Functions",
+    "text": "Functions\n#!/bin/bash\ngreet() {\n  echo \"Hello, $1!\"\n}\n\ngreet \"Alice\"\ngreet \"Bob\"",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#command-line-arguments",
+    "href": "bash.html#command-line-arguments",
+    "title": "Bash Scripts",
+    "section": "Command Line Arguments",
+    "text": "Command Line Arguments\n#!/bin/bash\necho \"First argument: $1\"\necho \"Second argument: $2\"\n\nRun the script with arguments:\n./script.sh arg1 arg2",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#error-handling",
+    "href": "bash.html#error-handling",
+    "title": "Bash Scripts",
+    "section": "Error Handling",
+    "text": "Error Handling\n#!/bin/bash\nset -e  # Exit on error\n\ntrap 'echo \"Error occurred on line $LINENO\"' ERR\n\n# Command that might fail\ncp non_existent_file.txt destination/",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "bash.html#examples",
+    "href": "bash.html#examples",
+    "title": "Bash Scripts",
+    "section": "Examples",
+    "text": "Examples\n\nUpdate and Upgrade System\n#!/bin/bash\n\nsudo apt-get update\nsudo apt-get upgrade -y\nsudo apt-get dist-upgrade -y\nsudo apt-get autoremove -y\n\n\nExample Script for Setting Up a Django Project with PostgreSQL\n#!/bin/bash\n\n# Variables\nPROJECT_NAME=\"myproject\"\nDB_NAME=\"mydatabase\"\nDB_USER=\"myuser\"\nDB_PASSWORD=\"mypassword\"\n\n# Update and install dependencies\nsudo apt-get update\nsudo apt-get install -y python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl\n\n# Set up PostgreSQL\nsudo -u postgres psql &lt;&lt;EOF\nCREATE DATABASE $DB_NAME;\nCREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD';\nALTER ROLE $DB_USER SET client_encoding TO 'utf8';\nALTER ROLE $DB_USER SET default_transaction_isolation TO 'read committed';\nALTER ROLE $DB_USER SET timezone TO 'UTC';\nGRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;\nEOF\n\n# Create a virtual environment\npython3 -m venv myenv\nsource myenv/bin/activate\n\n# Install Django and psycopg2\npip install django psycopg2-binary\n\n# Create Django project\ndjango-admin startproject $PROJECT_NAME\n\n# Configure Django settings\ncd $PROJECT_NAME/$PROJECT_NAME\nsed -i \"s/ENGINE': 'django.db.backends.sqlite3/ENGINE': 'django.db.backends.postgresql/g\" settings.py\nsed -i \"s/NAME': BASE_DIR / 'db.sqlite3/NAME': '$DB_NAME'/g\" settings.py\nsed -i \"/'ENGINE': 'django.db.backends.postgresql/a \\        'USER': '$DB_USER',\\n        'PASSWORD': '$DB_PASSWORD',\\n        'HOST': 'localhost',\\n        'PORT': '',\" settings.py\n\n# Run migrations\ncd ..\npython manage.py migrate\n\n# Create superuser\npython manage.py createsuperuser\n\n# Start the development server\npython manage.py runserver",
+    "crumbs": [
+      "Blog",
+      "Bash Scripts"
+    ]
+  },
+  {
+    "objectID": "1_neovim.html",
+    "href": "1_neovim.html",
+    "title": "Neovim",
+    "section": "",
+    "text": "1. Installation\nThe installation method for Neovim varies depending on your Linux distribution:\n\nUbuntu and Debian-based systems: Open a terminal and run:\nsudo apt update\nsudo apt install neovim\nThis will install Neovim using the default package manager. citeturn0search3\nArch Linux: Use the pacman package manager:\nsudo pacman -S neovim\nThis command installs Neovim on Arch Linux systems. citeturn0search0\nFedora: Execute:\nsudo dnf install neovim\nThis installs Neovim on Fedora systems.\n\nFor the latest features, consider installing Neovim from its official GitHub releases.\n2. Basic Usage\nTo start Neovim, open a terminal and type:\nnvim\nThis launches Neovim in the terminal. To open a specific file, provide its path:\nnvim filename.txt\nNeovim operates in different modes:\n\nNormal Mode: For navigation and manipulation.\nInsert Mode: For text entry.\nVisual Mode: For text selection.\nCommand-Line Mode: For executing commands.\n\nSwitch between modes using specific keys (e.g., press i to enter Insert Mode from Normal Mode).\n3. Configuration\nNeovim’s configuration is stored in the ~/.config/nvim/init.vim file. You can customize settings, key mappings, and plugins here. Alternatively, Neovim supports Lua for configuration, allowing for more advanced setups. For instance, to set the number of spaces for a tab, add:\nset tabstop=4\nset shiftwidth=4\nset expandtab\nThese settings configure tab behavior in Neovim.\n4. Plugins\nEnhance Neovim’s functionality using plugins. Popular plugin managers include vim-plug and packer.nvim. For example, to install the nvim-treesitter plugin for improved syntax highlighting:\n\nUsing vim-plug:\n\nInstall vim-plug by running:\ncurl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \\\n    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim\nThis command downloads and installs vim-plug.\nAdd the following to your init.vim:\ncall plug#begin('~/.config/nvim/plugged')\nPlug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}\ncall plug#end()\nThis configuration sets up the nvim-treesitter plugin.\nIn Neovim, run :PlugInstall to install the plugin.\n\nUsing packer.nvim:\n\nInstall packer.nvim by running:\ngit clone --depth 1 https://github.com/wbthomason/packer.nvim\\\n  ~/.local/share/nvim/site/pack/packer/start/packer.nvim\nThis command clones the packer.nvim repository.\nAdd the following to your init.lua or equivalent:\nrequire('packer').startup(function()\n  use 'wbthomason/packer.nvim'\n  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}\nend)\nThis configuration sets up the nvim-treesitter plugin.\nIn Neovim, run :PackerSync to install the plugin.\n\n\nThese steps guide you through installing and configuring plugins in Neovim.\n5. Advanced Configurations\nFor a more feature-rich setup, consider using community-driven configurations like NvChad or LazyVim. These provide pre-configured setups with a suite of plugins and settings optimized for various workflows. For instance, LazyVim offers a comprehensive configuration that can be customized to fit your needs. citeturn0search0\n6. Learning Resources\nTo master Neovim, explore the following resources:\n\nOfficial Documentation: Access comprehensive guides and references at neovim.io.\nInteractive Tutorial: Launch the built-in tutor by running :Tutor within Neovim.\nCommunity Guides: Explore tutorials like “Effective Neovim Setup: A Beginner’s Guide” for practical advice. citeturn0search0\nVideo Tutorials:\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Blog",
+      "Neovim"
+    ]
+  },
+  {
+    "objectID": "quarto.html",
+    "href": "quarto.html",
+    "title": "Quarto",
+    "section": "",
+    "text": "Downlaod quarto : quarto-1.3.433-win\n\n\n\nRemember to restart the computer\n\n\n\n\nwget https://quarto.org/download/latest/quarto-linux-amd64.deb\nNext use:\nsudo apt install ./&lt;name&gt;.deb\nExample:\nsudo apt install quarto-linux-amd64.deb",
+    "crumbs": [
+      "Blog",
+      "Quarto"
+    ]
+  },
+  {
+    "objectID": "quarto.html#download",
+    "href": "quarto.html#download",
+    "title": "Quarto",
+    "section": "",
+    "text": "Downlaod quarto : quarto-1.3.433-win\n\n\n\nRemember to restart the computer\n\n\n\n\nwget https://quarto.org/download/latest/quarto-linux-amd64.deb\nNext use:\nsudo apt install ./&lt;name&gt;.deb\nExample:\nsudo apt install quarto-linux-amd64.deb",
+    "crumbs": [
+      "Blog",
+      "Quarto"
+    ]
+  },
+  {
+    "objectID": "quarto.html#installs",
+    "href": "quarto.html#installs",
+    "title": "Quarto",
+    "section": "Installs",
+    "text": "Installs\npip install jupyter jupyterlab\npip install matplotlib plotly",
+    "crumbs": [
+      "Blog",
+      "Quarto"
+    ]
+  },
+  {
+    "objectID": "latex_setup.html",
+    "href": "latex_setup.html",
+    "title": "Latex",
+    "section": "",
+    "text": "sudo apt update\nsudo apt install texlive-full\nsudo apt install texlive-latex-extra biber\n\n** Thats all you need**\n\n\nTexmaker: A popular LaTeX editor.\nsudo apt install texmaker\nPandoc: A universal document converter.\nsudo apt install pandoc",
+    "crumbs": [
+      "Blog",
+      "Latex"
+    ]
+  },
+  {
+    "objectID": "latex_setup.html#installation",
+    "href": "latex_setup.html#installation",
+    "title": "Latex",
+    "section": "",
+    "text": "sudo apt update\nsudo apt install texlive-full\nsudo apt install texlive-latex-extra biber\n\n** Thats all you need**\n\n\nTexmaker: A popular LaTeX editor.\nsudo apt install texmaker\nPandoc: A universal document converter.\nsudo apt install pandoc",
+    "crumbs": [
+      "Blog",
+      "Latex"
+    ]
+  },
+  {
+    "objectID": "conda.html",
+    "href": "conda.html",
+    "title": "Conda Setup",
+    "section": "",
+    "text": "# Function to check if Conda is installed, and install it if not\ninstall_conda() {\n    if command -v conda &&gt; /dev/null; then\n        echo \"Conda is already installed.\"\n    else\n        echo \"Conda is not installed. Installing Miniconda...\"\n        \n        # Download Miniconda installer script\n        MINICONDA_URL=\"https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh\"\n        INSTALLER=\"Miniconda3-latest-Linux-x86_64.sh\"\n        \n        # Download the Miniconda installer\n        curl -LO $MINICONDA_URL\n\n        # Run the installer\n        bash $INSTALLER -b -p $HOME/miniconda\n        \n        # Initialize Conda in the current shell\n        source \"$HOME/miniconda/etc/profile.d/conda.sh\"\n        conda init\n        \n        # Clean up the installer\n        rm $INSTALLER\n\n        echo \"Conda installation completed. Please restart your terminal or run 'source ~/.bashrc' to activate Conda.\"\n    fi\n}",
+    "crumbs": [
+      "Blog",
+      "Conda Setup"
+    ]
+  },
+  {
+    "objectID": "conda.html#manual-installation",
+    "href": "conda.html#manual-installation",
+    "title": "Conda Setup",
+    "section": "",
+    "text": "# Function to check if Conda is installed, and install it if not\ninstall_conda() {\n    if command -v conda &&gt; /dev/null; then\n        echo \"Conda is already installed.\"\n    else\n        echo \"Conda is not installed. Installing Miniconda...\"\n        \n        # Download Miniconda installer script\n        MINICONDA_URL=\"https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh\"\n        INSTALLER=\"Miniconda3-latest-Linux-x86_64.sh\"\n        \n        # Download the Miniconda installer\n        curl -LO $MINICONDA_URL\n\n        # Run the installer\n        bash $INSTALLER -b -p $HOME/miniconda\n        \n        # Initialize Conda in the current shell\n        source \"$HOME/miniconda/etc/profile.d/conda.sh\"\n        conda init\n        \n        # Clean up the installer\n        rm $INSTALLER\n\n        echo \"Conda installation completed. Please restart your terminal or run 'source ~/.bashrc' to activate Conda.\"\n    fi\n}",
+    "crumbs": [
+      "Blog",
+      "Conda Setup"
+    ]
+  },
+  {
+    "objectID": "conda.html#fast-setup",
+    "href": "conda.html#fast-setup",
+    "title": "Conda Setup",
+    "section": "Fast Setup",
+    "text": "Fast Setup\ngit clone https://github.com/fastai/fastsetup.git\n\nto list conda envs\n\nconda env list",
+    "crumbs": [
+      "Blog",
+      "Conda Setup"
+    ]
+  },
+  {
+    "objectID": "conda.html#to-create-basic-conda-env",
+    "href": "conda.html#to-create-basic-conda-env",
+    "title": "Conda Setup",
+    "section": "To create basic conda env",
+    "text": "To create basic conda env\nAfter running ./setup-conda.sh, create conda environment\nconda create -n &lt;name&gt; python",
+    "crumbs": [
+      "Blog",
+      "Conda Setup"
+    ]
+  },
+  {
+    "objectID": "conda.html#to-remove-conda-env",
+    "href": "conda.html#to-remove-conda-env",
+    "title": "Conda Setup",
+    "section": "To remove conda env",
+    "text": "To remove conda env\nconda remove --name myenv --all",
+    "crumbs": [
+      "Blog",
+      "Conda Setup"
+    ]
+  },
+  {
+    "objectID": "conda.html#to-build-conda-env-with-environment-file",
+    "href": "conda.html#to-build-conda-env-with-environment-file",
+    "title": "Conda Setup",
+    "section": "To build conda env with environment file",
+    "text": "To build conda env with environment file\nconda env create -n &lt;name&gt; -f environment.yml\nmamba env create -n cfast -f cfast.yml\n\nfor creating environment files\n\nconda env export &gt; environment.yml",
+    "crumbs": [
+      "Blog",
+      "Conda Setup"
+    ]
+  },
+  {
+    "objectID": "conda.html#to-clone-an-env",
+    "href": "conda.html#to-clone-an-env",
+    "title": "Conda Setup",
+    "section": "To clone an env",
+    "text": "To clone an env\nconda create --name &lt;clone name&gt; --clone &lt;env name&gt;",
+    "crumbs": [
+      "Blog",
+      "Conda Setup"
+    ]
+  },
+  {
+    "objectID": "conda.html#to-create-a-spec-list-file",
+    "href": "conda.html#to-create-a-spec-list-file",
+    "title": "Conda Setup",
+    "section": "To create a spec list file",
+    "text": "To create a spec list file\nconda list --explicit &gt; spec-file.txt\nTo use the spec file to install its listed packages into an existing environment:\nconda install --name myenv --file spec-file.txt",
+    "crumbs": [
+      "Blog",
+      "Conda Setup"
+    ]
+  },
+  {
+    "objectID": "conda.html#to-clean-mamba-cache",
+    "href": "conda.html#to-clean-mamba-cache",
+    "title": "Conda Setup",
+    "section": "To clean Mamba cache",
+    "text": "To clean Mamba cache\nmamba clean --yes --all",
+    "crumbs": [
+      "Blog",
+      "Conda Setup"
+    ]
+  },
+  {
+    "objectID": "regex.html",
+    "href": "regex.html",
+    "title": "Regex",
+    "section": "",
+    "text": "Symbol\nDescription\nExample\nMatches\n\n\n\n\n.\nAny single character except newline\na.b\nacb, a1b, a_b\n\n\n^\nStart of string\n^hello\nMatches “hello world”, not “world hello”\n\n\n$\nEnd of string\nworld$\nMatches “hello world”, not “world hello”\n\n\n*\n0 or more repetitions\nab*\nMatches a, ab, abb, abbb\n\n\n+\n1 or more repetitions\nab+\nMatches ab, abb, abbb but not a\n\n\n?\n0 or 1 occurrence\ncolou?r\nMatches color and colour\n\n\n{n}\nExactly n repetitions\na{3}\nMatches aaa\n\n\n{n,}\nAt least n repetitions\na{2,}\nMatches aa, aaa, aaaa\n\n\n{n,m}\nBetween n and m repetitions\na{2,4}\nMatches aa, aaa, aaaa\n\n\n[]\nCharacter set\n[abc]\nMatches a, b, or c\n\n\n[^ ]\nNegated character set\n[^abc]\nMatches any character except a, b, c\n\n\n\\d\nDigit (0-9)\n\\d+\nMatches 123, 456\n\n\n\\D\nNon-digit\n\\D+\nMatches abc, hello\n\n\n\\w\nWord character (a-z, A-Z, 0-9, _)\n\\w+\nMatches hello123\n\n\n\\W\nNon-word character\n\\W+\nMatches @#$%^\n\n\n\\s\nWhitespace\n\\s+\nMatches spaces, tabs, newlines\n\n\n\\S\nNon-whitespace\n\\S+\nMatches hello, world\n\n\n\\b\nWord boundary\n\\bhello\\b\nMatches “hello” in “hello world” but not “helloworld”\n\n\n\\B\nNon-word boundary\n\\Bhello\\B\nMatches “hello” inside a word",
+    "crumbs": [
+      "Blog",
+      "Regex"
+    ]
+  },
+  {
+    "objectID": "regex.html#basics-of-regex-syntax",
+    "href": "regex.html#basics-of-regex-syntax",
+    "title": "Regex",
+    "section": "",
+    "text": "Symbol\nDescription\nExample\nMatches\n\n\n\n\n.\nAny single character except newline\na.b\nacb, a1b, a_b\n\n\n^\nStart of string\n^hello\nMatches “hello world”, not “world hello”\n\n\n$\nEnd of string\nworld$\nMatches “hello world”, not “world hello”\n\n\n*\n0 or more repetitions\nab*\nMatches a, ab, abb, abbb\n\n\n+\n1 or more repetitions\nab+\nMatches ab, abb, abbb but not a\n\n\n?\n0 or 1 occurrence\ncolou?r\nMatches color and colour\n\n\n{n}\nExactly n repetitions\na{3}\nMatches aaa\n\n\n{n,}\nAt least n repetitions\na{2,}\nMatches aa, aaa, aaaa\n\n\n{n,m}\nBetween n and m repetitions\na{2,4}\nMatches aa, aaa, aaaa\n\n\n[]\nCharacter set\n[abc]\nMatches a, b, or c\n\n\n[^ ]\nNegated character set\n[^abc]\nMatches any character except a, b, c\n\n\n\\d\nDigit (0-9)\n\\d+\nMatches 123, 456\n\n\n\\D\nNon-digit\n\\D+\nMatches abc, hello\n\n\n\\w\nWord character (a-z, A-Z, 0-9, _)\n\\w+\nMatches hello123\n\n\n\\W\nNon-word character\n\\W+\nMatches @#$%^\n\n\n\\s\nWhitespace\n\\s+\nMatches spaces, tabs, newlines\n\n\n\\S\nNon-whitespace\n\\S+\nMatches hello, world\n\n\n\\b\nWord boundary\n\\bhello\\b\nMatches “hello” in “hello world” but not “helloworld”\n\n\n\\B\nNon-word boundary\n\\Bhello\\B\nMatches “hello” inside a word",
+    "crumbs": [
+      "Blog",
+      "Regex"
+    ]
+  },
+  {
+    "objectID": "regex.html#groups-alternation",
+    "href": "regex.html#groups-alternation",
+    "title": "Regex",
+    "section": "2. Groups & Alternation",
+    "text": "2. Groups & Alternation\n\nUsing Parentheses for Grouping\n\n() groups patterns together.\nExample: (hello|hi) matches \"hello\" or \"hi\".\n\nimport re\npattern = re.compile(r\"(hello|hi) world\")\nprint(bool(pattern.search(\"hi world\")))  # True\n\n\nCapturing Groups\n\nCaptures parts of a match for later use.\nExample: Extract date (2024-02-17)\n\nmatch = re.search(r\"(\\d{4})-(\\d{2})-(\\d{2})\", \"Date: 2024-02-17\")\nif match:\n    print(match.group(1))  # \"2024\"\n    print(match.group(2))  # \"02\"\n    print(match.group(3))  # \"17\"\n\n\nNon-Capturing Groups (?:...)\n\nGroups without storing matches.\n\nre.search(r\"(?:hello|hi) world\", \"hi world\")  # Matches but not stored\n\n\nNamed Groups (?P&lt;name&gt;...)\n\nAssign names to capture groups.\n\nmatch = re.search(r\"(?P&lt;year&gt;\\d{4})-(?P&lt;month&gt;\\d{2})-(?P&lt;day&gt;\\d{2})\", \"2024-02-17\")\nprint(match.group(\"year\"))  # 2024",
+    "crumbs": [
+      "Blog",
+      "Regex"
+    ]
+  },
+  {
+    "objectID": "regex.html#lookaheads-lookbehinds",
+    "href": "regex.html#lookaheads-lookbehinds",
+    "title": "Regex",
+    "section": "3. Lookaheads & Lookbehinds",
+    "text": "3. Lookaheads & Lookbehinds\nLookaheads and Lookbehinds match a pattern without consuming characters.\n\nPositive Lookahead (?=...)\n\nEnsures something follows a pattern.\nExample: Match hello only if it’s followed by world\n\nre.search(r\"hello(?= world)\", \"hello world\")  # Matches\n\n\nNegative Lookahead (?!...)\n\nEnsures something does not follow.\nExample: Match hello but not hello world\n\nre.search(r\"hello(?! world)\", \"hello everyone\")  # Matches\n\n\nPositive Lookbehind (?&lt;=...)\n\nEnsures something precedes a pattern.\nExample: Match world only if preceded by hello\n\nre.search(r\"(?&lt;=hello )world\", \"hello world\")  # Matches\n\n\nNegative Lookbehind (?&lt;!...)\n\nEnsures something does not precede.\nExample: Match world only if not preceded by hello\n\nre.search(r\"(?&lt;!hello )world\", \"hi world\")  # Matches",
+    "crumbs": [
+      "Blog",
+      "Regex"
+    ]
+  },
+  {
+    "objectID": "regex.html#regex-in-python-re-module",
+    "href": "regex.html#regex-in-python-re-module",
+    "title": "Regex",
+    "section": "4. Regex in Python (re Module)",
+    "text": "4. Regex in Python (re Module)\n\nFinding All Matches (findall)\nimport re\ntext = \"My number is 123-456-7890 and yours is 987-654-3210.\"\npattern = r\"\\d{3}-\\d{3}-\\d{4}\"\nmatches = re.findall(pattern, text)\nprint(matches)  # ['123-456-7890', '987-654-3210']\n\n\nReplacing Text (sub)\ntext = \"I love Java, Java is great!\"\nprint(re.sub(r\"Java\", \"Python\", text))  # \"I love Python, Python is great!\"\n\n\nSplitting Strings (split)\ntext = \"apple,banana;orange|grape\"\nprint(re.split(r\"[,;|]\", text))  # ['apple', 'banana', 'orange', 'grape']\n\n\nCase-Insensitive Search\nre.search(r\"hello\", \"HELLO\", re.IGNORECASE)  # Matches",
+    "crumbs": [
+      "Blog",
+      "Regex"
+    ]
+  },
+  {
+    "objectID": "regex.html#practical-use-cases",
+    "href": "regex.html#practical-use-cases",
+    "title": "Regex",
+    "section": "5. Practical Use Cases",
+    "text": "5. Practical Use Cases\n\n1️⃣ Validate Email Addresses\nemail_pattern = r\"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$\"\nprint(bool(re.match(email_pattern, \"user@example.com\")))  # True\n\n\n2️⃣ Validate Phone Numbers\nphone_pattern = r\"^\\+?[1-9]\\d{1,14}$\"\nprint(bool(re.match(phone_pattern, \"+1234567890\")))  # True\n\n\n3️⃣ Extract Hashtags from Text\ntext = \"Loving the #Python and #AI community!\"\nhashtags = re.findall(r\"#\\w+\", text)\nprint(hashtags)  # ['#Python', '#AI']\n\n\n4️⃣ Validate Password Strength\npassword_pattern = r\"^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\"\nprint(bool(re.match(password_pattern, \"StrongP@ss1\")))  # True",
+    "crumbs": [
+      "Blog",
+      "Regex"
+    ]
+  },
+  {
+    "objectID": "regex.html#regex-performance-optimization",
+    "href": "regex.html#regex-performance-optimization",
+    "title": "Regex",
+    "section": "6. Regex Performance Optimization",
+    "text": "6. Regex Performance Optimization\n\nUse raw strings (r\"pattern\") to avoid escaping issues.\nUse compiled regex when reusing patterns:\npattern = re.compile(r\"\\d{3}-\\d{3}-\\d{4}\")\npattern.findall(\"Call 123-456-7890 or 987-654-3210\")\nAvoid backtracking traps by limiting .* usage:\n# Bad (greedy match)\nre.search(r\"&lt;.*&gt;\", \"&lt;div&gt;content&lt;/div&gt;\")  # Matches \"&lt;div&gt;content&lt;/div&gt;\"\n\n# Good (lazy match)\nre.search(r\"&lt;.*?&gt;\", \"&lt;div&gt;content&lt;/div&gt;\")  # Matches \"&lt;div&gt;\"",
+    "crumbs": [
+      "Blog",
+      "Regex"
+    ]
+  },
+  {
+    "objectID": "regex.html#conclusion",
+    "href": "regex.html#conclusion",
+    "title": "Regex",
+    "section": "Conclusion",
+    "text": "Conclusion\n🚀 Regex is powerful for text search, validation, and extraction. ✔ Learn the basic symbols (., *, ?, {})\n✔ Use groups & lookaheads for flexible patterns\n✔ Apply regex for emails, passwords, phone numbers, logs\n✔ Optimize with compiled regex and lazy matches",
+    "crumbs": [
+      "Blog",
+      "Regex"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html",
+    "href": "0_proxmox.html",
+    "title": "Proxmox",
+    "section": "",
+    "text": "Proxmox\n\njupyter docker\nwindows\nubuntu\npihole\nhome assistant\nNAS - trueNAS\nprometheous and grafana\nblueiris - camera\n\ngpu hdmi pass through for ubuntu\nThings to do before setup up proxmox\nVideo Tutorials",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#what-is-proxmox",
+    "href": "0_proxmox.html#what-is-proxmox",
+    "title": "Proxmox",
+    "section": "What is Proxmox?",
+    "text": "What is Proxmox?\n\nType 1 Hypervisor: Runs directly on hardware for better performance.\nBased on Debian: Uses a Linux kernel with KVM (Kernel-based Virtual Machine) and LXC (Linux Containers) for virtualization.\nWeb-Based Management: Administer everything through an intuitive web interface.\nFree & Open Source: Enterprise features available for free; optional support subscription for updates.",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#key-features",
+    "href": "0_proxmox.html#key-features",
+    "title": "Proxmox",
+    "section": "Key Features",
+    "text": "Key Features\n\nVirtualization Options:\n\nKVM: Full virtualization for running any operating system.\nLXC: Lightweight containers for running Linux-based applications.\n\nHigh Availability (HA):\n\nCreate clusters with multiple nodes for redundancy and failover.\n\nBackup and Restore:\n\nBuilt-in backup solutions (full and incremental backups).\nSupports external storage for backups.\n\nStorage Options:\n\nLocal storage, NFS, iSCSI, Ceph, or ZFS file systems.\n\nNetworking:\n\nVirtual networking with VLAN support and bonding.\nBridged networking for external connectivity.\n\nProxmox VE Cluster:\n\nManage multiple nodes from a single interface.\n\nIntegrated Web Interface:\n\nManage VMs, storage, networking, and clusters through a single dashboard.\n\nFlexible Storage:\n\nMix and match storage technologies (ZFS, Ceph, local disks, etc.).\n\nLive Migration:\n\nMove running VMs between nodes without downtime.\n\nSupport for Templates and Clones:\n\nEasily deploy new VMs from existing templates.",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#system-requirements",
+    "href": "0_proxmox.html#system-requirements",
+    "title": "Proxmox",
+    "section": "System Requirements",
+    "text": "System Requirements\n\nCPU: 64-bit processor with virtualization support (Intel VT-x or AMD-V).\nRAM: Minimum 2 GB (8 GB or more recommended for multiple VMs).\nStorage: SSDs recommended for faster I/O.\nNetwork: At least 1 Gbps for high-performance clusters.",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#getting-started",
+    "href": "0_proxmox.html#getting-started",
+    "title": "Proxmox",
+    "section": "Getting Started",
+    "text": "Getting Started\n\nagree to end user license\nTarget Harddisk: choose /dev/nvme0n1, ext4\nLocation and Time Zone selection: Country: Australia, Time Zone: Australia/Brisbane, Keyboard Layout: U.S. English\nPassword:\n\nbthek1 login: root\npassword: YME (classic)\n\nManagement Network Configuration\n\nManagemen Interface: eno1\n\neno1, eno2, etc. (on-board devices)\nenp10s0, enp3s0, etc. (PCI devices)\nwlp3s0 (wireless card on PCI), etc.\n\nHostname (FQDN): bthek1.thekkel.com\nIP: 192.168.2.70/24\nGateway: 192.168.2.1\nDNS: 127.0.0.1",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#storage-and-paritioners-in-proxmox",
+    "href": "0_proxmox.html#storage-and-paritioners-in-proxmox",
+    "title": "Proxmox",
+    "section": "Storage and Paritioners in Proxmox",
+    "text": "Storage and Paritioners in Proxmox\nlsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT,TYPE\n\nNAME               FSTYPE        SIZE MOUNTPOINT TYPE\nsda                            111.8G            disk\nnvme0n1                        931.5G            disk\n├─nvme0n1p1                     1007K            part\n├─nvme0n1p2        vfat            1G /boot/efi  part\n└─nvme0n1p3        LVM2_member 930.5G            part\n  ├─pve-swap       swap            8G [SWAP]     lvm\n  ├─pve-root       ext4           96G /          lvm\n  ├─pve-data_tmeta               8.1G            lvm\n  │ └─pve-data                 794.3G            lvm\n  └─pve-data_tdata             794.3G            lvm\n    └─pve-data                 794.3G            lvm\n\n\n/boot/efi is your EFI partition for system boot.\npve is the Proxmox volume group on the NVMe drive.\npve-root (ext4) is your main OS partition mounted at /.\npve-data (thin pool) is for VM/container storage.\npve-swap is your swap space.\n/dev/sda is unpartitioned/unused in this listing, so it’s effectively free if you want to set it up for additional storage.",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#adding-user-in-proxmox",
+    "href": "0_proxmox.html#adding-user-in-proxmox",
+    "title": "Proxmox",
+    "section": "Adding User in Proxmox",
+    "text": "Adding User in Proxmox\n\n1. Create the User Account\n\nSSH into your Proxmox host as root or log in via console.\nCreate a new user (replace ben with the desired username):\nadduser ben\n\nYou’ll be prompted to set a password and (optionally) fill in some personal info.\n\n(Optional) Give the user sudo privileges (if you want them to be able to run administrative commands):\n\nInstall sudo if it’s not already installed:\napt update\napt install sudo\nAdd the user to the sudo group:\nusermod -aG sudo ben\nNow, user ben can run sudo &lt;command&gt; when necessary.\n\n\n\n\n\n2. Configure SSH Key-Based Authentication (Recommended)\nUsing SSH keys is more secure than a password-based login. Here are the steps:\n\nGenerate an SSH key pair (on your local machine not on Proxmox) if you don’t already have one:\nssh-keygen -t ed25519\nor\nssh-keygen -t rsa -b 4096\n\nPress Enter to accept the default file location (e.g., ~/.ssh/id_ed25519 or ~/.ssh/id_rsa).\n\nOptionally protect the key with a passphrase.\n\nCopy your public key to the Proxmox server for user ben:\nssh-copy-id ben@&lt;Proxmox_IP_Address&gt;\n\nIf prompted for a password, provide the one you created for ben.\nThis will create the ~ben/.ssh/authorized_keys file on the server and put your public key there.\n\nIf ssh-copy-id is not available, do it manually:\n\nOn your local machine, view your public key:\ncat ~/.ssh/id_ed25519.pub\nOn Proxmox (logged in as root, or via su - ben):\nsu - ben\nmkdir -p ~/.ssh\nchmod 700 ~/.ssh\nnano ~/.ssh/authorized_keys\n\nPaste the public key line into the file.\nSave and exit.\nSet proper permissions:\nchmod 600 ~/.ssh/authorized_keys\n\n\n(Optional) Disable password authentication for extra security:\n\nEdit /etc/ssh/sshd_config:\nnano /etc/ssh/sshd_config\nFind (or add) and set:\nPasswordAuthentication no\nChallengeResponseAuthentication no\nUsePAM yes\nMake sure key-based auth is on:\nPubkeyAuthentication yes\nRestart SSH:\nsystemctl restart ssh\nImportant: Only do this after confirming key-based login works, or you might lock yourself out if something is misconfigured.\n\n\n\n\n\n3. Test the New User’s SSH Login\n\nFrom your local machine, attempt to SSH in:\nssh ben@&lt;Proxmox_IP_Address&gt;\nIf you used key-based auth, you should not be asked for a password (or only for the passphrase of your SSH key if you set one).\n\nIf you didn’t disable password authentication, you can also login with ben’s password.\n\n\n\n\n4. Verify Sudo (Optional)\nIf you added ben to the sudo group, verify you can run administrative commands:\nsudo apt update\n\nEnter ben’s password if prompted (for the sudo prompt).\n\n\n\nSummary\n\nCreate user: adduser ben\n\n(Optional) Add to sudo: usermod -aG sudo ben\n\nSetup SSH:\n\nGenerate SSH keys on local machine: ssh-keygen\n\nCopy the public key to the Proxmox server: ssh-copy-id ben@&lt;Proxmox_IP&gt;\n\n(Optionally) Disable password auth in /etc/ssh/sshd_config for enhanced security.\n\n\nTest: ssh ben@&lt;Proxmox_IP&gt;",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#using-proxmox",
+    "href": "0_proxmox.html#using-proxmox",
+    "title": "Proxmox",
+    "section": "Using Proxmox",
+    "text": "Using Proxmox\n\n1. Creating VMs\n\nIn the web interface, navigate to Create VM.\nConfigure resources:\n\nCPU, RAM, storage, and network interfaces.\n\nInstall the operating system from an ISO image.\n\nExample Configuration for a Modern VM\nGraphics Card: VirtIO GPU (or PCI Passthrough for gaming).\nSCSI Controller: VirtIO SCSI.\nMachine Type: q35.\nBIOS: OVMF (UEFI).\nQEMU Agent: Enabled.\nTPM: Add TPM 2.0 for Windows 11 or enhanced security needs.\n\n\n2. Using Containers (LXC)\n\nNavigate to Create CT for creating lightweight Linux containers.\nSelect the Linux distribution template and configure resources.\n\n\n\n3. Storage Management\n\nAdd storage under Datacenter &gt; Storage:\n\nLocal disks, shared storage (NFS/iSCSI), or distributed storage (Ceph, ZFS).\n\n\n\n\n4. Backup and Restore\n\nSet up backup jobs for VMs and containers.\nBackups can be stored locally or on external storage.\n\n\n\n5. Networking\n\nConfigure virtual bridges under Datacenter &gt; Network.\nUse VLANs for isolated networks or create NAT for external access.\n\n\n\n6. Clustering\n\nAdd nodes to a cluster for centralized management:\n\nRun pvecm add &lt;IP_ADDRESS&gt; on new nodes.\n\nEnsure consistent storage and networking configuration across nodes.",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#adding-gpu",
+    "href": "0_proxmox.html#adding-gpu",
+    "title": "Proxmox",
+    "section": "Adding GPU",
+    "text": "Adding GPU\nuse display: none\nsudo apt install qemu-guest-agent\nsudo add-apt-repository ppa:graphics-drivers/ppa\nsudo apt update\n\n\nubuntu-drivers devices\n\napt search nvidia-driver\n\nsudo apt install nvidia-driver-560",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#cloud-init",
+    "href": "0_proxmox.html#cloud-init",
+    "title": "Proxmox",
+    "section": "Cloud init",
+    "text": "Cloud init\nsudo apt install cloud-init",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#getting-devices",
+    "href": "0_proxmox.html#getting-devices",
+    "title": "Proxmox",
+    "section": "Getting devices",
+    "text": "Getting devices\n\nGetting USB ports\nlspci | grep -i usb\n\n\nGetting Audio ports\nlspci | grep -i audio",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#advanced-features",
+    "href": "0_proxmox.html#advanced-features",
+    "title": "Proxmox",
+    "section": "Advanced Features",
+    "text": "Advanced Features\n\n1. Proxmox VE Cluster\n\nHigh availability across nodes.\nShared storage (Ceph or NFS) is recommended for live migration.\n\n\n\n2. ZFS Integration\n\nProxmox includes ZFS for advanced storage management:\n\nSnapshots, compression, and RAID-like redundancy.\n\n\n\n\n3. Ceph Storage\n\nUse Ceph for scalable, distributed storage:\n\nInstall Ceph packages and create a Ceph cluster.\n\n\n\n\n4. PCI Passthrough\n\nPass hardware devices directly to a VM for bare-metal performance.\nRequires a CPU with IOMMU support (Intel VT-d/AMD-Vi).\n\n\n\n5. Cloud-Init\n\nAutomate VM deployment with preconfigured settings (e.g., hostname, networking).",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#maintenance",
+    "href": "0_proxmox.html#maintenance",
+    "title": "Proxmox",
+    "section": "Maintenance",
+    "text": "Maintenance\n\nUpdates:\n\nRegularly update Proxmox (apt update && apt upgrade) for security and feature improvements.\n\nSubscriptions:\n\nOptional enterprise subscription for support and access to stable update repositories.\nFree repositories are available but may include testing features.\n\nLogs:\n\nMonitor logs under Syslog for troubleshooting.",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#best-practices",
+    "href": "0_proxmox.html#best-practices",
+    "title": "Proxmox",
+    "section": "Best Practices",
+    "text": "Best Practices\n\nUse ZFS or Ceph for resilient storage solutions.\nSchedule Regular Backups of all critical VMs.\nAllocate Resources Wisely:\n\nEnsure sufficient CPU and RAM are allocated to each VM or container.\n\nSecure Proxmox:\n\nUse strong passwords and enable two-factor authentication (2FA).\nRestrict web interface access to trusted IPs.\n\nNetworking:\n\nUse VLANs for better isolation and scalability.\n\nMonitor Performance:\n\nCheck CPU, memory, and storage usage under the Dashboard.",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "0_proxmox.html#common-issues-and-troubleshooting",
+    "href": "0_proxmox.html#common-issues-and-troubleshooting",
+    "title": "Proxmox",
+    "section": "Common Issues and Troubleshooting",
+    "text": "Common Issues and Troubleshooting\n\nVM Won’t Start:\n\nCheck if sufficient resources are available.\nReview logs in /var/log/pve/tasks.\n\nStorage Issues:\n\nEnsure correct permissions for shared storage.\n\nCluster Problems:\n\nUse pvecm status to check cluster health.\nSync time across nodes using ntpd or chrony.",
+    "crumbs": [
+      "Blog",
+      "Proxmox"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html",
+    "href": "Environments/pipenv.html",
+    "title": "Pipenv",
+    "section": "",
+    "text": "pip install pipenv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#installation-of-pipenv",
+    "href": "Environments/pipenv.html#installation-of-pipenv",
+    "title": "Pipenv",
+    "section": "",
+    "text": "pip install pipenv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#create-a-env",
+    "href": "Environments/pipenv.html#create-a-env",
+    "title": "Pipenv",
+    "section": "Create a env",
+    "text": "Create a env\npipenv install",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#create-a-env-1",
+    "href": "Environments/pipenv.html#create-a-env-1",
+    "title": "Pipenv",
+    "section": "Create a env",
+    "text": "Create a env\npipenv install django",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#remove-an-env",
+    "href": "Environments/pipenv.html#remove-an-env",
+    "title": "Pipenv",
+    "section": "Remove an env",
+    "text": "Remove an env\npipenv --rm",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#activate-already-created-pipenv-environment",
+    "href": "Environments/pipenv.html#activate-already-created-pipenv-environment",
+    "title": "Pipenv",
+    "section": "Activate already created pipenv environment",
+    "text": "Activate already created pipenv environment\npipenv shell",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#to-deactivate",
+    "href": "Environments/pipenv.html#to-deactivate",
+    "title": "Pipenv",
+    "section": "To Deactivate",
+    "text": "To Deactivate\ndeactivate",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/pipenv.html#installuninstall-dependencies",
+    "href": "Environments/pipenv.html#installuninstall-dependencies",
+    "title": "Pipenv",
+    "section": "Install/Uninstall dependencies",
+    "text": "Install/Uninstall dependencies\npipenv install django\npipenv uninstall django\n\nInstall dev dependencies\npipenv install nose --dev\n\n\nInstall from requirements.txt\npipenv install -r requirements.txt\n\n\nCheck security vulnerabilities\npipenv check\n\n\nCheck dependency graph\npipenv graph",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Pipenv"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html",
+    "href": "Environments/conda.html",
+    "title": "Conda",
+    "section": "",
+    "text": "mkdir -p ~/miniconda3\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh\nbash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3\nrm ~/miniconda3/miniconda.sh",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#install-conda",
+    "href": "Environments/conda.html#install-conda",
+    "title": "Conda",
+    "section": "",
+    "text": "mkdir -p ~/miniconda3\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh\nbash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3\nrm ~/miniconda3/miniconda.sh",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#initialize-conda",
+    "href": "Environments/conda.html#initialize-conda",
+    "title": "Conda",
+    "section": "Initialize Conda",
+    "text": "Initialize Conda\n~/miniconda3/bin/conda init bash",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#creating-and-managing-environments",
+    "href": "Environments/conda.html#creating-and-managing-environments",
+    "title": "Conda",
+    "section": "Creating and Managing Environments",
+    "text": "Creating and Managing Environments\nconda create --name myenv\n\nExample\n\nconda create --name myenv python=3.8 numpy pandas",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#activating-an-environment",
+    "href": "Environments/conda.html#activating-an-environment",
+    "title": "Conda",
+    "section": "Activating an Environment",
+    "text": "Activating an Environment\nconda activate myenv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#deactivating-an-environment",
+    "href": "Environments/conda.html#deactivating-an-environment",
+    "title": "Conda",
+    "section": "Deactivating an Environment",
+    "text": "Deactivating an Environment\nconda deactivate",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#listing-environments",
+    "href": "Environments/conda.html#listing-environments",
+    "title": "Conda",
+    "section": "Listing Environments",
+    "text": "Listing Environments\nconda env list",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#installing-and-managing-packages",
+    "href": "Environments/conda.html#installing-and-managing-packages",
+    "title": "Conda",
+    "section": "Installing and Managing Packages",
+    "text": "Installing and Managing Packages\nconda install scipy",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#updating-packages",
+    "href": "Environments/conda.html#updating-packages",
+    "title": "Conda",
+    "section": "Updating Packages",
+    "text": "Updating Packages\nconda update numpy",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#removing-packages",
+    "href": "Environments/conda.html#removing-packages",
+    "title": "Conda",
+    "section": "Removing Packages",
+    "text": "Removing Packages\nconda remove scipy",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#removing-an-environment",
+    "href": "Environments/conda.html#removing-an-environment",
+    "title": "Conda",
+    "section": "Removing an Environment",
+    "text": "Removing an Environment\nconda env remove --name myenv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#searching-for-packages",
+    "href": "Environments/conda.html#searching-for-packages",
+    "title": "Conda",
+    "section": "Searching for Packages",
+    "text": "Searching for Packages\nconda search beautifulsoup4",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/conda.html#using-channels",
+    "href": "Environments/conda.html#using-channels",
+    "title": "Conda",
+    "section": "Using Channels",
+    "text": "Using Channels\n\nConda channels are locations where packages are stored. By default, Conda uses the defaults channel, but you can add others like conda-forge.\n\n\nAdding a Channel\nconda config --add channels conda-forge\n\n\nInstalling from a Specific Channel\nconda install -c conda-forge opencv\n\n\nListing Conda Channels\nconda config --show channels\n\n!conda config --show channels\n\nchannels:\n  - defaults",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Conda"
+    ]
+  },
+  {
+    "objectID": "Environments/venv.html",
+    "href": "Environments/venv.html",
+    "title": "Venv",
+    "section": "",
+    "text": "Standard Library: venv is part of the Python standard library, so it doesn’t require additional installation.\nLightweight: It provides a minimal and straightforward way to create isolated environments.\nNo Dependency Management: venv focuses solely on environment isolation. You still need to use pip to manage dependencies manually.",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Venv"
+    ]
+  },
+  {
+    "objectID": "Environments/venv.html#create-a-virtual-enviroment",
+    "href": "Environments/venv.html#create-a-virtual-enviroment",
+    "title": "Venv",
+    "section": "Create a Virtual Enviroment",
+    "text": "Create a Virtual Enviroment\npython -m venv venv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Venv"
+    ]
+  },
+  {
+    "objectID": "Environments/venv.html#activate-the-virtual-environment",
+    "href": "Environments/venv.html#activate-the-virtual-environment",
+    "title": "Venv",
+    "section": "Activate the Virtual Environment",
+    "text": "Activate the Virtual Environment\nsource myenv/bin/activate",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Venv"
+    ]
+  },
+  {
+    "objectID": "Environments/venv.html#deactivate-the-virtual-enviroment",
+    "href": "Environments/venv.html#deactivate-the-virtual-enviroment",
+    "title": "Venv",
+    "section": "Deactivate the Virtual Enviroment",
+    "text": "Deactivate the Virtual Enviroment\ndeactivate",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Venv"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html",
+    "href": "Environments/poetry.html",
+    "title": "Poetry",
+    "section": "",
+    "text": "curl -sSL https://install.python-poetry.org | python3 -\nOr\npip install poetry",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#install-poetry",
+    "href": "Environments/poetry.html#install-poetry",
+    "title": "Poetry",
+    "section": "",
+    "text": "curl -sSL https://install.python-poetry.org | python3 -\nOr\npip install poetry",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#config-poetry",
+    "href": "Environments/poetry.html#config-poetry",
+    "title": "Poetry",
+    "section": "Config Poetry",
+    "text": "Config Poetry\npoetry config --list\n\n!poetry config --list\n\ncache-dir = \"/home/ben/.cache/pypoetry\"\nexperimental.system-git-client = false\ninstaller.max-workers = null\ninstaller.modern-installation = true\ninstaller.no-binary = null\ninstaller.parallel = true\nkeyring.enabled = true\nsolver.lazy-wheel = true\nvirtualenvs.create = true\nvirtualenvs.in-project = true\nvirtualenvs.options.always-copy = false\nvirtualenvs.options.no-pip = false\nvirtualenvs.options.no-setuptools = false\nvirtualenvs.options.system-site-packages = false\nvirtualenvs.path = \"{cache-dir}/virtualenvs\"  # /home/ben/.cache/pypoetry/virtualenvs\nvirtualenvs.prefer-active-python = false\nvirtualenvs.prompt = \"{project_name}-py{python_version}\"\nwarnings.export = true\n\n\n\n!poetry config virtualenvs.in-project true",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#initallise-poetry",
+    "href": "Environments/poetry.html#initallise-poetry",
+    "title": "Poetry",
+    "section": "Initallise Poetry",
+    "text": "Initallise Poetry\npoetry init",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#managing-dependencies",
+    "href": "Environments/poetry.html#managing-dependencies",
+    "title": "Poetry",
+    "section": "Managing Dependencies",
+    "text": "Managing Dependencies\npoetry add requests",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#managing-development-dependencies",
+    "href": "Environments/poetry.html#managing-development-dependencies",
+    "title": "Poetry",
+    "section": "Managing Development Dependencies",
+    "text": "Managing Development Dependencies\npoetry add --dev pytest",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#updating-dependencies",
+    "href": "Environments/poetry.html#updating-dependencies",
+    "title": "Poetry",
+    "section": "Updating Dependencies",
+    "text": "Updating Dependencies\npoetry update",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#managing-virtual-environments",
+    "href": "Environments/poetry.html#managing-virtual-environments",
+    "title": "Poetry",
+    "section": "Managing Virtual Environments",
+    "text": "Managing Virtual Environments\npoetry install",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#activating-the-virtual-environment",
+    "href": "Environments/poetry.html#activating-the-virtual-environment",
+    "title": "Poetry",
+    "section": "Activating the Virtual Environment",
+    "text": "Activating the Virtual Environment\npoetry shell",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#deactivating-the-virtual-environment",
+    "href": "Environments/poetry.html#deactivating-the-virtual-environment",
+    "title": "Poetry",
+    "section": "Deactivating the Virtual Environment",
+    "text": "Deactivating the Virtual Environment\nexit",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#running-scripts-and-commands",
+    "href": "Environments/poetry.html#running-scripts-and-commands",
+    "title": "Poetry",
+    "section": "Running Scripts and Commands",
+    "text": "Running Scripts and Commands\n\nYou can run scripts or commands within the Poetry-managed environment without activating it explicitly:\n\npoetry run python my_script.py",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#publishing-packages",
+    "href": "Environments/poetry.html#publishing-packages",
+    "title": "Poetry",
+    "section": "Publishing Packages",
+    "text": "Publishing Packages\npoetry build  # Builds the package\npoetry publish  # Publishes the package to PyPI",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/poetry.html#exporting-to-requirements.txt",
+    "href": "Environments/poetry.html#exporting-to-requirements.txt",
+    "title": "Poetry",
+    "section": "Exporting to requirements.txt",
+    "text": "Exporting to requirements.txt\npoetry self add poetry-plugin-export\npoetry export -f requirements.txt -o requirements.txt --without-hashes",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Poetry"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html",
+    "href": "Environments/direnv.html",
+    "title": "Direnv",
+    "section": "",
+    "text": "sudo apt-get install direnv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html#install",
+    "href": "Environments/direnv.html#install",
+    "title": "Direnv",
+    "section": "",
+    "text": "sudo apt-get install direnv",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html#configure-your-shell",
+    "href": "Environments/direnv.html#configure-your-shell",
+    "title": "Direnv",
+    "section": "Configure Your Shell",
+    "text": "Configure Your Shell\n\nAdd to bash\n\neval \"$(direnv hook bash)\"\n\nReload bash\n\nsource ~/.bashrc",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html#create-a-.envrc-file-in-your-project-directory",
+    "href": "Environments/direnv.html#create-a-.envrc-file-in-your-project-directory",
+    "title": "Direnv",
+    "section": "Create a .envrc File in Your Project Directory",
+    "text": "Create a .envrc File in Your Project Directory\n\nNavigate to your project directory and create a .envrc file:\n\ncd /path/to/your/project\necho 'export POETRY_ACTIVE=1' &gt; .envrc\necho 'source \"$(poetry env info --path)/bin/activate\"' &gt;&gt; .envrc",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "Environments/direnv.html#allow-the-.envrc-file",
+    "href": "Environments/direnv.html#allow-the-.envrc-file",
+    "title": "Direnv",
+    "section": "Allow the .envrc File",
+    "text": "Allow the .envrc File\ndirenv allow",
+    "crumbs": [
+      "Blog",
+      "Environments",
+      "Direnv"
+    ]
+  },
+  {
+    "objectID": "jupyter_labs.html",
+    "href": "jupyter_labs.html",
+    "title": "Jupyter Labs",
+    "section": "",
+    "text": "from jupyter_server.auth import passwd\nprint(passwd())\n\nEnter password:  ········\nVerify password:  ········\n\n\nargon2:$argon2id$v=19$m=10240,t=10,p=8$75Q7uCcjzIK2HqrZKSvo7g$y8eYdSDFeAEAZW0S74A/q/+nSMq3CAIl4hSBpdgkSVg",
+    "crumbs": [
+      "Blog",
+      "Jupyter Labs"
+    ]
+  },
+  {
+    "objectID": "jupyter_labs.html#jupyter_notebook_config.py",
+    "href": "jupyter_labs.html#jupyter_notebook_config.py",
+    "title": "Jupyter Labs",
+    "section": "jupyter_notebook_config.py",
+    "text": "jupyter_notebook_config.py\nc = get_config()  # noqa\n\n#------------------------------------------------------------------------------\n# Application Configuration\n#------------------------------------------------------------------------------\n## Logging configuration\nc.Application.log_datefmt = '%Y-%m-%d %H:%M:%S'\nc.Application.log_format = '[%(name)s]%(highlevel)s %(message)s'\nc.Application.log_level = 'INFO'\n\n#------------------------------------------------------------------------------\n# Jupyter Server Configuration\n#------------------------------------------------------------------------------\n## General settings\nc.ServerApp.ip = '0.0.0.0'  # Allow connections from all network interfaces\nc.ServerApp.port = 8888  # Port to serve Jupyter Lab\nc.ServerApp.open_browser = False  # Do not open a browser on server start\nc.ServerApp.allow_root = True  # Allow running as root (if needed)\nc.ServerApp.base_url = '/'  # Base URL for Jupyter Lab\nc.ServerApp.trust_xheaders = True  # Support reverse proxies (e.g., Nginx)\n\n## Security settings\nc.ServerApp.token = ''  # Disable token-based authentication\nc.ServerApp.password = 'sha1:&lt;your-secure-password-hash&gt;'  # Set hashed password\nc.ServerApp.password_required = True  # Require a password\nc.ServerApp.disable_check_xsrf = False  # Prevent cross-site request forgery\n\n## SSL Configuration (optional)\n# c.ServerApp.certfile = '/path/to/ssl/certfile.pem'\n# c.ServerApp.keyfile = '/path/to/ssl/keyfile.pem'\n\n## Performance tuning\nc.ServerApp.max_body_size = 536870912  # Set maximum client request body size\nc.ServerApp.max_buffer_size = 536870912  # Set buffer size\n\n## Logging to a file\nc.Application.logging_config = {\n    \"version\": 1,\n    \"handlers\": {\n        \"file\": {\n            \"class\": \"logging.FileHandler\",\n            \"filename\": \"/home/&lt;your-username&gt;/Documents/jupyter_lab.log\",\n            \"level\": \"INFO\",\n            \"formatter\": \"default\",\n        },\n    },\n    \"formatters\": {\n        \"default\": {\n            \"format\": \"[%(name)s]%(highlevel)s %(message)s\",\n            \"datefmt\": \"%Y-%m-%d %H:%M:%S\",\n        },\n    },\n    \"root\": {\n        \"handlers\": [\"file\"],\n        \"level\": \"INFO\",\n    },\n}\n\n#------------------------------------------------------------------------------\n# Jupyter Lab Configuration\n#------------------------------------------------------------------------------\n## Default application and URL\nc.ServerApp.default_url = '/lab'  # Redirect to Jupyter Lab on start\n\n## Work directory\nc.ServerApp.root_dir = '/home/&lt;your-username&gt;/Documents/Knowledge'  # Set root directory for Jupyter Lab\n\n## Terminals\nc.ServerApp.terminals_enabled = True  # Enable terminal in Jupyter Lab\n\n#------------------------------------------------------------------------------\n# Extension Configuration\n#------------------------------------------------------------------------------\n## Example: Enabling an extension\n# c.ServerApp.jpserver_extensions = {\n#     \"jupyterlab_code_formatter\": True,\n# }\n\n#------------------------------------------------------------------------------\n# Advanced Configuration\n#------------------------------------------------------------------------------\n## Kernel Management\nc.ServerApp.kernel_manager_class = 'jupyter_server.services.kernels.kernelmanager.MappingKernelManager'\nc.ServerApp.kernel_spec_manager_class = 'jupyter_client.kernelspec.KernelSpecManager'\n\n## Federated extensions (optional)\n# c.LabServerApp.extra_labextensions_path = ['/path/to/extensions']\n# c.LabServerApp.labextensions_path = ['/path/to/extensions']",
+    "crumbs": [
+      "Blog",
+      "Jupyter Labs"
+    ]
+  },
+  {
+    "objectID": "jupyter_labs.html#jupyter_server_config.json",
+    "href": "jupyter_labs.html#jupyter_server_config.json",
+    "title": "Jupyter Labs",
+    "section": "jupyter_server_config.json",
+    "text": "jupyter_server_config.json\n{\n  \"ServerApp\": {\n    \"password\": \"argon2:$argon2id$v=19$m=10240,t=10,p=8$75Q7uCcjzIK2HqrZKSvo7g$y8eYdSDFeAEAZW0S74A/q/+nSMq3CAIl4hSBpdgkSVg\"\n  }\n}",
+    "crumbs": [
+      "Blog",
+      "Jupyter Labs"
+    ]
+  },
+  {
+    "objectID": "service.html",
+    "href": "service.html",
+    "title": "Linux Service",
+    "section": "",
+    "text": "systemd is a system and service manager for Linux that initializes the system and manages services. It uses unit files to define services, targets, and other system components.",
+    "crumbs": [
+      "Blog",
+      "Linux Service"
+    ]
+  },
+  {
+    "objectID": "service.html#what-is-systemd",
+    "href": "service.html#what-is-systemd",
+    "title": "Linux Service",
+    "section": "",
+    "text": "systemd is a system and service manager for Linux that initializes the system and manages services. It uses unit files to define services, targets, and other system components.",
+    "crumbs": [
+      "Blog",
+      "Linux Service"
+    ]
+  },
+  {
+    "objectID": "service.html#key-concepts",
+    "href": "service.html#key-concepts",
+    "title": "Linux Service",
+    "section": "Key Concepts",
+    "text": "Key Concepts\n\nUnit Files:\n\nThe configuration files used by systemd.\nCommon types of unit files:\n\n.service: Describes a service.\n.target: Groups units into logical targets (e.g., multi-user.target).\n.timer: Schedules tasks.\n.mount: Manages filesystem mounts.\n\n\nUnit File Locations:\n\nSystem-wide: /etc/systemd/system/\nDefault: /usr/lib/systemd/system/\nUser-specific: ~/.config/systemd/user/\n\nService States:\n\nactive: Running.\ninactive: Stopped.\nfailed: Encountered an error.",
+    "crumbs": [
+      "Blog",
+      "Linux Service"
+    ]
+  },
+  {
+    "objectID": "service.html#creating-a-service",
+    "href": "service.html#creating-a-service",
+    "title": "Linux Service",
+    "section": "Creating a Service",
+    "text": "Creating a Service\n\n1. Writing a Service File\nExample: my-service.service\n[Unit]\nDescription=My Custom Service\nAfter=network.target\n\n[Service]\nType=simple\nExecStart=/path/to/your/application --arg1 --arg2\nWorkingDirectory=/path/to/working/directory\nUser=myuser\nRestart=always\nRestartSec=5\n\n[Install]\nWantedBy=multi-user.target\n\n\n2. Key Sections in a Service File\n\n[Unit]:\n\nDescribes the service and its dependencies.\nDescription: Short description of the service.\nAfter: Specifies when the service should start (e.g., after network.target).\n\n[Service]:\n\nDescribes how the service operates.\nType: Defines the service type:\n\nsimple: (default) Starts the process specified in ExecStart.\nforking: Used for daemons that fork.\noneshot: For one-time tasks.\nnotify or dbus: For advanced use cases.\n\nExecStart: Command to start the service.\nWorkingDirectory: Sets the working directory.\nUser: User account under which the service runs.\nRestart: Specifies restart behavior (always, on-failure, etc.).\nRestartSec: Delay between restart attempts.\n\n[Install]:\n\nDefines how and when the service is enabled.\nWantedBy: Defines the target in which the service is included (e.g., multi-user.target for most services).\n\n\n\n\n3. Steps to Enable and Start a Service\n\nPlace the Service File:\nsudo cp my-service.service /etc/systemd/system/\nReload systemd:\nsudo systemctl daemon-reload\nEnable the Service (Start at Boot):\nsudo systemctl enable my-service.service\nStart the Service:\nsudo systemctl start my-service.service\nCheck Status:\nsudo systemctl status my-service.service",
+    "crumbs": [
+      "Blog",
+      "Linux Service"
+    ]
+  },
+  {
+    "objectID": "service.html#managing-services",
+    "href": "service.html#managing-services",
+    "title": "Linux Service",
+    "section": "Managing Services",
+    "text": "Managing Services\n\nBasic Commands:\n\nStart a service:\nsudo systemctl start my-service\nStop a service:\nsudo systemctl stop my-service\nRestart a service:\nsudo systemctl restart my-service\nReload service configuration without restarting:\nsudo systemctl reload my-service\nCheck service status:\nsudo systemctl status my-service\n\nEnable/Disable Services:\n\nEnable a service (start at boot):\nsudo systemctl enable my-service\nDisable a service:\nsudo systemctl disable my-service\n\nInspect Logs:\n\nView logs for a specific service:\njournalctl -u my-service\nTail logs in real-time:\njournalctl -u my-service -f\n\nRemove a Service:\n\nStop the service:\nsudo systemctl stop my-service\nDisable the service:\nsudo systemctl disable my-service\nDelete the service file:\nsudo rm /etc/systemd/system/my-service.service\nReload systemd:\nsudo systemctl daemon-reload",
+    "crumbs": [
+      "Blog",
+      "Linux Service"
+    ]
+  },
+  {
+    "objectID": "service.html#advanced-topics",
+    "href": "service.html#advanced-topics",
+    "title": "Linux Service",
+    "section": "Advanced Topics",
+    "text": "Advanced Topics\n\n1. Environment Variables\nYou can pass environment variables to a service using Environment= or EnvironmentFile=.\nExample:\nEnvironment=MY_VAR=value\nEnvironmentFile=/path/to/env/file\n\n\n\n2. Dependency Management\n\nRequires: Specifies hard dependencies. If the required unit fails, this unit also fails.\nWants: Specifies soft dependencies. If the dependency fails, this unit still runs.\nBefore/After: Specifies the order of startup.\n\nExample:\n[Unit]\nRequires=network.target\nAfter=network.target\n\n\n\n3. Timer Units\nUse .timer units to schedule tasks, similar to cron.\nExample: my-service.timer\n[Unit]\nDescription=Run My Service Every Day\n\n[Timer]\nOnCalendar=daily\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n\n\n\n4. User Services\nSystemd also supports per-user services that don’t require root.\n\nPlace the service file in ~/.config/systemd/user/.\nReload user services:\nsystemctl --user daemon-reload\nEnable and start the service:\nsystemctl --user enable my-service\nsystemctl --user start my-service\n\n\n\n\n5. Debugging Services\n\nCheck for syntax errors in the service file:\nsudo systemd-analyze verify /etc/systemd/system/my-service.service\nDebug logs:\nsudo journalctl -xe\nTest the service manually:\nsudo -u myuser /path/to/application --arg1 --arg2\n\n\n\nBest Practices\n\nUse Absolute Paths: Systemd requires absolute paths for all file and directory references.\nLimit Privileges: Run services as non-root users wherever possible.\nEnable Restart Policies: Use Restart=always or Restart=on-failure for critical services.\nUse systemctl edit for Overrides: To modify system services without editing the main service file:\nsudo systemctl edit my-service\nThis creates a drop-in configuration in /etc/systemd/system/my-service.d/.",
+    "crumbs": [
+      "Blog",
+      "Linux Service"
+    ]
+  },
+  {
+    "objectID": "wsl.html",
+    "href": "wsl.html",
+    "title": "WSL",
+    "section": "",
+    "text": "Turn on: - Virtual Machine Platform - Windows Hypervisor Platform - Windows Subsystem for Linux",
+    "crumbs": [
+      "Blog",
+      "WSL"
+    ]
+  },
+  {
+    "objectID": "wsl.html#change-settings-in-turn-windows-features-on-or-off",
+    "href": "wsl.html#change-settings-in-turn-windows-features-on-or-off",
+    "title": "WSL",
+    "section": "",
+    "text": "Turn on: - Virtual Machine Platform - Windows Hypervisor Platform - Windows Subsystem for Linux",
+    "crumbs": [
+      "Blog",
+      "WSL"
+    ]
+  },
+  {
+    "objectID": "wsl.html#download-wsl---windows-subsystem-for-linux",
+    "href": "wsl.html#download-wsl---windows-subsystem-for-linux",
+    "title": "WSL",
+    "section": "Download WSL - Windows Subsystem for Linux",
+    "text": "Download WSL - Windows Subsystem for Linux\n\ngoto powershell\n\nwsl --install\nIf there is error with wsl\nInvoke-WebRequest -UseBasicParsing \"https://raw.githubusercontent.com/microsoft/WSL/master/triage/install-latest-wsl.ps1\" -OutFile install-latest-wsl.ps1\nSet-ExecutionPolicy Bypass -Scope Process -Force\n.\\install-latest-wsl.ps1\n\no see a list of available Linux distributions available for download through the online store\n\nwsl -l -o\n\nto download a Linux distribution\n\nwsl --install -d &lt;Distribution Name&gt;\n\nto remove a distribution\n\nwsl --unregister &lt;Distribution Name&gt;",
+    "crumbs": [
+      "Blog",
+      "WSL"
+    ]
+  },
+  {
+    "objectID": "wsl.html#wsl-config-files",
+    "href": "wsl.html#wsl-config-files",
+    "title": "WSL",
+    "section": "WSL Config Files",
+    "text": "WSL Config Files\n\n.wslconfig\n\n.wslconfig to configure global settings across all installed distributions running on WSL 2.\n\n # Settings apply across all Linux distros running on WSL 2\n[wsl2]\n\n# Limits VM memory to use no more than 4 GB, this can be set as whole numbers using GB or MB\nmemory=30GB \nswap=32GB\n\n# Sets the VM to use two virtual processors\nprocessors=12\n\n\nnetworkingMode = mirrored\n# dnsProxy = false\nfirewall = false\n\n\n[experimental]\nautoMemoryReclaim = dropcache\n\n\nwsl.conf\n\nwsl.conf to configure local settings per-distribution for each Linux distribution running on WSL 1 or WSL 2.\n\n\nLocation: /etc/wsl.conf\n\n\nThe wsl.conf file supports four sections: automount, network, interop, and user.\n\n\n!cat /etc/wsl.conf\n\n\n[boot]\nsystemd=true\n\n[network]\n# hostname = DemoHost\ngenerateHosts = true\ngenerateResolvConf = true\n\n# [user]\n# default = DemoUser\n\n\n\n\n\nSettings for port forwarding into virtual network\n\nrule: allow all traffic from port 8888 to pass through\n\nnetsh interface portproxy add v4tov4 listenport=8888 listenaddress=0.0.0.0 connectport=8888 connectaddress=172.22.253.143\n\ndelete rule:\n\nnetsh interface portproxy delete v4tov4 listenport=8888 listenaddress=0.0.0.0\n\nview rules:\n\nnetsh interface portproxy show all\n\nsudo apt install firefox",
+    "crumbs": [
+      "Blog",
+      "WSL"
+    ]
+  },
+  {
+    "objectID": "wsl.html#wsl-to-windows-port-forwarding",
+    "href": "wsl.html#wsl-to-windows-port-forwarding",
+    "title": "WSL",
+    "section": "WSL to Windows port forwarding",
+    "text": "WSL to Windows port forwarding\n\nIn powershell as administrator\n\nnetsh interface portproxy add v4tov4 listenport=80 listenaddress=0.0.0.0 connectport=80 connectaddress=$($(wsl hostname -I).Trim());\nNew-NetFirewallRule -DisplayName \"WSL2 Port Bridge\" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 80",
+    "crumbs": [
+      "Blog",
+      "WSL"
+    ]
+  },
+  {
+    "objectID": "wireguard.html",
+    "href": "wireguard.html",
+    "title": "Wireguard",
+    "section": "",
+    "text": "🛠️ Step 1: Deploy an EC2 Instance\n\nGo to AWS EC2 Dashboard → Launch a new instance.\nChoose Amazon Linux 2 / Ubuntu 22.04 / Debian 12 (or any Linux distro).\nSelect Instance Type (e.g., t3.micro for free tier).\nConfigure Network Settings:\n\nAssign an Elastic IP (so it has a fixed public IP).\nSecurity Groups:\n\nOpen UDP port 51820 (default WireGuard port).\nOpen SSH (port 22) to your IP for remote access.\n\n\nLaunch & Connect to the instance via SSH:\nssh -i your-key.pem ec2-user@your-ec2-public-ip\n\n\n\n🛠️ Step 2: Install WireGuard on EC2\nRun the following commands to install WireGuard:\n\nFor Amazon Linux 2 / CentOS / RHEL\nsudo yum install -y wireguard-tools\n\n\nFor Ubuntu / Debian\nsudo apt update && sudo apt install -y wireguard\n\n\n\n\n🛠️ Step 3: Generate WireGuard Keys\nOn your EC2 server, generate the keys:\ncd /etc/wireguard\numask 077  # Ensures private keys are not world-readable\nwg genkey | tee privatekey | wg pubkey &gt; publickey\n\nprivatekey → EC2 private key (keep it safe).\npublickey → EC2 public key (share it with clients).\n\n\n\n\n🛠️ Step 4: Configure WireGuard on EC2\nCreate the WireGuard config file:\nsudo nano /etc/wireguard/wg0.conf\nAdd the following:\n[Interface]\nPrivateKey = YOUR_EC2_PRIVATE_KEY\nAddress = 10.0.0.1/24  # Internal VPN IP for EC2\nListenPort = 51820\n\n# Allow traffic forwarding\nPostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE\nPostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE\n\n[Peer]\nPublicKey = YOUR_HOME_PC_PUBLIC_KEY\nAllowedIPs = 10.0.0.2/32  # Home PC internal VPN IP\nReplace: - YOUR_EC2_PRIVATE_KEY with the private key from privatekey. - YOUR_HOME_PC_PUBLIC_KEY with your home computer’s public key.\n\n\n\n🛠️ Step 5: Enable IP Forwarding\nEdit the sysctl config:\nsudo nano /etc/sysctl.conf\nUncomment or add this line:\nnet.ipv4.ip_forward = 1\nApply the changes:\nsudo sysctl -p\n\n\n\n🛠️ Step 6: Start WireGuard on EC2\nEnable and start WireGuard:\nsudo systemctl enable wg-quick@wg0\nsudo systemctl start wg-quick@wg0\nCheck status:\nsudo wg\n\n\n\n🛠️ Step 7: Install & Configure WireGuard on Your Home PC\n\nInstall WireGuard on Home PC (Windows / Linux)\n\nWindows: Install WireGuard for Windows\nLinux: Run:\nsudo apt install -y wireguard\n\n\n\nGenerate Keys on Home PC\nRun:\nwg genkey | tee privatekey | wg pubkey &gt; publickey\n\nprivatekey → Home PC’s private key.\npublickey → Home PC’s public key (use this in EC2 config).\n\n\n\nCreate Home PC Configuration\nEdit wg0.conf:\n[Interface]\nPrivateKey = YOUR_HOME_PC_PRIVATE_KEY\nAddress = 10.0.0.2/24  # Home PC VPN IP\n\n[Peer]\nPublicKey = YOUR_EC2_PUBLIC_KEY\nEndpoint = YOUR_EC2_PUBLIC_IP:51820\nAllowedIPs = 10.0.0.0/24, 192.168.1.0/24  # Route local network traffic\nPersistentKeepalive = 25\nReplace: - YOUR_HOME_PC_PRIVATE_KEY with the private key from privatekey. - YOUR_EC2_PUBLIC_KEY with the public key from EC2. - YOUR_EC2_PUBLIC_IP with your EC2 instance’s public IP.\n\n\n\n\n🛠️ Step 8: Start WireGuard on Home PC\nRun:\nsudo wg-quick up wg0\nCheck connection:\nping 10.0.0.1\nIf successful, your home PC can now access the EC2 instance.\n\n\n\n🛠️ Step 9: Route Home Network Traffic (Optional)\nTo access devices on your home network, modify AllowedIPs in the home PC config:\nAllowedIPs = 10.0.0.0/24, 192.168.1.0/24\nThen, on your home router, add a static route: - Destination: 10.0.0.0/24 - Gateway: Home PC’s local IP (e.g., 192.168.1.100)\nNow you can access home devices (e.g., ssh 192.168.1.50 for a home server).\n\n\n\n🛠️ Step 10: Automate WireGuard Startup\nOn EC2:\nsudo systemctl enable wg-quick@wg0\nOn Home PC:\nsudo systemctl enable wg-quick@wg0\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Blog",
+      "Wireguard"
+    ]
+  },
+  {
+    "objectID": "tmux.html",
+    "href": "tmux.html",
+    "title": "Tmux",
+    "section": "",
+    "text": "tmux\ntmux new\ntmux new -s &lt;session name&gt;\n\n\n\ntmux ls\ntmux list-sessions\ntmux new -s &lt;session name&gt;\n\n\n\ntmux a\ntmux at\ntmux a -t &lt;session name&gt;\n\n\n\ntmux kill-session -t &lt;session name&gt;\n\n\n\nCtrl + b $\n\n\n\nCtrl + b d\n\n\n\nCtrl + b w\n\n\n\nCtrl + b (\n\n\n\nCtrl + b )",
+    "crumbs": [
+      "Blog",
+      "Tmux"
+    ]
+  },
+  {
+    "objectID": "tmux.html#session",
+    "href": "tmux.html#session",
+    "title": "Tmux",
+    "section": "",
+    "text": "tmux\ntmux new\ntmux new -s &lt;session name&gt;\n\n\n\ntmux ls\ntmux list-sessions\ntmux new -s &lt;session name&gt;\n\n\n\ntmux a\ntmux at\ntmux a -t &lt;session name&gt;\n\n\n\ntmux kill-session -t &lt;session name&gt;\n\n\n\nCtrl + b $\n\n\n\nCtrl + b d\n\n\n\nCtrl + b w\n\n\n\nCtrl + b (\n\n\n\nCtrl + b )",
+    "crumbs": [
+      "Blog",
+      "Tmux"
+    ]
+  },
+  {
+    "objectID": "tmux.html#windows",
+    "href": "tmux.html#windows",
+    "title": "Tmux",
+    "section": "Windows",
+    "text": "Windows\n\nCreate session with named window\ntmux new -s mysession -n mywindow\n\n\nCreate new window\nCtrl + b c\n\n\nRename current window\nCtrl + b ,\n\n\nClose current window\nCtrl + b &\n\n\nList window\nCtrl + b w\n\n\nPrevious window\nCtrl + b p\n\n\nNext window\nCtrl + b n\n\n\nSwitch to window by number\nCtrl + b 0...9",
+    "crumbs": [
+      "Blog",
+      "Tmux"
+    ]
+  },
+  {
+    "objectID": "tmux.html#panes",
+    "href": "tmux.html#panes",
+    "title": "Tmux",
+    "section": "Panes",
+    "text": "Panes\n\nSplit window vertically\nCtrl + b %\n\n\nSplit window horizontally\nCtrl + b \"\n\n\nNavigate panes\nCtrl + b up, down, right, left\n\n\nClose current pane\nCtrl + b x\n\n\nMove the current pane left\nCtrl + b {\n\n\nMove the current pane right\nCtrl + b }\n\n\nSwitch to next pane\nCtrl + b o\n\n\nShow pane numbers\nCtrl + b q 0...9\n\n\nConvert pane to window\nCtrl + b !\n\n\nToggle pane zoom\nCtrl + b z\n\n\nResize pane\nCtrl + b + up, down, right, left",
+    "crumbs": [
+      "Blog",
+      "Tmux"
+    ]
+  },
+  {
+    "objectID": "vscode_debugging.html",
+    "href": "vscode_debugging.html",
+    "title": "Vscode Debugging",
+    "section": "",
+    "text": "poetry add debugpy",
+    "crumbs": [
+      "Blog",
+      "Vscode Debugging"
+    ]
+  },
+  {
+    "objectID": "vscode_debugging.html#install-debugpy",
+    "href": "vscode_debugging.html#install-debugpy",
+    "title": "Vscode Debugging",
+    "section": "",
+    "text": "poetry add debugpy",
+    "crumbs": [
+      "Blog",
+      "Vscode Debugging"
+    ]
+  },
+  {
+    "objectID": "vscode_debugging.html#vscode-launch.json-file",
+    "href": "vscode_debugging.html#vscode-launch.json-file",
+    "title": "Vscode Debugging",
+    "section": "VScode launch.json file",
+    "text": "VScode launch.json file\n\nThe launch.json file in Visual Studio Code (VS Code) is part of its debugging configuration. It allows you to define how your project or application should be launched and debugged. Below is everything you need to know about the launch.json file, including its structure, key fields, and advanced configurations.\n\n\nWhat is launch.json?\n\nA configuration file used by VS Code to define debugging settings.\nIt resides in the .vscode folder in your project directory.\nIt supports multiple configurations for debugging different scenarios (e.g., running a script, attaching to a remote debugger, or debugging tests).\n\n\n\n\nLocation of launch.json\n\nLocated in .vscode/launch.json in your project directory.\nIf it doesn’t exist, VS Code will prompt you to create one when you click the “Run and Debug” sidebar and select “Create a launch.json file.”\n\n\n\n\nStructure of launch.json\nA launch.json file consists of an array of configurations:\n{\n    \"version\": \"0.2.0\",\n    \"configurations\": [\n        {\n            \"name\": \"Launch Script\",\n            \"type\": \"python\",\n            \"request\": \"launch\",\n            \"program\": \"${workspaceFolder}/script.py\",\n            \"console\": \"integratedTerminal\"\n        }\n    ]\n}\n\nversion: Specifies the version of the debugging schema. Use 0.2.0.\nconfigurations: An array of objects, each defining a specific debugging scenario.\n\n\n\n\nKey Fields in launch.json\n\nGeneral Fields\n\nname: The display name of the configuration in the Run and Debug dropdown.\ntype: The debugger type (e.g., python, node, java, etc.).\nrequest:\n\nlaunch: Starts the program or application.\nattach: Attaches to a running process for debugging.\n\nprogram: The entry point of your application (e.g., a script path).\nargs: Arguments to pass to the program.\nconsole:\n\nintegratedTerminal: Use VS Code’s built-in terminal.\nexternalTerminal: Use an external terminal.\n\n\n\n\nPython-Specific Fields\n\npythonPath: Path to the Python interpreter. If omitted, VS Code uses the Python interpreter set in the workspace.\ndjango: Set to true to enable Django debugging.\njustMyCode: Set to false to step into library code during debugging.\n\n\n\nRemote Debugging\n\nhost: The remote machine’s hostname or IP address.\nport: The port to connect to (e.g., for debugpy).\npathMappings: Maps local and remote file paths for remote debugging.\n\n\n\nEnvironment Variables\n\nenv: Defines environment variables for the debug session.\nenvFile: Path to a .env file containing environment variables.\n\n\n\nAdvanced Debugging\n\nstopOnEntry: Stops execution at the entry point of the program.\nlogToFile: Saves debugger logs to a file.\ncwd: Sets the working directory of the application.\n\n\n\n\nCommon Configurations\n\n1. Run a Python Script\n{\n    \"name\": \"Run Script\",\n    \"type\": \"python\",\n    \"request\": \"launch\",\n    \"program\": \"${workspaceFolder}/script.py\",\n    \"console\": \"integratedTerminal\"\n}\n\n\n2. Debug Django\n{\n    \"name\": \"Django Debug\",\n    \"type\": \"python\",\n    \"request\": \"launch\",\n    \"program\": \"${workspaceFolder}/manage.py\",\n    \"args\": [\"runserver\", \"--noreload\"],\n    \"django\": true,\n    \"env\": {\n        \"DEBUG\": \"1\"\n    },\n    \"console\": \"integratedTerminal\"\n}\n\n\n3. Attach to Debugpy\n{\n    \"name\": \"Attach to Debugpy\",\n    \"type\": \"python\",\n    \"request\": \"attach\",\n    \"host\": \"localhost\",\n    \"port\": 5678,\n    \"pathMappings\": [\n        {\n            \"localRoot\": \"${workspaceFolder}\",\n            \"remoteRoot\": \"${workspaceFolder}\"\n        }\n    ]\n}\n\n\n4. Run Tests\n{\n    \"name\": \"Run Tests\",\n    \"type\": \"python\",\n    \"request\": \"test\",\n    \"console\": \"integratedTerminal\",\n    \"justMyCode\": true\n}\n\n\n5. Debug Flask\n{\n    \"name\": \"Flask Debug\",\n    \"type\": \"python\",\n    \"request\": \"launch\",\n    \"module\": \"flask\",\n    \"env\": {\n        \"FLASK_APP\": \"app.py\",\n        \"FLASK_ENV\": \"development\"\n    },\n    \"args\": [\"run\"],\n    \"console\": \"integratedTerminal\"\n}\n\n\n6. Node.js Application\n{\n    \"name\": \"Node.js Debug\",\n    \"type\": \"node\",\n    \"request\": \"launch\",\n    \"program\": \"${workspaceFolder}/app.js\"\n}\n\n\n\nPath Variables in launch.json\n\n${workspaceFolder}: Path to the root folder of your workspace.\n${file}: Path to the currently open file.\n${relativeFile}: Relative path of the open file.\n${cwd}: Current working directory.\n\n\n\n\nEnvironment Variables in launch.json\n\nInline Environment Variables\n\"env\": {\n    \"DEBUG\": \"true\",\n    \"API_KEY\": \"12345\"\n}\n\n\nUse an .env File\n\"envFile\": \"${workspaceFolder}/.env\"\n.env file example:\nDEBUG=true\nAPI_KEY=12345\n\n\n\n\nDebugging Scenarios\n\nRemote Debugging\nTo debug a process running on a remote server: 1. Run debugpy or equivalent on the server, exposing a port (e.g., 5678). 2. Use an attach configuration in launch.json with the server’s IP and port.\n\n\nDebugging Docker\n\nExpose the debug port in your Docker container.\nMap local paths to container paths using pathMappings.\n\n\n\nConditional Debugging\nUse conditions to enable debugging only for specific scenarios:\n\"condition\": \"process.env.DEBUG === 'true'\"\n\n\n\n\nCommon Issues and Solutions\n\nBreakpoints Not Hit\n\nEnsure the debugger is attached correctly.\nVerify file paths in pathMappings.\n\nPort Conflicts\n\nChange the debug port if another process uses it.\n\nDebugger Not Attaching\n\nEnsure the debugpy or equivalent is listening on the expected port.\nCheck firewall settings for remote debugging.\n\nLibrary Code Not Stepped Into\n\nSet \"justMyCode\": false to debug library code.\n\n\n\n\n\nBest Practices\n\nUse Descriptive Names Use meaningful names for configurations to identify them quickly.\nOrganize Configurations Group related configurations together, such as separate entries for running tests, debugging the server, or attaching to remote processes.\nEnvironment-Specific Settings Use different configurations for development, staging, and production environments.",
+    "crumbs": [
+      "Blog",
+      "Vscode Debugging"
+    ]
+  },
+  {
+    "objectID": "openvpn.html",
+    "href": "openvpn.html",
+    "title": "OpenVPN",
+    "section": "",
+    "text": "Step 1: Launch an EC2 Instance\n\nLog in to AWS Console and go to EC2.\nClick Launch Instance and choose:\n\nAmazon Linux 2, Ubuntu, or Debian (recommended for compatibility).\nInstance type: t2.micro (free-tier eligible, but t3.small for better performance).\nEnable SSH (port 22) and UDP 1194 in Security Groups.\nAssign an Elastic IP (so your VPN server always has the same IP).\nAttach a key pair for SSH access.\n\nOnce the instance is running, connect via SSH:\nssh -i your-key.pem ec2-user@your-ec2-ip\n\n\n\n\nStep 2: Install OpenVPN\n\nUpdate system packages:\nsudo yum update -y   # For Amazon Linux\nsudo apt update && sudo apt upgrade -y  # For Ubuntu/Debian\nInstall OpenVPN and Easy-RSA (for certificate management):\nsudo yum install openvpn easy-rsa -y  # Amazon Linux\nsudo apt install openvpn easy-rsa -y  # Ubuntu/Debian\n\n\n\n\nStep 3: Configure OpenVPN\n\nCopy sample OpenVPN configuration files:\nsudo cp -r /usr/share/easy-rsa /etc/openvpn\ncd /etc/openvpn/easy-rsa\nsudo chown -R $(whoami) /etc/openvpn/easy-rsa\nInitialize the Public Key Infrastructure (PKI):\n./easyrsa init-pki\n./easyrsa build-ca nopass\n./easyrsa gen-req server nopass\n./easyrsa sign-req server server\nGenerate Diffie-Hellman parameters:\n./easyrsa gen-dh\nMove generated files to OpenVPN directory:\nsudo cp pki/ca.crt pki/private/server.key pki/issued/server.crt pki/dh.pem /etc/openvpn/\n\n\n\n\nStep 4: Create OpenVPN Server Configuration\n\nCreate a new OpenVPN config file:\nsudo nano /etc/openvpn/server.conf\nAdd the following configuration:\nport 1194\nproto udp\ndev tun\nca /etc/openvpn/ca.crt\ncert /etc/openvpn/server.crt\nkey /etc/openvpn/server.key\ndh /etc/openvpn/dh.pem\nserver 10.8.0.0 255.255.255.0\npush \"redirect-gateway def1 bypass-dhcp\"\npush \"dhcp-option DNS 8.8.8.8\"\nkeepalive 10 120\ncipher AES-256-CBC\nauth SHA256\npersist-key\npersist-tun\nstatus /var/log/openvpn-status.log\nlog-append /var/log/openvpn.log\nverb 3\nStart OpenVPN:\nsudo systemctl start openvpn@server\nsudo systemctl enable openvpn@server\n\n\n\n\nStep 5: Configure AWS Security Groups & Route Traffic\n\nModify AWS Security Group to allow:\n\nUDP 1194 (OpenVPN traffic).\nTCP 22 (for SSH access).\nICMP (for testing with ping).\n\nEnable IP forwarding:\necho 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.conf\nsudo sysctl -p\nAdd NAT rules:\nsudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE\nsudo iptables-save | sudo tee /etc/iptables.rules\n\n\n\n\nStep 6: Create Client Configuration\n\nGenerate client certificates:\ncd /etc/openvpn/easy-rsa\n./easyrsa gen-req client1 nopass\n./easyrsa sign-req client client1\nsudo cp pki/issued/client1.crt pki/private/client1.key /etc/openvpn/\nCreate client config file (client1.ovpn):\nsudo nano client1.ovpn\nAdd the following:\nclient\ndev tun\nproto udp\nremote YOUR_EC2_PUBLIC_IP 1194\nresolv-retry infinite\nnobind\npersist-key\npersist-tun\nremote-cert-tls server\ncipher AES-256-CBC\nauth SHA256\nverb 3\n&lt;ca&gt;\n-----BEGIN CERTIFICATE-----\n(Insert CA Certificate)\n-----END CERTIFICATE-----\n&lt;/ca&gt;\n&lt;cert&gt;\n-----BEGIN CERTIFICATE-----\n(Insert Client Certificate)\n-----END CERTIFICATE-----\n&lt;/cert&gt;\n&lt;key&gt;\n-----BEGIN PRIVATE KEY-----\n(Insert Client Key)\n-----END PRIVATE KEY-----\n&lt;/key&gt;\n\n\n\n\nStep 7: Connect to VPN from Your Home Computer\n\nDownload OpenVPN for Windows, macOS, or Linux.\nTransfer client1.ovpn to your home computer.\nImport and connect using OpenVPN client.\n\n\n\n\nStep 8: Route Traffic to Your Home Computer\nTo access your home network while connected to OpenVPN: 1. Find your home computer’s IP (192.168.1.x). 2. Add a route to your home network from the VPN server: sh    sudo ip route add 192.168.1.0/24 via 10.8.0.1 dev tun0 3. On your home router, enable port forwarding: - Forward UDP 1194 to your home computer’s IP.\nNow, you should be able to remotely access your home computer securely via OpenVPN! 🚀\nLet me know if you need help debugging! 😃\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Blog",
+      "OpenVPN"
+    ]
+  },
+  {
+    "objectID": "linux_computer.html",
+    "href": "linux_computer.html",
+    "title": "Linux Computer",
+    "section": "",
+    "text": "sudo apt install git",
+    "crumbs": [
+      "Blog",
+      "Linux Computer"
+    ]
+  },
+  {
+    "objectID": "linux_computer.html#install-git",
+    "href": "linux_computer.html#install-git",
+    "title": "Linux Computer",
+    "section": "",
+    "text": "sudo apt install git",
+    "crumbs": [
+      "Blog",
+      "Linux Computer"
+    ]
+  },
+  {
+    "objectID": "linux_computer.html#install-code",
+    "href": "linux_computer.html#install-code",
+    "title": "Linux Computer",
+    "section": "Install Code",
+    "text": "Install Code\nsudo snap install code --classic",
+    "crumbs": [
+      "Blog",
+      "Linux Computer"
+    ]
+  },
+  {
+    "objectID": "linux_computer.html#install-stow",
+    "href": "linux_computer.html#install-stow",
+    "title": "Linux Computer",
+    "section": "Install stow",
+    "text": "Install stow\nsudp apt install stow",
+    "crumbs": [
+      "Blog",
+      "Linux Computer"
+    ]
+  },
+  {
+    "objectID": "linux_computer.html#install-tmux",
+    "href": "linux_computer.html#install-tmux",
+    "title": "Linux Computer",
+    "section": "Install tmux",
+    "text": "Install tmux\nsudo apt install tmux",
+    "crumbs": [
+      "Blog",
+      "Linux Computer"
+    ]
+  },
+  {
+    "objectID": "linux_computer.html#set-up-ssh-with-github",
+    "href": "linux_computer.html#set-up-ssh-with-github",
+    "title": "Linux Computer",
+    "section": "Set up ssh with Github",
+    "text": "Set up ssh with Github",
+    "crumbs": [
+      "Blog",
+      "Linux Computer"
+    ]
+  },
+  {
+    "objectID": "linux_computer.html#install-curl",
+    "href": "linux_computer.html#install-curl",
+    "title": "Linux Computer",
+    "section": "Install curl",
+    "text": "Install curl\nsudo apt install curl",
+    "crumbs": [
+      "Blog",
+      "Linux Computer"
+    ]
+  },
+  {
+    "objectID": "linux_computer.html#battery-limit-change",
+    "href": "linux_computer.html#battery-limit-change",
+    "title": "Linux Computer",
+    "section": "Battery limit Change",
+    "text": "Battery limit Change\n\nInstallation\nsudo apt-get update\nsudo apt-get install tlp tlp-rdw\n\n\nEnable\nsudo systemctl enable tlp\n\n\nCheck\n\nsudo systemctl status tlp\n\nsudo tlp-stat -b\n\n\nConfigure\n\nedit /etc/tlp.conf\n\nSTART_CHARGE_THRESH_BAT0=75\nSTOP_CHARGE_THRESH_BAT0=80",
+    "crumbs": [
+      "Blog",
+      "Linux Computer"
+    ]
+  },
+  {
+    "objectID": "linux_computer.html#temporary-full-charge",
+    "href": "linux_computer.html#temporary-full-charge",
+    "title": "Linux Computer",
+    "section": "Temporary Full Charge",
+    "text": "Temporary Full Charge\nsudo tlp fullcharge",
+    "crumbs": [
+      "Blog",
+      "Linux Computer"
+    ]
+  },
+  {
+    "objectID": "0_vim.html",
+    "href": "0_vim.html",
+    "title": "Vim",
+    "section": "",
+    "text": "Vim operates in several modes, each with a different purpose:\n\n\nNormal Mode (Command Mode):\n\nThe default mode when you open Vim.\nUsed for navigating and editing text.\nCommon commands: h, j, k, l (move cursor), x (delete character), dd (delete line), yy (copy line), p (paste).\n\nInsert Mode:\n\nEntered by pressing i, a, o, etc.\nUsed for inserting or modifying text.\nReturn to Normal mode by pressing Esc.\n\nVisual Mode:\n\nEntered by pressing v (character-wise), V (line-wise), or Ctrl+v (block-wise).\nUsed to select text for operations like copying or deleting.\nCommands: y (yank/copy), d (delete), &gt;, &lt; (indentation).\n\nCommand-Line Mode: Entered by pressing : in Normal mode. Used for executing commands like saving, quitting, searching, and more. Example: :w (save), :q (quit), :wq (save and quit), :x (save and quit).",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "0_vim.html#vim-modes",
+    "href": "0_vim.html#vim-modes",
+    "title": "Vim",
+    "section": "",
+    "text": "Vim operates in several modes, each with a different purpose:\n\n\nNormal Mode (Command Mode):\n\nThe default mode when you open Vim.\nUsed for navigating and editing text.\nCommon commands: h, j, k, l (move cursor), x (delete character), dd (delete line), yy (copy line), p (paste).\n\nInsert Mode:\n\nEntered by pressing i, a, o, etc.\nUsed for inserting or modifying text.\nReturn to Normal mode by pressing Esc.\n\nVisual Mode:\n\nEntered by pressing v (character-wise), V (line-wise), or Ctrl+v (block-wise).\nUsed to select text for operations like copying or deleting.\nCommands: y (yank/copy), d (delete), &gt;, &lt; (indentation).\n\nCommand-Line Mode: Entered by pressing : in Normal mode. Used for executing commands like saving, quitting, searching, and more. Example: :w (save), :q (quit), :wq (save and quit), :x (save and quit).",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "0_vim.html#basic-vim-commands",
+    "href": "0_vim.html#basic-vim-commands",
+    "title": "Vim",
+    "section": "Basic Vim Commands",
+    "text": "Basic Vim Commands\n\nOpening a File:\n\nvim filename: Opens a file in Vim.\nvim -R filename: Opens a file in read-only mode.\n\nSaving and Quitting:\n\n:w: Save the file.\n:w filename: Save as a new file.\n:q: Quit Vim.\n:wq: Save and quit.\n:q!: Quit without saving.\nZZ: Save and quit (Normal mode).\n\nNavigation:\n\nh, j, k, l: Move cursor left, down, up, right.\n0: Move to the beginning of the line.\n$: Move to the end of the line.\ngg: Move to the beginning of the file.\nG: Move to the end of the file.\nCtrl+d, Ctrl+u: Scroll half-page down, up.\nCtrl+f, Ctrl+b: Scroll full-page down, up.\n\nEditing:\n\ni: Enter Insert mode before the cursor.\na: Enter Insert mode after the cursor.\no: Open a new line below and enter Insert mode.\nO: Open a new line above and enter Insert mode.\nx: Delete the character under the cursor.\ndw: Delete word.\ndd: Delete line.\nu: Undo.\nCtrl+r: Redo.\ny: Yank (copy) selected text.\np: Paste after the cursor.\nP: Paste before the cursor.\n\nSearch and Replace:\n\n/pattern: Search for a pattern.\nn: Repeat search forward.\nN: Repeat search backward.\n:%s/old/new/g: Replace all occurrences of old with new in the entire file.\n:s/old/new/g: Replace in the current line.",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "0_vim.html#advanced-vim-features",
+    "href": "0_vim.html#advanced-vim-features",
+    "title": "Vim",
+    "section": "Advanced Vim Features",
+    "text": "Advanced Vim Features\n\nRegisters:\n\nVim has named registers (\"a, \"b, …) for copying and pasting.\nUse \"ay to yank into register a and \"ap to paste from register a.\n\nMacros:\n\nRecord and replay sequences of commands.\nq&lt;register&gt;: Start recording a macro into a register (e.g., qa).\nq: Stop recording.\n@a: Replay the macro in register a.\n\nMarks:\n\nSet marks to jump between points in a file.\nm&lt;letter&gt;: Set a mark (e.g., ma).\n'a: Jump to the mark a.\n\nBuffers, Windows, and Tabs:\n\nBuffers: Multiple files opened in Vim.\n\n:bnext, :bprev: Navigate between buffers.\n\nWindows: Split screen for editing multiple files simultaneously.\n\n:split filename, :vsplit filename: Split horizontally or vertically.\nCtrl+w + h/j/k/l: Navigate between windows.\n\nTabs: Open files in tabs.\n\n:tabnew filename: Open a file in a new tab.\ngt, gT: Navigate between tabs.\n\n\nText Objects:\n\nOperate on text objects like words, sentences, paragraphs.\ndiw: Delete inside word.\ndap: Delete a paragraph.",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "0_vim.html#customization",
+    "href": "0_vim.html#customization",
+    "title": "Vim",
+    "section": "Customization",
+    "text": "Customization\n\n.vimrc File:\n\nVim configuration file located in your home directory.\nExample settings:\n\nset number          \" Show line numbers\nsyntax on           \" Enable syntax highlighting\nset tabstop=4       \" Set tab width to 4 spaces\nset expandtab       \" Convert tabs to spaces\nset shiftwidth=4    \" Indentation width\nset autoindent      \" Enable automatic indentation\nPlugins:\n\nExtend Vim’s functionality with plugins.\nVim Plugin Managers:\n\nVundle: Plugin manager for Vim.\nPathogen: Simplifies plugin management.\nvim-plug: A minimalist plugin manager.\n\nExample .vimrc for plugins:\n\n\ncall plug#begin('~/.vim/plugged')\nPlug 'scrooloose/nerdtree'           \" File explorer\nPlug 'tpope/vim-fugitive'            \" Git integration\ncall plug#end()\n\n\nThemes:\n\nChange the color scheme of Vim.\nExample: ```vim colorscheme desert ” Set color scheme to desert\n\n\n\n### Using Vundle\n\n```sh\ngit clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim\nvim +PluginInstall +qall\n\ninside .vimrc\n\n\nset nocompatible              \" Required for Vundle\nfiletype off                  \" Required for Vundle\n\n\" Set the runtime path to include Vundle and initialize\nset rtp+=~/.vim/bundle/Vundle.vim\ncall vundle#begin()\n\n\" Let Vundle manage Vundle, required\nPlugin 'VundleVim/Vundle.vim'\n\n\" === Example Plugins ===\n\n\" NERDTree: File system explorer for Vim\nPlugin 'preservim/nerdtree'\n\n\" vim-airline: Lean & mean status/tabline for Vim\nPlugin 'vim-airline/vim-airline'\n\n\" vim-fugitive: A Git wrapper so awesome, it should be illegal\nPlugin 'tpope/vim-fugitive'\n\n\" lightline.vim: A lightweight statusline\nPlugin 'itchyny/lightline.vim'\n\n\" syntastic: Syntax checking plugin\nPlugin 'vim-syntastic/syntastic'\n\n\" vim-surround: Surround text objects easily\nPlugin 'tpope/vim-surround'\n\n\" ctrlp.vim: Fuzzy file, buffer, MRU, tag, etc. finder\nPlugin 'ctrlpvim/ctrlp.vim'\n\n\" vim-commentary: Comment stuff out\nPlugin 'tpope/vim-commentary'\n\n\" vim-gitgutter: Shows a git diff in the 'gutter' (sign column)\nPlugin 'airblade/vim-gitgutter'\n\n\" YouCompleteMe: Fast, as-you-type, fuzzy-search code completion\nPlugin 'ycm-core/YouCompleteMe'\n\n\" vim-polyglot: Language pack for Vim (syntax highlighting for many languages)\nPlugin 'sheerun/vim-polyglot'\n\n\" vim-indent-guides: A Vim plugin for visually displaying indent levels in code\nPlugin 'nathanaelkane/vim-indent-guides'\n\n\" vim-markdown: Markdown syntax highlighting and editing\nPlugin 'preservim/vim-markdown'\n\n\" vim-easymotion: EasyMotion provides a much simpler way to use some motions in Vim\nPlugin 'easymotion/vim-easymotion'\n\n\" vim-startify: A fancy start screen for Vim\nPlugin 'mhinz/vim-startify'\n\ncall vundle#end()            \" Required for Vundle\nfiletype plugin indent on    \" Required for Vundle",
+    "crumbs": [
+      "Blog",
+      "Vim"
+    ]
+  },
+  {
+    "objectID": "coding_design_patterns.html",
+    "href": "coding_design_patterns.html",
+    "title": "Coding Design Patterns",
+    "section": "",
+    "text": "Design patterns are proven solutions to common software design problems. They provide a standardized way to structure your code, making it more maintainable, scalable, and robust. In Python, design patterns are particularly useful due to the language’s flexibility and support for multiple programming paradigms.\nThis guide covers the most common design patterns in Python, categorized into Creational, Structural, and Behavioral patterns. Each pattern includes a brief explanation and a Python example to illustrate its implementation.",
+    "crumbs": [
+      "Blog",
+      "Coding Design Patterns"
+    ]
+  },
+  {
+    "objectID": "coding_design_patterns.html#creational-design-patterns",
+    "href": "coding_design_patterns.html#creational-design-patterns",
+    "title": "Coding Design Patterns",
+    "section": "1. Creational Design Patterns",
+    "text": "1. Creational Design Patterns\nCreational patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. They abstract the instantiation process, making a system independent of how its objects are created, composed, and represented.\n\na. Singleton\nPurpose: Ensure a class has only one instance and provide a global point of access to it.\nUse Case: When exactly one object is needed to coordinate actions across the system (e.g., configuration manager, logger).\nPython Implementation:\nclass SingletonMeta(type):\n    \"\"\"\n    This is a thread-safe implementation of Singleton.\n    \"\"\"\n    _instances = {}\n\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            instance = super().__call__(*args, **kwargs)\n            cls._instances[cls] = instance\n        return cls._instances[cls]\n\nclass SingletonClass(metaclass=SingletonMeta):\n    def __init__(self, value):\n        self.value = value\n\n# Usage\nsingleton1 = SingletonClass(10)\nsingleton2 = SingletonClass(20)\n\nprint(singleton1.value)  # Output: 10\nprint(singleton2.value)  # Output: 10\nprint(singleton1 is singleton2)  # Output: True\nExplanation: - SingletonMeta is a metaclass that overrides the __call__ method to control object creation. - When SingletonClass is instantiated, it checks if an instance already exists. If not, it creates one; otherwise, it returns the existing instance. - Both singleton1 and singleton2 refer to the same instance.\n\n\nb. Factory Method\nPurpose: Define an interface for creating an object, but let subclasses alter the type of objects that will be created.\nUse Case: When a class cannot anticipate the class of objects it needs to create.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Product\nclass Button(ABC):\n    @abstractmethod\n    def render(self):\n        pass\n\n# Concrete Products\nclass WindowsButton(Button):\n    def render(self):\n        return \"Render a button in Windows style.\"\n\nclass MacOSButton(Button):\n    def render(self):\n        return \"Render a button in MacOS style.\"\n\n# Creator\nclass Dialog(ABC):\n    @abstractmethod\n    def create_button(self) -&gt; Button:\n        pass\n\n    def render_dialog(self):\n        button = self.create_button()\n        print(button.render())\n\n# Concrete Creators\nclass WindowsDialog(Dialog):\n    def create_button(self) -&gt; Button:\n        return WindowsButton()\n\nclass MacOSDialog(Dialog):\n    def create_button(self) -&gt; Button:\n        return MacOSButton()\n\n# Usage\ndef client_code(dialog: Dialog):\n    dialog.render_dialog()\n\n# Create a Windows dialog\nwindows_dialog = WindowsDialog()\nclient_code(windows_dialog)  # Output: Render a button in Windows style.\n\n# Create a MacOS dialog\nmac_dialog = MacOSDialog()\nclient_code(mac_dialog)  # Output: Render a button in MacOS style.\nExplanation: - Button is an abstract product with a render method. - WindowsButton and MacOSButton are concrete implementations. - Dialog is an abstract creator with a factory method create_button. - WindowsDialog and MacOSDialog override the factory method to create specific button types. - The client_code function uses the Dialog interface to render buttons without knowing their concrete classes.\n\n\nc. Abstract Factory\nPurpose: Provide an interface for creating families of related or dependent objects without specifying their concrete classes.\nUse Case: When a system needs to be independent of how its products are created and composed.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Abstract Products\nclass Button(ABC):\n    @abstractmethod\n    def paint(self):\n        pass\n\nclass Checkbox(ABC):\n    @abstractmethod\n    def paint(self):\n        pass\n\n# Concrete Products for Windows\nclass WindowsButton(Button):\n    def paint(self):\n        return \"Render a button in Windows style.\"\n\nclass WindowsCheckbox(Checkbox):\n    def paint(self):\n        return \"Render a checkbox in Windows style.\"\n\n# Concrete Products for MacOS\nclass MacOSButton(Button):\n    def paint(self):\n        return \"Render a button in MacOS style.\"\n\nclass MacOSCheckbox(Checkbox):\n    def paint(self):\n        return \"Render a checkbox in MacOS style.\"\n\n# Abstract Factory\nclass GUIFactory(ABC):\n    @abstractmethod\n    def create_button(self) -&gt; Button:\n        pass\n\n    @abstractmethod\n    def create_checkbox(self) -&gt; Checkbox:\n        pass\n\n# Concrete Factories\nclass WindowsFactory(GUIFactory):\n    def create_button(self) -&gt; Button:\n        return WindowsButton()\n\n    def create_checkbox(self) -&gt; Checkbox:\n        return WindowsCheckbox()\n\nclass MacOSFactory(GUIFactory):\n    def create_button(self) -&gt; Button:\n        return MacOSButton()\n\n    def create_checkbox(self) -&gt; Checkbox:\n        return MacOSCheckbox()\n\n# Client Code\ndef client_code(factory: GUIFactory):\n    button = factory.create_button()\n    checkbox = factory.create_checkbox()\n    print(button.paint())\n    print(checkbox.paint())\n\n# Usage\nprint(\"Client: Testing client code with the WindowsFactory:\")\nclient_code(WindowsFactory())\n# Output:\n# Render a button in Windows style.\n# Render a checkbox in Windows style.\n\nprint(\"\\nClient: Testing the same client code with the MacOSFactory:\")\nclient_code(MacOSFactory())\n# Output:\n# Render a button in MacOS style.\n# Render a checkbox in MacOS style.\nExplanation: - Button and Checkbox are abstract products with a paint method. - WindowsButton, WindowsCheckbox, MacOSButton, and MacOSCheckbox are concrete implementations. - GUIFactory is an abstract factory with methods to create buttons and checkboxes. - WindowsFactory and MacOSFactory are concrete factories that produce Windows and MacOS styled products, respectively. - The client_code function uses the factory to create and paint UI elements without knowing their concrete classes.\n\n\nd. Builder\nPurpose: Separate the construction of a complex object from its representation, allowing the same construction process to create different representations.\nUse Case: When creating complex objects with many optional parameters or when the construction process involves multiple steps.\nPython Implementation:\nclass Car:\n    def __init__(self):\n        self.make = None\n        self.model = None\n        self.engine = None\n        self.color = None\n\n    def __str__(self):\n        return f\"Car(make={self.make}, model={self.model}, engine={self.engine}, color={self.color})\"\n\nclass CarBuilder:\n    def __init__(self):\n        self.car = Car()\n\n    def set_make(self, make: str):\n        self.car.make = make\n        return self\n\n    def set_model(self, model: str):\n        self.car.model = model\n        return self\n\n    def set_engine(self, engine: str):\n        self.car.engine = engine\n        return self\n\n    def set_color(self, color: str):\n        self.car.color = color\n        return self\n\n    def build(self):\n        return self.car\n\n# Usage\nbuilder = CarBuilder()\ncar = (builder.set_make(\"Toyota\")\n            .set_model(\"Corolla\")\n            .set_engine(\"V4\")\n            .set_color(\"Blue\")\n            .build())\n\nprint(car)  # Output: Car(make=Toyota, model=Corolla, engine=V4, color=Blue)\nExplanation: - Car is the complex object with multiple attributes. - CarBuilder provides methods to set each attribute and returns self to allow method chaining. - The build method returns the fully constructed Car object. - The client uses the builder to construct a Car step-by-step, resulting in a clear and flexible construction process.\n\n\ne. Prototype\nPurpose: Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.\nUse Case: When object creation is expensive, and cloning is more efficient, or when you need to create objects with identical or similar states.\nPython Implementation:\nimport copy\n\nclass Prototype:\n    def clone(self):\n        return copy.deepcopy(self)\n\nclass ComplexObject(Prototype):\n    def __init__(self, name, components):\n        self.name = name\n        self.components = components\n\n    def __str__(self):\n        return f\"ComplexObject(name={self.name}, components={self.components})\"\n\n# Usage\noriginal = ComplexObject(\"Original\", [\"Component1\", \"Component2\"])\nclone = original.clone()\n\nprint(original)  # Output: ComplexObject(name=Original, components=['Component1', 'Component2'])\nprint(clone)     # Output: ComplexObject(name=Original, components=['Component1', 'Component2'])\nprint(original is clone)  # Output: False\nExplanation: - Prototype provides a clone method using deepcopy to create a new instance. - ComplexObject inherits from Prototype and represents an object with multiple components. - The clone method creates a deep copy of the original object, ensuring that changes to the clone do not affect the original.",
+    "crumbs": [
+      "Blog",
+      "Coding Design Patterns"
+    ]
+  },
+  {
+    "objectID": "coding_design_patterns.html#structural-design-patterns",
+    "href": "coding_design_patterns.html#structural-design-patterns",
+    "title": "Coding Design Patterns",
+    "section": "2. Structural Design Patterns",
+    "text": "2. Structural Design Patterns\nStructural patterns deal with object composition, identifying simple ways to realize relationships between different objects to form larger structures.\n\na. Adapter\nPurpose: Allow the interface of an existing class to be used as another interface. It enables classes to work together that couldn’t otherwise because of incompatible interfaces.\nUse Case: When integrating third-party libraries or legacy code that doesn’t match the current system’s interfaces.\nPython Implementation:\nclass EuropeanSocketInterface:\n    def voltage(self) -&gt; int:\n        pass\n\n    def live(self) -&gt; int:\n        pass\n\n    def neutral(self) -&gt; int:\n        pass\n\n    def earth(self) -&gt; int:\n        pass\n\nclass EuropeanSocket(EuropeanSocketInterface):\n    def voltage(self):\n        return 230\n\n    def live(self):\n        return 1\n\n    def neutral(self):\n        return -1\n\n    def earth(self):\n        return 0\n\nclass USPlug:\n    def __init__(self, device):\n        self.device = device\n\n    def connect_to_socket(self, socket: EuropeanSocketInterface):\n        if socket.voltage() &gt; 120:\n            self.device.electrical_needs = socket.voltage() // 2\n        else:\n            self.device.electrical_needs = socket.voltage()\n        self.device.power_on()\n\nclass Device:\n    def power_on(self):\n        print(f\"Device powered on with {self.electrical_needs}V.\")\n\n# Adapter\nclass USAdapter(EuropeanSocketInterface):\n    def __init__(self, us_device: USPlug):\n        self.us_device = us_device\n\n    def voltage(self):\n        return 120  # Adapter converts voltage\n\n    def live(self):\n        return 1\n\n    def neutral(self):\n        return -1\n\n    def earth(self):\n        return 0\n\n# Usage\ndevice = Device()\nus_plug = USPlug(device)\nadapter = USAdapter(us_plug)\neuropean_socket = EuropeanSocket()\n\nus_plug.connect_to_socket(adapter)\n# Output: Device powered on with 120V.\nExplanation: - EuropeanSocketInterface defines the interface for European sockets. - EuropeanSocket implements the European socket interface. - USPlug expects a socket with 120V. - USAdapter adapts the USPlug to work with the EuropeanSocketInterface by converting the voltage. - This allows USPlug to connect to a European socket seamlessly.\n\n\nb. Decorator\nPurpose: Attach additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.\nUse Case: When you need to add behavior to individual objects without affecting other objects of the same class.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Component\nclass Coffee(ABC):\n    @abstractmethod\n    def cost(self) -&gt; float:\n        pass\n\n    @abstractmethod\n    def ingredients(self) -&gt; str:\n        pass\n\n# Concrete Component\nclass SimpleCoffee(Coffee):\n    def cost(self) -&gt; float:\n        return 2.0\n\n    def ingredients(self) -&gt; str:\n        return \"Coffee\"\n\n# Decorator\nclass CoffeeDecorator(Coffee):\n    def __init__(self, coffee: Coffee):\n        self._coffee = coffee\n\n    def cost(self) -&gt; float:\n        return self._coffee.cost()\n\n    def ingredients(self) -&gt; str:\n        return self._coffee.ingredients()\n\n# Concrete Decorators\nclass MilkDecorator(CoffeeDecorator):\n    def cost(self) -&gt; float:\n        return self._coffee.cost() + 0.5\n\n    def ingredients(self) -&gt; str:\n        return f\"{self._coffee.ingredients()}, Milk\"\n\nclass SugarDecorator(CoffeeDecorator):\n    def cost(self) -&gt; float:\n        return self._coffee.cost() + 0.3\n\n    def ingredients(self) -&gt; str:\n        return f\"{self._coffee.ingredients()}, Sugar\"\n\n# Usage\ncoffee = SimpleCoffee()\nprint(coffee.cost())          # Output: 2.0\nprint(coffee.ingredients())   # Output: Coffee\n\ncoffee_with_milk = MilkDecorator(coffee)\nprint(coffee_with_milk.cost())          # Output: 2.5\nprint(coffee_with_milk.ingredients())   # Output: Coffee, Milk\n\ncoffee_with_milk_sugar = SugarDecorator(coffee_with_milk)\nprint(coffee_with_milk_sugar.cost())          # Output: 2.8\nprint(coffee_with_milk_sugar.ingredients())   # Output: Coffee, Milk, Sugar\nExplanation: - Coffee is the abstract component with cost and ingredients methods. - SimpleCoffee is the concrete component. - CoffeeDecorator is the abstract decorator that holds a reference to a Coffee object. - MilkDecorator and SugarDecorator are concrete decorators that add functionality. - Decorators are applied dynamically, allowing flexible combinations of added features.\n\n\nc. Facade\nPurpose: Provide a simplified interface to a complex subsystem. Facades define a higher-level interface that makes the subsystem easier to use.\nUse Case: When you want to simplify interactions with a complex system, such as a library or a set of classes.\nPython Implementation:\nclass CPU:\n    def freeze(self):\n        print(\"CPU: Freezing processor.\")\n\n    def jump(self, position: int):\n        print(f\"CPU: Jumping to address {position}.\")\n\n    def execute(self):\n        print(\"CPU: Executing instructions.\")\n\nclass Memory:\n    def load(self, position: int, data: str):\n        print(f\"Memory: Loading data '{data}' at position {position}.\")\n\nclass HardDrive:\n    def read(self, lba: int, size: int) -&gt; str:\n        data = \"OS Boot Data\"\n        print(f\"HardDrive: Reading data from LBA {lba} with size {size}.\")\n        return data\n\n# Facade\nclass ComputerFacade:\n    def __init__(self):\n        self.cpu = CPU()\n        self.memory = Memory()\n        self.hard_drive = HardDrive()\n\n    def start_computer(self):\n        self.cpu.freeze()\n        boot_data = self.hard_drive.read(0, 1024)\n        self.memory.load(0, boot_data)\n        self.cpu.jump(0)\n        self.cpu.execute()\n\n# Usage\ncomputer = ComputerFacade()\ncomputer.start_computer()\n# Output:\n# CPU: Freezing processor.\n# HardDrive: Reading data from LBA 0 with size 1024.\n# Memory: Loading data 'OS Boot Data' at position 0.\n# CPU: Jumping to address 0.\n# CPU: Executing instructions.\nExplanation: - CPU, Memory, and HardDrive represent complex subsystems. - ComputerFacade provides a simplified start_computer method that internally coordinates interactions between subsystems. - The client interacts only with the facade, hiding the complexities of the underlying components.\n\n\nd. Proxy\nPurpose: Provide a surrogate or placeholder for another object to control access to it.\nUse Case: When you need to add a layer of control over access to an object, such as lazy initialization, access control, logging, or caching.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Subject Interface\nclass Image(ABC):\n    @abstractmethod\n    def display(self):\n        pass\n\n# Real Subject\nclass RealImage(Image):\n    def __init__(self, filename: str):\n        self.filename = filename\n        self.load_from_disk()\n\n    def load_from_disk(self):\n        print(f\"Loading {self.filename} from disk.\")\n\n    def display(self):\n        print(f\"Displaying {self.filename}.\")\n\n# Proxy\nclass ProxyImage(Image):\n    def __init__(self, filename: str):\n        self.filename = filename\n        self.real_image = None\n\n    def display(self):\n        if self.real_image is None:\n            self.real_image = RealImage(self.filename)\n        self.real_image.display()\n\n# Usage\nprint(\"Creating ProxyImage:\")\nimage = ProxyImage(\"photo.jpg\")\nprint(\"\\nFirst call to display():\")\nimage.display()\nprint(\"\\nSecond call to display():\")\nimage.display()\nOutput:\nCreating ProxyImage:\n\nFirst call to display():\nLoading photo.jpg from disk.\nDisplaying photo.jpg.\n\nSecond call to display():\nDisplaying photo.jpg.\nExplanation: - Image is the abstract subject with a display method. - RealImage loads and displays an image, simulating an expensive operation (loading from disk). - ProxyImage controls access to RealImage. It initializes RealImage only when display is called for the first time (lazy initialization). - Subsequent calls to display use the already loaded RealImage, avoiding redundant disk loads.\n\n\ne. Composite\nPurpose: Compose objects into tree structures to represent part-whole hierarchies. Composite lets clients treat individual objects and compositions uniformly.\nUse Case: When you need to represent hierarchical structures like file systems, organizational charts, or UI components.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Component\nclass Graphic(ABC):\n    @abstractmethod\n    def draw(self):\n        pass\n\n# Leaf\nclass Dot(Graphic):\n    def draw(self):\n        print(\"Drawing a dot.\")\n\nclass Circle(Graphic):\n    def draw(self):\n        print(\"Drawing a circle.\")\n\n# Composite\nclass CompoundGraphic(Graphic):\n    def __init__(self):\n        self.children = []\n\n    def add(self, graphic: Graphic):\n        self.children.append(graphic)\n\n    def remove(self, graphic: Graphic):\n        self.children.remove(graphic)\n\n    def draw(self):\n        for child in self.children:\n            child.draw()\n\n# Usage\ndot = Dot()\ncircle = Circle()\n\ncompound = CompoundGraphic()\ncompound.add(dot)\ncompound.add(circle)\n\nprint(\"Drawing individual graphics:\")\ndot.draw()\ncircle.draw()\n\nprint(\"\\nDrawing compound graphic:\")\ncompound.draw()\nOutput:\nDrawing individual graphics:\nDrawing a dot.\nDrawing a circle.\n\nDrawing compound graphic:\nDrawing a dot.\nDrawing a circle.\nExplanation: - Graphic is the abstract component with a draw method. - Dot and Circle are leaf nodes implementing Graphic. - CompoundGraphic is a composite that can contain multiple Graphic objects (both leaves and other composites). - The client can treat individual Graphic objects and CompoundGraphic uniformly by calling the draw method.",
+    "crumbs": [
+      "Blog",
+      "Coding Design Patterns"
+    ]
+  },
+  {
+    "objectID": "coding_design_patterns.html#behavioral-design-patterns",
+    "href": "coding_design_patterns.html#behavioral-design-patterns",
+    "title": "Coding Design Patterns",
+    "section": "3. Behavioral Design Patterns",
+    "text": "3. Behavioral Design Patterns\nBehavioral patterns are concerned with algorithms and the assignment of responsibilities between objects. They describe not just patterns of objects or classes but also the pattern of communication between them.\n\na. Observer\nPurpose: Define a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.\nUse Case: Implementing event handling systems, such as user interface event listeners or publish-subscribe mechanisms.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Subject\nclass Subject(ABC):\n    @abstractmethod\n    def attach(self, observer):\n        pass\n\n    @abstractmethod\n    def detach(self, observer):\n        pass\n\n    @abstractmethod\n    def notify(self):\n        pass\n\n# Concrete Subject\nclass ConcreteSubject(Subject):\n    def __init__(self):\n        self._observers = []\n        self._state = None\n\n    def attach(self, observer):\n        self._observers.append(observer)\n\n    def detach(self, observer):\n        self._observers.remove(observer)\n\n    def notify(self):\n        for observer in self._observers:\n            observer.update(self)\n\n    @property\n    def state(self):\n        return self._state\n\n    @state.setter\n    def state(self, value):\n        self._state = value\n        self.notify()\n\n# Observer\nclass Observer(ABC):\n    @abstractmethod\n    def update(self, subject: Subject):\n        pass\n\n# Concrete Observer\nclass ConcreteObserver(Observer):\n    def update(self, subject: Subject):\n        print(f\"Observer: Subject's state changed to {subject.state}\")\n\n# Usage\nsubject = ConcreteSubject()\nobserver1 = ConcreteObserver()\nobserver2 = ConcreteObserver()\n\nsubject.attach(observer1)\nsubject.attach(observer2)\n\nprint(\"Changing subject state to 10.\")\nsubject.state = 10\n# Output:\n# Observer: Subject's state changed to 10\n# Observer: Subject's state changed to 10\n\nprint(\"\\nChanging subject state to 20.\")\nsubject.state = 20\n# Output:\n# Observer: Subject's state changed to 20\n# Observer: Subject's state changed to 20\n\nsubject.detach(observer1)\nprint(\"\\nChanging subject state to 30 after detaching observer1.\")\nsubject.state = 30\n# Output:\n# Observer: Subject's state changed to 30\nExplanation: - Subject defines methods to attach, detach, and notify observers. - ConcreteSubject maintains a list of observers and notifies them when its state changes. - Observer defines an update method that observers must implement. - ConcreteObserver implements the update method to respond to state changes. - When the subject’s state is updated, all attached observers are notified automatically.\n\n\nb. Strategy\nPurpose: Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it.\nUse Case: When you have multiple ways of performing an operation and want to choose the algorithm at runtime.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Strategy Interface\nclass SortingStrategy(ABC):\n    @abstractmethod\n    def sort(self, data: list) -&gt; list:\n        pass\n\n# Concrete Strategies\nclass QuickSortStrategy(SortingStrategy):\n    def sort(self, data: list) -&gt; list:\n        print(\"Sorting using QuickSort.\")\n        return sorted(data)  # Simplified for illustration\n\nclass MergeSortStrategy(SortingStrategy):\n    def sort(self, data: list) -&gt; list:\n        print(\"Sorting using MergeSort.\")\n        return sorted(data)  # Simplified for illustration\n\nclass BubbleSortStrategy(SortingStrategy):\n    def sort(self, data: list) -&gt; list:\n        print(\"Sorting using BubbleSort.\")\n        return sorted(data)  # Simplified for illustration\n\n# Context\nclass Sorter:\n    def __init__(self, strategy: SortingStrategy):\n        self._strategy = strategy\n\n    def set_strategy(self, strategy: SortingStrategy):\n        self._strategy = strategy\n\n    def sort_data(self, data: list) -&gt; list:\n        return self._strategy.sort(data)\n\n# Usage\ndata = [5, 2, 9, 1, 5, 6]\n\nsorter = Sorter(QuickSortStrategy())\nsorted_data = sorter.sort_data(data)\nprint(sorted_data)\n# Output:\n# Sorting using QuickSort.\n# [1, 2, 5, 5, 6, 9]\n\nsorter.set_strategy(BubbleSortStrategy())\nsorted_data = sorter.sort_data(data)\nprint(sorted_data)\n# Output:\n# Sorting using BubbleSort.\n# [1, 2, 5, 5, 6, 9]\nExplanation: - SortingStrategy is the abstract strategy interface with a sort method. - QuickSortStrategy, MergeSortStrategy, and BubbleSortStrategy are concrete strategies implementing different sorting algorithms. - Sorter is the context that uses a SortingStrategy to sort data. It can change its strategy at runtime. - The client can choose different sorting algorithms by setting different strategies without changing the Sorter’s implementation.\n\n\nc. Command\nPurpose: Encapsulate a request as an object, thereby allowing for parameterization of clients with queues, requests, and operations.\nUse Case: Implementing undo/redo functionality, transactional behavior, or scheduling tasks.\nPython Implementation:\nfrom abc import ABC, abstractmethod\n\n# Command Interface\nclass Command(ABC):\n    @abstractmethod\n    def execute(self):\n        pass\n\n    @abstractmethod\n    def undo(self):\n        pass\n\n# Receiver\nclass Light:\n    def __init__(self):\n        self.is_on = False\n\n    def turn_on(self):\n        self.is_on = True\n        print(\"Light: turned on.\")\n\n    def turn_off(self):\n        self.is_on = False\n        print(\"Light: turned off.\")\n\n# Concrete Commands\nclass TurnOnCommand(Command):\n    def __init__(self, light: Light):\n        self.light = light\n\n    def execute(self):\n        self.light.turn_on()\n\n    def undo(self):\n        self.light.turn_off()\n\nclass TurnOffCommand(Command):\n    def __init__(self, light: Light):\n        self.light = light\n\n    def execute(self):\n        self.light.turn_off()\n\n    def undo(self):\n        self.light.turn_on()\n\n# Invoker\nclass RemoteControl:\n    def __init__(self):\n        self.history = []\n\n    def execute_command(self, command: Command):\n        command.execute()\n        self.history.append(command)\n\n    def undo_last(self):\n        if self.history:\n            command = self.history.pop()\n            command.undo()\n        else:\n            print(\"No commands to undo.\")\n\n# Usage\nlight = Light()\nremote = RemoteControl()\n\nturn_on = TurnOnCommand(light)\nturn_off = TurnOffCommand(light)\n\nremote.execute_command(turn_on)   # Output: Light: turned on.\nremote.execute_command(turn_off)  # Output: Light: turned off.\nremote.undo_last()                # Output: Light: turned on.\nremote.undo_last()                # Output: Light: turned off.\nremote.undo_last()                # Output: No commands to undo.\nExplanation: - Command is the abstract command interface with execute and undo methods. - Light is the receiver that performs the actual operations. - TurnOnCommand and TurnOffCommand are concrete commands that call the receiver’s methods. - RemoteControl is the invoker that executes commands and maintains a history for undoing. - The client uses the RemoteControl to execute and undo commands without knowing the underlying receiver’s implementation.\n\n\nd. Iterator\nPurpose: Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.\nUse Case: When you need to traverse different data structures (lists, trees, etc.) uniformly.\nPython Implementation:\nclass Iterator(ABC):\n    @abstractmethod\n    def __next__(self):\n        pass\n\nclass ConcreteIterator(Iterator):\n    def __init__(self, collection):\n        self._collection = collection\n        self._index = 0\n\n    def __next__(self):\n        try:\n            item = self._collection[self._index]\n            self._index += 1\n            return item\n        except IndexError:\n            raise StopIteration\n\nclass Aggregate(ABC):\n    @abstractmethod\n    def create_iterator(self):\n        pass\n\nclass ConcreteAggregate(Aggregate):\n    def __init__(self):\n        self._items = []\n\n    def add_item(self, item):\n        self._items.append(item)\n\n    def create_iterator(self):\n        return ConcreteIterator(self._items)\n\n# Usage\naggregate = ConcreteAggregate()\naggregate.add_item(\"Item1\")\naggregate.add_item(\"Item2\")\naggregate.add_item(\"Item3\")\n\niterator = aggregate.create_iterator()\n\nprint(\"Iterating over aggregate:\")\ntry:\n    while True:\n        item = next(iterator)\n        print(item)\nexcept StopIteration:\n    pass\n# Output:\n# Iterating over aggregate:\n# Item1\n# Item2\n# Item3\nExplanation: - Iterator is the abstract iterator interface with a __next__ method. - ConcreteIterator implements the Iterator interface to traverse a collection. - Aggregate is the abstract collection interface with a create_iterator method. - ConcreteAggregate maintains a list of items and returns a ConcreteIterator for traversal. - The client uses the iterator to traverse the collection without knowing its internal structure.\nPythonic Approach: Python’s built-in iterator protocol can often replace explicit iterator patterns.\nclass IterableAggregate:\n    def __init__(self):\n        self._items = []\n\n    def add_item(self, item):\n        self._items.append(item)\n\n    def __iter__(self):\n        return iter(self._items)\n\n# Usage\naggregate = IterableAggregate()\naggregate.add_item(\"Item1\")\naggregate.add_item(\"Item2\")\naggregate.add_item(\"Item3\")\n\nprint(\"Iterating over aggregate using Pythonic iterator:\")\nfor item in aggregate:\n    print(item)\n# Output:\n# Iterating over aggregate using Pythonic iterator:\n# Item1\n# Item2\n# Item3\n\n\ne. Mediator\nPurpose: Define an object that encapsulates how a set of objects interact. Mediator promotes loose coupling by keeping objects from referring to each other explicitly.\nUse Case: When you have complex communication between multiple objects and want to centralize control.\nPython Implementation:\n```python from abc import ABC, abstractmethod",
+    "crumbs": [
+      "Blog",
+      "Coding Design Patterns"
+    ]
+  },
+  {
+    "objectID": "sound_testing.html",
+    "href": "sound_testing.html",
+    "title": "Sound Testing",
+    "section": "",
+    "text": "Record audio from the mic\n\nVisualize the waveform\n\nPlay it back\n\n(Optional) Run basic analysis (volume, noise floor, frequency)",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing.html#overview-what-youll-do",
+    "href": "sound_testing.html#overview-what-youll-do",
+    "title": "Sound Testing",
+    "section": "",
+    "text": "Record audio from the mic\n\nVisualize the waveform\n\nPlay it back\n\n(Optional) Run basic analysis (volume, noise floor, frequency)",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing.html#install-required-python-libraries",
+    "href": "sound_testing.html#install-required-python-libraries",
+    "title": "Sound Testing",
+    "section": "🧰 1. Install Required Python Libraries",
+    "text": "🧰 1. Install Required Python Libraries\npip install sounddevice numpy scipy matplotlib ipython\n\nThese tools use your system’s microphone input and work across platforms.",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing.html#record-audio-from-microphone-in-jupyter",
+    "href": "sound_testing.html#record-audio-from-microphone-in-jupyter",
+    "title": "Sound Testing",
+    "section": "🎙️ 2. Record Audio from Microphone in Jupyter",
+    "text": "🎙️ 2. Record Audio from Microphone in Jupyter\n\nimport sounddevice as sd\n\nprint(\"Available audio input devices:\")\ndevices = sd.query_devices()\n\nfor i, device in enumerate(devices):\n    if device['max_input_channels'] &gt; 0:\n        print(f\"[{i}] {device['name']} — {device['hostapi']}\")\n\nAvailable audio input devices:\n[0] UM02: USB Audio (hw:1,0) — 0\n[5] HD-Audio Generic: ALC897 Analog (hw:3,0) — 0\n[7] HD-Audio Generic: ALC897 Alt Analog (hw:3,2) — 0\n[8] UGREEN camera 2K: USB Audio (hw:4,0) — 0\n\n\n\nimport sounddevice as sd\nimport numpy as np\nfrom scipy.io.wavfile import write\n\n# Recording parameters\nsamplerate = 44100  # Hz\nduration = 5        # seconds\n\nprint(\"Recording...\")\nrecording = sd.rec(int(samplerate * duration), samplerate=samplerate, channels=1)\nsd.wait()\nprint(\"Recording complete.\")\n\n# Save to WAV file\nwrite(\"mic_test.wav\", samplerate, recording)\n\nRecording...\nRecording complete.\n\n\n✅ You now have a 5-second recording from your default microphone.",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing.html#visualize-the-audio-waveform",
+    "href": "sound_testing.html#visualize-the-audio-waveform",
+    "title": "Sound Testing",
+    "section": "📊 3. Visualize the Audio Waveform",
+    "text": "📊 3. Visualize the Audio Waveform\n\nimport matplotlib.pyplot as plt\n\nplt.figure(figsize=(10, 3))\nplt.plot(recording)\nplt.title(\"Mic Input Waveform\")\nplt.xlabel(\"Sample\")\nplt.ylabel(\"Amplitude\")\nplt.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\n\nLook for spikes (speech), flatlines (silence), and background noise.",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing.html#playback-in-notebook-optional",
+    "href": "sound_testing.html#playback-in-notebook-optional",
+    "title": "Sound Testing",
+    "section": "🔊 4. Playback in Notebook (Optional)",
+    "text": "🔊 4. Playback in Notebook (Optional)\n\nfrom IPython.display import Audio\n\nAudio(\"mic_test.wav\")\n\n\n                \n                    \n                    Your browser does not support the audio element.\n                \n              \n\n\n\n🎧 This plays your mic test right in the notebook.",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing.html#basic-mic-quality-metrics",
+    "href": "sound_testing.html#basic-mic-quality-metrics",
+    "title": "Sound Testing",
+    "section": "🧪 5. Basic Mic Quality Metrics",
+    "text": "🧪 5. Basic Mic Quality Metrics\n\nRMS Volume:\n\nrms = np.sqrt(np.mean(recording**2))\nprint(f\"RMS Volume: {rms:.4f}\")\n\nRMS Volume: 0.0079\n\n\n\n\nNoise Floor Estimate (first second):\n\nnoise_sample = recording[:samplerate]  # First 1 second\nnoise_rms = np.sqrt(np.mean(noise_sample**2))\nprint(f\"Estimated Noise Floor: {noise_rms:.4f}\")\n\nEstimated Noise Floor: 0.0082",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing.html#advanced-options-optional",
+    "href": "sound_testing.html#advanced-options-optional",
+    "title": "Sound Testing",
+    "section": "🧠 Advanced Options (Optional)",
+    "text": "🧠 Advanced Options (Optional)\n\n\n\n\n\n\n\nTask\nTool / Method\n\n\n\n\nPlot frequency spectrum\nUse FFT via numpy.fft.fft\n\n\nRecord stereo or longer\nChange channels=2 or duration=10\n\n\nTest multiple mics\nUse sd.query_devices() and device=...\n\n\nClean noise\nUse scipy.signal, librosa, or noisereduce\n\n\nTranscribe speech\nUse speech_recognition or whisper",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  },
+  {
+    "objectID": "sound_testing.html#summary-workflow",
+    "href": "sound_testing.html#summary-workflow",
+    "title": "Sound Testing",
+    "section": "📋 Summary Workflow",
+    "text": "📋 Summary Workflow\n1. 🎙️ Record with sounddevice\n2. 📦 Save as WAV\n3. 📊 Plot waveform\n4. 🔊 Playback with IPython\n5. 🧪 Measure volume / noise\n\nWould you like: - A downloadable Jupyter notebook template for mic testing? - A version that tests and compares multiple microphones side-by-side?\nLet me know how deep you want to go — I can add frequency analysis or even ML-based speech quality scores!",
+    "crumbs": [
+      "Blog",
+      "Sound Testing"
+    ]
+  }
+]

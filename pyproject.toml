@@ -1,3 +1,30 @@
 [build-system]
-requires = ["setuptools>=64.0"]
+requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "Software_Tools"
+dynamic = ["version"]
+description = ""
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "Apache-2.0"}
+authors = [{name = "Benedict Thekkel", email = "bthekkel1@gmail.com"}]
+keywords = ['nbdev', 'jupyter', 'notebook', 'python']
+classifiers = ["Natural Language :: English", "Intended Audience :: Developers", "Development Status :: 3 - Alpha", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only"]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/bthek1/Software_Tools"
+Documentation = "https://bthek1.github.io/Software_Tools"
+
+[project.entry-points.nbdev]
+Software_Tools = "Software_Tools._modidx:d"
+
+[tool.setuptools.dynamic]
+version = {attr = "Software_Tools.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["Software_Tools"]
+
+[tool.nbdev]

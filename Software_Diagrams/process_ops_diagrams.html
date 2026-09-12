@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Benedict Thekkel">
+<meta name="description" content="Gantt charts, swimlanes and timing diagrams: scheduling work, assigning responsibility, and reading signals on a wire.">
+
+<title>Process and Ops Diagrams – Software_Tools</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Software_Diagrams/architectural_diagrams.html" rel="prev">
+<link href="../favi.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-bbd64a6fcbf54a7b79ffed393e885326.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-175f28cc9209fa6ef4c21b809f7add8b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-bbd64a6fcbf54a7b79ffed393e885326.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Process and Ops Diagrams – Software_Tools">
+<meta property="og:description" content="Gantt charts, swimlanes and timing diagrams: scheduling work, assigning responsibility, and reading signals on a wire.">
+<meta property="og:image" content="https://bthek1.github.io/Software_Tools/Software_Diagrams/Logo.svg">
+<meta property="og:site_name" content="Software_Tools">
+<meta name="twitter:title" content="Process and Ops Diagrams – Software_Tools">
+<meta name="twitter:description" content="Gantt charts, swimlanes and timing diagrams: scheduling work, assigning responsibility, and reading signals on a wire.">
+<meta name="twitter:image" content="https://bthek1.github.io/Software_Tools/Software_Diagrams/Logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../Logo.svg" alt="Benedict Thekkel" class="navbar-logo light-content">
+    <img src="../Logo.svg" alt="Benedict Thekkel" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-deep-learning" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Deep Learning</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-deep-learning">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/FastAI_course/">
+ <span class="dropdown-text">Fast AI course</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/DL_methods/">
+ <span class="dropdown-text">DL Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/DL_tasks/">
+ <span class="dropdown-text">DL Tasks</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ml-techniques" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ML Techniques</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ml-techniques">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/ML_methods/">
+ <span class="dropdown-text">ML Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/TimeSeriesML/">
+ <span class="dropdown-text">Time series</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-web" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Web</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-web">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/WEB_doc/">
+ <span class="dropdown-text">Web Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Front_End/">
+ <span class="dropdown-text">Front End</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Back_End/">
+ <span class="dropdown-text">Back End</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/IaaS_docs/">
+ <span class="dropdown-text">IaaS</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tools" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tools</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tools">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Software_Tools/">
+ <span class="dropdown-text">Software Tools</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Hardware_Tools/">
+ <span class="dropdown-text">Hardware Tools</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Python_Libs/">
+ <span class="dropdown-text">Python Libraries</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/nbdevAuto/">
+ <span class="dropdown-text">Nbdev Automation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/ROS2_docs/">
+ <span class="dropdown-text">ROS 2</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-business" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Business</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-business">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Business_doc/">
+ <span class="dropdown-text">Business Doc</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Philosophy_doc/">
+ <span class="dropdown-text">Ideas Doc</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Finances/">
+ <span class="dropdown-text">Finances</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Other/">
+ <span class="dropdown-text">Other</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://bthek1.github.io/bthek1_blog/"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-help" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Help</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-help">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/bthek1/bthek1_blog/issues"><i class="bi bi-bug" role="img">
+</i> 
+ <span class="dropdown-text">Report a Bug</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/bthek1/bthek1_blog/issues"><i class="bi bi-chat-right-text" role="img">
+</i> 
+ <span class="dropdown-text">Ask a Question</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/bthek1/bthek1_blog/issues"><i class="bi bi-question-circle" role="img">
+</i> 
+ <span class="dropdown-text">FAQ</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools tools-wide">
+    <a href="https://github.com/bthek1" title="" class="quarto-navigation-tool px-1" aria-label="Github"><i class="bi bi-github"></i></a>
+    <a href="https://www.linkedin.com/in/benedict-thekkel/" title="" class="quarto-navigation-tool px-1" aria-label="Linkedin"><i class="bi bi-linkedin"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Software_Diagrams/diagram_overview.html">Software Diagrams</a></li><li class="breadcrumb-item"><a href="../Software_Diagrams/process_ops_diagrams.html">Process and Ops Diagrams</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tmux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tmux</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_proxmox.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proxmox</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_proxmox_storage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proxmox Storage</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_vim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_neovim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neovim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_coding_design_patterns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coding Design Patterns</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_coding_algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coding Algorithms</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vscode_debugging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vscode Debugging</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../jupyter_labs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jupyter Labs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../latex_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latex</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../wsl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">WSL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quarto</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_make.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Make</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_just.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Just</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mfa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MFA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ast.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abstract Syntax Tree (AST)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regex</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../graphify.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Graphify</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../browser_use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Brower Use</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">C++</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../C++/c++.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C++</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Camera Sound</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Camera_sound/sound_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sound Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Camera_sound/sound_testing2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sound Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Camera_sound/camera_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Camera Testing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Linux</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/linux_users.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linux Users, Groups and Permissions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/service.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Services in Linux</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/journalctl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Service Journalctl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/bash_scritps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bash Scripts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/linux_computer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linux Computer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/shell_commands.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shell Commands</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/display_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Display System</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Platform IO</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Platform_IO/platformio_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Platform IO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Software Diagrams</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/diagram_overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/structural_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structural Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/behavioural_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Behavioural Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/requirements_or_scope_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Requirements and Scope Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/architectural_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architectural Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/process_ops_diagrams.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Process and Ops Diagrams</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-these-have-in-common" id="toc-what-these-have-in-common" class="nav-link active" data-scroll-target="#what-these-have-in-common">0. What these have in common</a></li>
+  <li><a href="#gantt-and-dependency-charts" id="toc-gantt-and-dependency-charts" class="nav-link" data-scroll-target="#gantt-and-dependency-charts">1. Gantt and dependency charts</a>
+  <ul class="collapse">
+  <li><a href="#task-syntax" id="toc-task-syntax" class="nav-link" data-scroll-target="#task-syntax">Task syntax</a></li>
+  <li><a href="#when-the-dependency-matters-more-than-the-calendar" id="toc-when-the-dependency-matters-more-than-the-calendar" class="nav-link" data-scroll-target="#when-the-dependency-matters-more-than-the-calendar">When the dependency matters more than the calendar</a></li>
+  </ul></li>
+  <li><a href="#swimlane-diagram" id="toc-swimlane-diagram" class="nav-link" data-scroll-target="#swimlane-diagram">2. Swimlane diagram</a></li>
+  <li><a href="#timing-diagram" id="toc-timing-diagram" class="nav-link" data-scroll-target="#timing-diagram">3. Timing diagram</a>
+  <ul class="collapse">
+  <li><a href="#wavedrom-for-signal-level" id="toc-wavedrom-for-signal-level" class="nav-link" data-scroll-target="#wavedrom-for-signal-level">WaveDrom, for signal level</a></li>
+  <li><a href="#plantuml-for-state-level" id="toc-plantuml-for-state-level" class="nav-link" data-scroll-target="#plantuml-for-state-level">PlantUML, for state level</a></li>
+  </ul></li>
+  <li><a href="#three-more-mermaid-diagrams-worth-knowing" id="toc-three-more-mermaid-diagrams-worth-knowing" class="nav-link" data-scroll-target="#three-more-mermaid-diagrams-worth-knowing">4. Three more Mermaid diagrams worth knowing</a>
+  <ul class="collapse">
+  <li><a href="#gitgraph-for-branching-strategy" id="toc-gitgraph-for-branching-strategy" class="nav-link" data-scroll-target="#gitgraph-for-branching-strategy">gitGraph, for branching strategy</a></li>
+  <li><a href="#timeline-for-retrospectives-and-incident-reviews" id="toc-timeline-for-retrospectives-and-incident-reviews" class="nav-link" data-scroll-target="#timeline-for-retrospectives-and-incident-reviews">timeline, for retrospectives and incident reviews</a></li>
+  <li><a href="#quadrantchart-for-prioritisation" id="toc-quadrantchart-for-prioritisation" class="nav-link" data-scroll-target="#quadrantchart-for-prioritisation">quadrantChart, for prioritisation</a></li>
+  </ul></li>
+  <li><a href="#wrapping-up-the-folder" id="toc-wrapping-up-the-folder" class="nav-link" data-scroll-target="#wrapping-up-the-folder">5. Wrapping up the folder</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/bthek1/Software_Tools/blob/main/Software_Diagrams/06_Process_ops_Diagrams.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bthek1/Software_Tools/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Software_Diagrams/diagram_overview.html">Software Diagrams</a></li><li class="breadcrumb-item"><a href="../Software_Diagrams/process_ops_diagrams.html">Process and Ops Diagrams</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Process and Ops Diagrams</h1>
+</div>
+
+<div>
+  <div class="description">
+    Gantt charts, swimlanes and timing diagrams: scheduling work, assigning responsibility, and reading signals on a wire.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Benedict Thekkel </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="what-these-have-in-common" class="level2">
+<h2 class="anchored" data-anchor-id="what-these-have-in-common">0. What these have in common</h2>
+<p>The diagrams in notebooks 02 to 05 describe a system. These three describe <strong>work and time</strong>: when things happen, who owns them, and how long they take.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Diagram</th>
+<th>Time scale</th>
+<th>The question it owns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Gantt / dependency chart</strong></td>
+<td>Weeks to months</td>
+<td>“What blocks what, and when does this land?”</td>
+</tr>
+<tr class="even">
+<td><strong>Swimlane</strong></td>
+<td>Hours to days</td>
+<td>“Whose job is this step, and where does it get stuck?”</td>
+</tr>
+<tr class="odd">
+<td><strong>Timing diagram</strong></td>
+<td>Microseconds to seconds</td>
+<td>“What is the signal actually doing, and does it meet timing?”</td>
+</tr>
+</tbody>
+</table>
+<p>Still the same running example: <em>MeterHub</em>, a service that ingests smart-meter readings over MQTT and bills customers monthly.</p>
+<hr>
+</section>
+<section id="gantt-and-dependency-charts" class="level2">
+<h2 class="anchored" data-anchor-id="gantt-and-dependency-charts">1. Gantt and dependency charts</h2>
+<p><strong>What it is:</strong> tasks as horizontal bars on a calendar, with dependencies between them and milestones as points.</p>
+<p><strong>When it earns its keep:</strong> when the interesting fact is a <strong>dependency</strong>, not a date. “Meter commissioning cannot start until the certificate authority exists” is worth a chart. A list of tasks with dates is a spreadsheet, and Gantt charts drawn as decorated spreadsheets are why the format has the reputation it has.</p>
+<p><strong>What makes it honest:</strong> the critical path is visible, milestones are events rather than tasks, and dates that are guesses are marked as guesses.</p>
+<pre class="mermaid"><code>gantt
+    title MeterHub release 1
+    dateFormat YYYY-MM-DD
+    axisFormat %d %b
+    excludes weekends
+
+    section Platform
+    Provision LXC and network      :done,    inf1, 2026-08-03, 4d
+    Certificate authority for meters :done,  inf2, after inf1, 3d
+    TimescaleDB and retention policy :active, inf3, after inf1, 6d
+
+    section Ingest
+    MQTT broker with client certs  :active,  ing1, after inf2, 5d
+    Validation and dedupe          :         ing2, after ing1, 8d
+    Load test to 10k per second    :crit,    ing3, after ing2, 4d
+
+    section Billing
+    Tariff engine, flat rate       :         bil1, after inf3, 6d
+    Tariff engine, time of use     :         bil2, after bil1, 7d
+    Invoice PDF and email          :         bil3, after bil2, 5d
+
+    section Customer facing
+    Usage charts                   :         web1, after inf3, 8d
+    Payment flow with gateway      :crit,    web2, after bil3, 9d
+
+    section Gates
+    Meters in the field            :milestone, m1, after ing3, 0d
+    First live bill issued         :milestone, m2, after web2, 0d</code></pre>
+<p>Read the chart for its shape rather than its dates. Everything downstream of <code>inf3</code> (the database) is blocked by one task, so slipping it slips billing and the customer app together. And the two <code>crit</code> tasks, load testing and the payment flow, are the ones with external dependencies (a load rig, a gateway’s sandbox), which is exactly where estimates fail.</p>
+<section id="task-syntax" class="level3">
+<h3 class="anchored" data-anchor-id="task-syntax">Task syntax</h3>
+<p><code>Task name :tag, id, start, duration</code> where the tags are <code>done</code>, <code>active</code>, <code>crit</code>, <code>milestone</code>, and the start can be a date or <code>after &lt;id&gt;</code>. <code>excludes weekends</code> keeps the arithmetic believable, and <code>section</code> groups rows.</p>
+</section>
+<section id="when-the-dependency-matters-more-than-the-calendar" class="level3">
+<h3 class="anchored" data-anchor-id="when-the-dependency-matters-more-than-the-calendar">When the dependency matters more than the calendar</h3>
+<p>Drop the dates and draw the network. This is a PERT-style dependency chart, and the numbers on the nodes are durations:</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Provision infra&lt;br/&gt;4d"] --&gt; B["Cert authority&lt;br/&gt;3d"]
+    A --&gt; C["TimescaleDB&lt;br/&gt;6d"]
+    B --&gt; D["Broker + certs&lt;br/&gt;5d"]
+    D --&gt; E["Validate + dedupe&lt;br/&gt;8d"]
+    E --&gt; F["Load test&lt;br/&gt;4d"]
+    C --&gt; G["Tariff flat&lt;br/&gt;6d"]
+    G --&gt; H["Tariff ToU&lt;br/&gt;7d"]
+    H --&gt; I["Invoice PDF&lt;br/&gt;5d"]
+    I --&gt; J["Payment flow&lt;br/&gt;9d"]
+    C --&gt; K["Usage charts&lt;br/&gt;8d"]
+    F --&gt; M1(["Meters in field"])
+    J --&gt; M2(["First live bill"])
+
+    linkStyle 1,5,6,7,8,11 stroke:#e53e3e,stroke-width:3px</code></pre>
+<p>The red edges are the critical path: infra, database, flat tariff, time of use, PDF, payment, at 37 days. Nothing on the ingest branch can delay the launch until it exceeds that, which tells you where a second pair of hands is worth having and where it is not.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A Gantt chart is a plan, and plans are wrong. Regenerate it from the tracker rather than maintaining it by hand, or accept that it is a snapshot with a date on it. The failure mode is a beautiful chart that nobody has updated in six weeks and everybody still quotes.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="swimlane-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="swimlane-diagram">2. Swimlane diagram</h2>
+<p><strong>What it is:</strong> a flowchart split into lanes, one per role, team or system. The steps are the same as any <a href="../Software_Diagrams/behavioural_diagrams.html">activity diagram</a>. The lanes add the one fact that matters most in a cross-team process: <strong>who owns this step</strong>.</p>
+<p><strong>When it earns its keep:</strong> any process where the handoffs are the problem, which is most of them. Incident response, onboarding, procurement, refunds, deployment approvals. The lanes make queueing visible, and queueing between teams is where days disappear.</p>
+<p><strong>What to look for once it is drawn:</strong> every arrow that crosses a lane boundary is a handoff, and every handoff is a wait state. Count them. A process with nine lane crossings is not slow because people are slow.</p>
+<pre class="mermaid"><code>flowchart TB
+    subgraph CUST["Customer"]
+        C1["Reports a suspicious bill"]
+        C2["Confirms the correction"]
+    end
+
+    subgraph SUP["Support"]
+        S1["Triage ticket,&lt;br/&gt;check usage chart"]
+        S2{"Explainable&lt;br/&gt;from the data?"}
+        S3["Reply with explanation"]
+        S4["Escalate to metering,&lt;br/&gt;attach NMI and period"]
+        S5["Notify customer of outcome"]
+    end
+
+    subgraph MET["Metering ops"]
+        M1["Pull raw interval data"]
+        M2{"Gap, estimate&lt;br/&gt;or genuine spike?"}
+        M3["Request field visit"]
+        M4["Issue correction:&lt;br/&gt;new rows, reason code"]
+    end
+
+    subgraph FIELD["Field technician"]
+        F1["Site visit,&lt;br/&gt;verify meter and wiring"]
+        F2["Replace or recommission"]
+    end
+
+    subgraph SYS["MeterHub"]
+        Y1["Reprice the period"]
+        Y2["Issue adjustment invoice"]
+    end
+
+    C1 --&gt; S1
+    S1 --&gt; S2
+    S2 --&gt;|yes| S3
+    S3 --&gt; C2
+    S2 --&gt;|no| S4
+    S4 --&gt; M1
+    M1 --&gt; M2
+    M2 --&gt;|"genuine spike"| S3
+    M2 --&gt;|"gap or estimate"| M4
+    M2 --&gt;|"hardware suspect"| M3
+    M3 --&gt; F1
+    F1 --&gt; F2
+    F2 --&gt; M4
+    M4 --&gt; Y1
+    Y1 --&gt; Y2
+    Y2 --&gt; S5
+    S5 --&gt; C2
+
+    classDef wait fill:#744210,stroke:#f6e05e,color:#fff
+    class S4,M3,F1 wait</code></pre>
+<p>Six lane crossings on the unhappy path, and the three highlighted steps are the queues: escalation to metering, requesting a field visit, and the visit itself. The field visit is measured in days while everything else is measured in minutes, so the only optimisation that matters is <strong>not needing the visit</strong>, which means better remote diagnostics on the meter. Reading that off the diagram takes ten seconds. Arguing about it without a diagram takes a meeting.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Mermaid has no true swimlane primitive. Subgraphs plus <code>flowchart TB</code> get you horizontal lanes, and <code>flowchart LR</code> gets you vertical ones, but the layout engine will not keep lanes tidy in complicated processes. For a large process, <a href="https://www.bpmn.org">BPMN</a> (drawn in bpmn.io or Camunda Modeler) is the notation designed for exactly this, with real pools, lanes, gateways and events.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="timing-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="timing-diagram">3. Timing diagram</h2>
+<p><strong>What it is:</strong> signal or state values plotted against time, with the transitions and the intervals between them marked. The hardware side of the house, and the one diagram in this folder where the units are microseconds.</p>
+<p><strong>When it earns its keep:</strong> bus protocols (SPI, I2C, UART), interrupt latency, sleep and wake budgets on battery devices, and any datasheet requirement of the form “CS must be low at least 20 ns before the first clock edge”. Also useful one level up for anything with a strict deadline: an audio buffer, a control loop, a watchdog.</p>
+<p>Mermaid does not do timing diagrams. Two tools do it properly.</p>
+<section id="wavedrom-for-signal-level" class="level3">
+<h3 class="anchored" data-anchor-id="wavedrom-for-signal-level">WaveDrom, for signal level</h3>
+<p><a href="https://wavedrom.com">WaveDrom</a> takes JSON and renders the classic waveform picture. This is one SPI transaction from the meter’s MCU to its energy-measurement chip:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"signal"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"CS"</span><span class="fu">,</span>   <span class="dt">"wave"</span><span class="fu">:</span> <span class="st">"10.........1"</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"SCLK"</span><span class="fu">,</span> <span class="dt">"wave"</span><span class="fu">:</span> <span class="st">"0.p........0"</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"MOSI"</span><span class="fu">,</span> <span class="dt">"wave"</span><span class="fu">:</span> <span class="st">"x.2222x....."</span><span class="fu">,</span> <span class="dt">"data"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"A7"</span><span class="ot">,</span> <span class="st">"A6"</span><span class="ot">,</span> <span class="st">"A5"</span><span class="ot">,</span> <span class="st">"A4"</span><span class="ot">]</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"MISO"</span><span class="fu">,</span> <span class="dt">"wave"</span><span class="fu">:</span> <span class="st">"x......3333x"</span><span class="fu">,</span> <span class="dt">"data"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"D7"</span><span class="ot">,</span> <span class="st">"D6"</span><span class="ot">,</span> <span class="st">"D5"</span><span class="ot">,</span> <span class="st">"D4"</span><span class="ot">]</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"IRQ"</span><span class="fu">,</span>  <span class="dt">"wave"</span><span class="fu">:</span> <span class="st">"1.........0."</span> <span class="fu">}</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"config"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"hscale"</span><span class="fu">:</span> <span class="dv">1</span> <span class="fu">}</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>wave</code> characters: <code>0</code> and <code>1</code> are levels, <code>.</code> extends the previous value, <code>p</code> and <code>n</code> are clocks, <code>x</code> is don’t-care, and digits are data buses whose labels come from <code>data</code>. The whole notation is learnable in about ten minutes and it is what most datasheets and RFCs use.</p>
+</section>
+<section id="plantuml-for-state-level" class="level3">
+<h3 class="anchored" data-anchor-id="plantuml-for-state-level">PlantUML, for state level</h3>
+<p>When the interesting thing is which <em>state</em> something is in rather than the voltage on a pin, PlantUML’s timing syntax is easier to read:</p>
+<pre class="plantuml"><code>@startuml
+robust "Meter MCU" as MCU
+concise "MQTT session" as NET
+scale 1 as 60 pixels
+
+@0
+MCU is DeepSleep
+NET is Disconnected
+
+@300
+MCU is Sampling
+NET is Disconnected
+
+@360
+MCU is Connecting
+NET is Handshake
+
+@900
+MCU is Publishing
+NET is Connected
+
+@1000
+MCU is DeepSleep
+NET is Disconnected
+
+@300 &lt;-&gt; @900 : 600 ms of radio, the entire power budget
+@enduml</code></pre>
+<p>The annotation at the bottom is the point of the diagram. Sampling costs almost nothing, and the TLS handshake plus publish dominates the wake window, so a battery meter should batch readings and publish once an hour rather than reconnect every five minutes. That conclusion is a power measurement made visible, and it changes the firmware design.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For anything with a deadline, put the <strong>budget</strong> on the diagram next to the measurement. “600 ms” is data. “600 ms of a 900 ms wake budget” is a decision.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="three-more-mermaid-diagrams-worth-knowing" class="level2">
+<h2 class="anchored" data-anchor-id="three-more-mermaid-diagrams-worth-knowing">4. Three more Mermaid diagrams worth knowing</h2>
+<p>Not in the original taxonomy, cheap to draw, and they come up constantly in ops work.</p>
+<section id="gitgraph-for-branching-strategy" class="level3">
+<h3 class="anchored" data-anchor-id="gitgraph-for-branching-strategy">gitGraph, for branching strategy</h3>
+<p>Explaining a branching model in prose never works. Six lines of <code>gitGraph</code> does:</p>
+<pre class="mermaid"><code>gitGraph
+    commit id: "v1.2.0"
+    branch release/1.3
+    checkout main
+    commit id: "feat: tou tariffs"
+    commit id: "fix: dedupe ttl"
+    checkout release/1.3
+    cherry-pick id: "fix: dedupe ttl"
+    commit id: "v1.3.0" tag: "v1.3.0"
+    checkout main
+    merge release/1.3
+    commit id: "feat: adjustment invoices"</code></pre>
+</section>
+<section id="timeline-for-retrospectives-and-incident-reviews" class="level3">
+<h3 class="anchored" data-anchor-id="timeline-for-retrospectives-and-incident-reviews">timeline, for retrospectives and incident reviews</h3>
+<pre class="mermaid"><code>timeline
+    title Incident 2026-07-14, billing run produced zero invoices
+    02.00 : Nightly billing timer fires
+          : Advisory lock acquired
+    02.01 : Query returns zero sites due
+          : Run exits 0, no alert fires
+    08.40 : Support notices no bills sent
+    09.15 : Timezone bug found
+          : period_end compared in UTC, not Brisbane
+    10.30 : Fix deployed, run replayed
+    11.00 : Alert added on invoices issued equals zero</code></pre>
+<p>The lesson is legible in the gaps: the failure happened at 02.01 and was noticed at 08.40, so the finding is not the timezone bug. It is that a successful-looking run with zero output raised nothing. (Times are written with a dot because <code>timeline</code> uses the colon as its field separator: a row written <code>02:01 : Query returns zero sites due</code> is a parse error, not a clock time.)</p>
+</section>
+<section id="quadrantchart-for-prioritisation" class="level3">
+<h3 class="anchored" data-anchor-id="quadrantchart-for-prioritisation">quadrantChart, for prioritisation</h3>
+<pre class="mermaid"><code>quadrantChart
+    title Diagram effort against payoff
+    x-axis Cheap to keep current --&gt; Expensive to keep current
+    y-axis Low payoff --&gt; High payoff
+    quadrant-1 Worth the upkeep
+    quadrant-2 Draw these first
+    quadrant-3 Generate it or skip it
+    quadrant-4 Usually not worth it
+    ER diagram: [0.2, 0.85]
+    Sequence with failure paths: [0.25, 0.9]
+    C4 container: [0.3, 0.8]
+    Deployment: [0.4, 0.75]
+    State machine: [0.3, 0.7]
+    Network topology: [0.5, 0.65]
+    Gantt: [0.8, 0.4]
+    Class diagram: [0.7, 0.2]
+    Use case: [0.6, 0.15]
+    Communication: [0.6, 0.1]</code></pre>
+<hr>
+</section>
+</section>
+<section id="wrapping-up-the-folder" class="level2">
+<h2 class="anchored" data-anchor-id="wrapping-up-the-folder">5. Wrapping up the folder</h2>
+<p>Across all five notebooks, the same three rules decide whether a diagram was worth drawing.</p>
+<ol type="1">
+<li><strong>One question per diagram.</strong> Structure, behaviour, scope, architecture and process are different questions. A picture that answers two of them answers neither.</li>
+<li><strong>Text source, in the repository, next to the thing it describes.</strong> Every diagram in this folder is Mermaid, WaveDrom or PlantUML source, so it diffs in a pull request and can be regenerated. A PNG in a wiki is a screenshot of something that used to be true.</li>
+<li><strong>Generate what can be generated, hand-draw only intent.</strong> ER diagrams, dependency graphs, class diagrams and git graphs come out of tools. Deployment, C4, DFDs and swimlanes encode decisions no tool can recover, and those are the ones worth your time.</li>
+</ol>
+<p>If you keep only three diagram types, the ones from <a href="../Software_Diagrams/diagram_overview.html">the overview</a> still hold up: <strong>sequence</strong> for how an interaction works, <strong>ER</strong> for the data shape, and <strong>C4 container</strong> for the moving pieces. Add a <a href="../Software_Diagrams/structural_diagrams.html">deployment diagram</a> the first time you get paged at 2am and cannot remember which container holds Redis.</p>
+<p><strong>The folder</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Notebook</th>
+<th>Covers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../Software_Diagrams/diagram_overview.html">01 Overview</a></td>
+<td>The full taxonomy and the short list</td>
+</tr>
+<tr class="even">
+<td><a href="../Software_Diagrams/structural_diagrams.html">02 Structural</a></td>
+<td>Class, ER, component, deployment, package</td>
+</tr>
+<tr class="odd">
+<td><a href="../Software_Diagrams/behavioural_diagrams.html">03 Behavioural</a></td>
+<td>Sequence, state machine, activity</td>
+</tr>
+<tr class="even">
+<td><a href="../Software_Diagrams/requirements_or_scope_diagrams.html">04 Requirements and scope</a></td>
+<td>Use case, user flow, journey, requirement traceability</td>
+</tr>
+<tr class="odd">
+<td><a href="../Software_Diagrams/architectural_diagrams.html">05 Architectural</a></td>
+<td>C4, data flow and STRIDE, network topology</td>
+</tr>
+<tr class="even">
+<td>06 Process and ops</td>
+<td>Gantt, swimlane, timing, plus gitGraph, timeline, quadrant</td>
+</tr>
+</tbody>
+</table>
+<hr>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/bthek1\.github\.io\/Software_Tools");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="quarto-dev/quarto-web" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../Software_Diagrams/architectural_diagrams.html" class="pagination-link" aria-label="Architectural Diagrams">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Architectural Diagrams</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page">
+<p>Trademark</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/bthek1/bthek1_blog/issues">
+<p>FAQ</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://bthek1.github.io/bthek1_blog/index.html">
+<p>License</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../index.html">
+<p>Trademark</p>
+</a>
+  </li>  
+</ul>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/bthek1/Software_Tools/blob/main/Software_Diagrams/06_Process_ops_Diagrams.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bthek1/Software_Tools/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bthek1">
+      <i class="bi bi-github" role="img" aria-label="Github">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/benedict-thekkel/">
+      <i class="bi bi-linkedin" role="img" aria-label="Linkedin">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

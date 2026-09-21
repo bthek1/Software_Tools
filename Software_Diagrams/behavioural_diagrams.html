@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Benedict Thekkel">
+<meta name="description" content="Sequence, state machine and activity diagrams: how a system behaves over time, and which one to reach for.">
+
+<title>Behavioural Diagrams – Software_Tools</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Software_Diagrams/requirements_or_scope_diagrams.html" rel="next">
+<link href="../Software_Diagrams/structural_diagrams.html" rel="prev">
+<link href="../favi.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-bbd64a6fcbf54a7b79ffed393e885326.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-175f28cc9209fa6ef4c21b809f7add8b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-bbd64a6fcbf54a7b79ffed393e885326.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Behavioural Diagrams – Software_Tools">
+<meta property="og:description" content="Sequence, state machine and activity diagrams: how a system behaves over time, and which one to reach for.">
+<meta property="og:image" content="https://bthek1.github.io/Software_Tools/Software_Diagrams/Logo.svg">
+<meta property="og:site_name" content="Software_Tools">
+<meta name="twitter:title" content="Behavioural Diagrams – Software_Tools">
+<meta name="twitter:description" content="Sequence, state machine and activity diagrams: how a system behaves over time, and which one to reach for.">
+<meta name="twitter:image" content="https://bthek1.github.io/Software_Tools/Software_Diagrams/Logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../Logo.svg" alt="Benedict Thekkel" class="navbar-logo light-content">
+    <img src="../Logo.svg" alt="Benedict Thekkel" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-deep-learning" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Deep Learning</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-deep-learning">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/FastAI_course/">
+ <span class="dropdown-text">Fast AI course</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/DL_methods/">
+ <span class="dropdown-text">DL Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/DL_tasks/">
+ <span class="dropdown-text">DL Tasks</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ml-techniques" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ML Techniques</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ml-techniques">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/ML_methods/">
+ <span class="dropdown-text">ML Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/TimeSeriesML/">
+ <span class="dropdown-text">Time series</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-web" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Web</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-web">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/WEB_doc/">
+ <span class="dropdown-text">Web Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Front_End/">
+ <span class="dropdown-text">Front End</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Back_End/">
+ <span class="dropdown-text">Back End</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/IaaS_docs/">
+ <span class="dropdown-text">IaaS</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tools" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tools</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tools">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Software_Tools/">
+ <span class="dropdown-text">Software Tools</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Hardware_Tools/">
+ <span class="dropdown-text">Hardware Tools</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Python_Libs/">
+ <span class="dropdown-text">Python Libraries</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/nbdevAuto/">
+ <span class="dropdown-text">Nbdev Automation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/ROS2_docs/">
+ <span class="dropdown-text">ROS 2</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-business" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Business</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-business">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Business_doc/">
+ <span class="dropdown-text">Business Doc</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Philosophy_doc/">
+ <span class="dropdown-text">Ideas Doc</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Finances/">
+ <span class="dropdown-text">Finances</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Other/">
+ <span class="dropdown-text">Other</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://bthek1.github.io/bthek1_blog/"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-help" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Help</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-help">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/bthek1/bthek1_blog/issues"><i class="bi bi-bug" role="img">
+</i> 
+ <span class="dropdown-text">Report a Bug</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/bthek1/bthek1_blog/issues"><i class="bi bi-chat-right-text" role="img">
+</i> 
+ <span class="dropdown-text">Ask a Question</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/bthek1/bthek1_blog/issues"><i class="bi bi-question-circle" role="img">
+</i> 
+ <span class="dropdown-text">FAQ</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools tools-wide">
+    <a href="https://github.com/bthek1" title="" class="quarto-navigation-tool px-1" aria-label="Github"><i class="bi bi-github"></i></a>
+    <a href="https://www.linkedin.com/in/benedict-thekkel/" title="" class="quarto-navigation-tool px-1" aria-label="Linkedin"><i class="bi bi-linkedin"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Software_Diagrams/diagram_overview.html">Software Diagrams</a></li><li class="breadcrumb-item"><a href="../Software_Diagrams/behavioural_diagrams.html">Behavioural Diagrams</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tmux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tmux</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_proxmox.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proxmox</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_proxmox_storage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proxmox Storage</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_vim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_neovim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neovim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_coding_design_patterns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coding Design Patterns</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_coding_algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coding Algorithms</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vscode_debugging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vscode Debugging</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../jupyter_labs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jupyter Labs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../latex_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latex</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../wsl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">WSL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quarto</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_make.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Make</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_just.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Just</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mfa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MFA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ast.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abstract Syntax Tree (AST)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regex</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../graphify.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Graphify</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../browser_use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Brower Use</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">C++</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../C++/c++.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C++</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Camera Sound</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Camera_sound/sound_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sound Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Camera_sound/sound_testing2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sound Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Camera_sound/camera_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Camera Testing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Linux</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/linux_users.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linux Users, Groups and Permissions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/service.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Services in Linux</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/journalctl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Service Journalctl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/bash_scritps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bash Scripts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/linux_computer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linux Computer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/shell_commands.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shell Commands</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/display_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Display System</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Platform IO</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Platform_IO/platformio_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Platform IO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Software Diagrams</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/diagram_overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/structural_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Structural Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/behavioural_diagrams.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Behavioural Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/requirements_or_scope_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Requirements and Scope Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/architectural_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architectural Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/process_ops_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Process and Ops Diagrams</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-behavioural-means" id="toc-what-behavioural-means" class="nav-link active" data-scroll-target="#what-behavioural-means">0. What “behavioural” means</a></li>
+  <li><a href="#sequence-diagram" id="toc-sequence-diagram" class="nav-link" data-scroll-target="#sequence-diagram">1. Sequence diagram</a>
+  <ul class="collapse">
+  <li><a href="#notation-that-carries-meaning" id="toc-notation-that-carries-meaning" class="nav-link" data-scroll-target="#notation-that-carries-meaning">Notation that carries meaning</a></li>
+  <li><a href="#example-ingesting-a-reading-including-the-paths-that-go-wrong" id="toc-example-ingesting-a-reading-including-the-paths-that-go-wrong" class="nav-link" data-scroll-target="#example-ingesting-a-reading-including-the-paths-that-go-wrong">Example: ingesting a reading, including the paths that go wrong</a></li>
+  <li><a href="#the-two-habits-that-make-them-good" id="toc-the-two-habits-that-make-them-good" class="nav-link" data-scroll-target="#the-two-habits-that-make-them-good">The two habits that make them good</a></li>
+  </ul></li>
+  <li><a href="#state-machine-diagram" id="toc-state-machine-diagram" class="nav-link" data-scroll-target="#state-machine-diagram">2. State machine diagram</a>
+  <ul class="collapse">
+  <li><a href="#notation" id="toc-notation" class="nav-link" data-scroll-target="#notation">Notation</a></li>
+  <li><a href="#example-the-invoice-lifecycle" id="toc-example-the-invoice-lifecycle" class="nav-link" data-scroll-target="#example-the-invoice-lifecycle">Example: the invoice lifecycle</a></li>
+  <li><a href="#turning-the-picture-into-code" id="toc-turning-the-picture-into-code" class="nav-link" data-scroll-target="#turning-the-picture-into-code">Turning the picture into code</a></li>
+  </ul></li>
+  <li><a href="#activity-diagram-flowchart" id="toc-activity-diagram-flowchart" class="nav-link" data-scroll-target="#activity-diagram-flowchart">3. Activity diagram (flowchart)</a>
+  <ul class="collapse">
+  <li><a href="#example-the-nightly-billing-run" id="toc-example-the-nightly-billing-run" class="nav-link" data-scroll-target="#example-the-nightly-billing-run">Example: the nightly billing run</a></li>
+  <li><a href="#parallel-work" id="toc-parallel-work" class="nav-link" data-scroll-target="#parallel-work">Parallel work</a></li>
+  </ul></li>
+  <li><a href="#communication-diagram-and-why-to-skip-it" id="toc-communication-diagram-and-why-to-skip-it" class="nav-link" data-scroll-target="#communication-diagram-and-why-to-skip-it">4. Communication diagram, and why to skip it</a></li>
+  <li><a href="#choosing-and-the-failure-modes" id="toc-choosing-and-the-failure-modes" class="nav-link" data-scroll-target="#choosing-and-the-failure-modes">5. Choosing, and the failure modes</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/bthek1/Software_Tools/blob/main/Software_Diagrams/03_Behavioural_Diagrams.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bthek1/Software_Tools/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Software_Diagrams/diagram_overview.html">Software Diagrams</a></li><li class="breadcrumb-item"><a href="../Software_Diagrams/behavioural_diagrams.html">Behavioural Diagrams</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Behavioural Diagrams</h1>
+</div>
+
+<div>
+  <div class="description">
+    Sequence, state machine and activity diagrams: how a system behaves over time, and which one to reach for.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Benedict Thekkel </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="what-behavioural-means" class="level2">
+<h2 class="anchored" data-anchor-id="what-behavioural-means">0. What “behavioural” means</h2>
+<p>A <a href="../Software_Diagrams/structural_diagrams.html">structural diagram</a> freezes time and shows what exists. A behavioural diagram does the opposite: it keeps one small slice of the system and plays it forward. If the question contains <em>when</em>, <em>then</em>, <em>while</em>, <em>retry</em>, <em>timeout</em>, or <em>what if it fails</em>, this is the notebook.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Diagram</th>
+<th>Organising axis</th>
+<th>Best question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Sequence</strong></td>
+<td>Time, down the page</td>
+<td>“Who calls whom, in what order, and what happens when a call fails?”</td>
+</tr>
+<tr class="even">
+<td><strong>State machine</strong></td>
+<td>The lifecycle of one entity</td>
+<td>“What states can an order be in, and which transitions are legal?”</td>
+</tr>
+<tr class="odd">
+<td><strong>Activity / flowchart</strong></td>
+<td>Control flow of one procedure</td>
+<td>“What are the branches and loops in this job?”</td>
+</tr>
+<tr class="even">
+<td><strong>Communication</strong></td>
+<td>Spatial layout of the same messages</td>
+<td>Nothing a sequence diagram does not answer better</td>
+</tr>
+</tbody>
+</table>
+<p>The three that matter are sequence, state machine and activity, and they are not interchangeable. A useful diagnostic: <strong>count the nouns</strong>. Many participants exchanging messages means sequence. One noun moving through a lifecycle means state machine. No nouns, just steps and decisions, means activity.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This notebook continues the <em>MeterHub</em> example from <a href="../Software_Diagrams/structural_diagrams.html">Structural Diagrams</a>: smart meters publish readings over MQTT, a service stores them as time series, and a nightly job bills customers.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sequence-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="sequence-diagram">1. Sequence diagram</h2>
+<p><strong>What it is:</strong> participants across the top, time running down, messages as arrows between the vertical lifelines. The single most useful UML diagram for real work.</p>
+<p><strong>When it earns its keep:</strong> authentication flows, webhook handling, anything involving a queue, anything involving more than two processes, and above all <strong>anything with a failure path</strong>. Distributed bugs are almost always ordering bugs, and this is the only notation that puts ordering on an axis.</p>
+<p><strong>When to skip it:</strong> a single-process function call chain. That is a stack trace, not a diagram.</p>
+<section id="notation-that-carries-meaning" class="level3">
+<h3 class="anchored" data-anchor-id="notation-that-carries-meaning">Notation that carries meaning</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Mermaid</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>A-&gt;&gt;B: msg</code></td>
+<td>Solid arrow, a call or request</td>
+</tr>
+<tr class="even">
+<td><code>A--&gt;&gt;B: msg</code></td>
+<td>Dashed arrow, a return or reply</td>
+</tr>
+<tr class="odd">
+<td><code>A-)B: msg</code></td>
+<td>Open arrowhead, asynchronous, sender does not wait</td>
+</tr>
+<tr class="even">
+<td><code>A--)B: msg</code></td>
+<td>Asynchronous reply</td>
+</tr>
+<tr class="odd">
+<td><code>A-x B: msg</code></td>
+<td>Message lost or discarded</td>
+</tr>
+<tr class="even">
+<td><code>activate</code> / <code>deactivate</code></td>
+<td>Activation bar, participant is busy</td>
+</tr>
+<tr class="odd">
+<td><code>alt</code> / <code>else</code></td>
+<td>Mutually exclusive branches</td>
+</tr>
+<tr class="even">
+<td><code>opt</code></td>
+<td>Branch that may not happen at all</td>
+</tr>
+<tr class="odd">
+<td><code>loop</code></td>
+<td>Repetition, with the condition in the label</td>
+</tr>
+<tr class="even">
+<td><code>par</code></td>
+<td>Genuinely concurrent branches</td>
+</tr>
+<tr class="odd">
+<td><code>critical</code> / <code>option</code></td>
+<td>A section with alternative failure handling</td>
+</tr>
+</tbody>
+</table>
+<p>The blocks are what separate a useful sequence diagram from a doodle. A diagram with no <code>alt</code> and no <code>loop</code> is describing the happy path only, which is the path nobody needed a diagram for.</p>
+</section>
+<section id="example-ingesting-a-reading-including-the-paths-that-go-wrong" class="level3">
+<h3 class="anchored" data-anchor-id="example-ingesting-a-reading-including-the-paths-that-go-wrong">Example: ingesting a reading, including the paths that go wrong</h3>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant M as Meter ESP32
+    participant B as MQTT broker
+    participant I as ingest-svc
+    participant R as Redis
+    participant DB as TimescaleDB
+
+    M-&gt;&gt;B: PUBLISH readings/NMI123 (qos=1, protobuf)
+    activate B
+    B--)M: PUBACK
+    deactivate B
+    B-)I: deliver batch (up to 500 msgs)
+    activate I
+
+    loop for each reading in batch
+        I-&gt;&gt;I: validate schema + range
+        alt payload invalid
+            I-)DB: INSERT into dead_letter
+            Note right of I: never drop silently,&lt;br/&gt;the meter cannot retry for you
+        else payload valid
+            I-&gt;&gt;R: SETNX dedupe key meter+ts, ttl 25h
+            alt key already present
+                R--&gt;&gt;I: 0
+                Note over I,R: duplicate, the meter replayed after&lt;br/&gt;a network drop. Skip it.
+            else first time seen
+                R--&gt;&gt;I: 1
+                I-&gt;&gt;I: stage row for the batch write
+            end
+        end
+    end
+
+    I-&gt;&gt;DB: COPY readings (batched, single txn)
+    activate DB
+
+    critical write batch
+        DB--&gt;&gt;I: COMMIT ok
+    option connection lost
+        DB--xI: timeout after 5s
+        I-&gt;&gt;I: exponential backoff, 3 attempts
+        I-)B: no ack sent
+        Note over B,I: broker redelivers the batch,&lt;br/&gt;dedupe keys make the retry safe
+    end
+    deactivate DB
+
+    I--)B: PUBACK batch
+    deactivate I</code></pre>
+<p>Everything valuable in that diagram is in the <code>alt</code>, <code>critical</code> and <code>Note</code> blocks. The happy path is four arrows and needed no picture. What needed a picture is the interaction between three separate mechanisms: broker redelivery, the Redis dedupe key, and the batch transaction. <strong>Idempotency claims are only checkable on a sequence diagram</strong>, because idempotency is a statement about ordering.</p>
+</section>
+<section id="the-two-habits-that-make-them-good" class="level3">
+<h3 class="anchored" data-anchor-id="the-two-habits-that-make-them-good">The two habits that make them good</h3>
+<ol type="1">
+<li><strong>Draw the failure branch or do not bother.</strong> If you cannot say what happens when the third arrow times out, the design is not finished, and the diagram just showed you that.</li>
+<li><strong>Name the protocol on every arrow.</strong> <code>POST /v1/readings</code> and “publishes readings” are different amounts of information, and one of them fits in the same space.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>autonumber</code> costs one word and gives every arrow a stable number, which makes the diagram citable in review comments (“step 7 is the problem”). Use it on anything longer than five messages.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="state-machine-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="state-machine-diagram">2. State machine diagram</h2>
+<p><strong>What it is:</strong> the legal states of <strong>one</strong> entity and the transitions between them, each labelled with the event that causes it.</p>
+<p><strong>When it earns its keep:</strong> the moment you are about to write a large <code>if status ==</code> block, or add a fifth value to a status column. A status field with six values has up to 30 possible transitions, and your code probably permits several that the business forbids. The diagram is where you find out.</p>
+<p><strong>The tell:</strong> any table with a <code>status</code>, <code>state</code>, <code>phase</code> or <code>stage</code> column deserves one of these, committed next to the model.</p>
+<section id="notation" class="level3">
+<h3 class="anchored" data-anchor-id="notation">Notation</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mermaid</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>[*] --&gt; A</code></td>
+<td>Initial state, where the entity is born</td>
+</tr>
+<tr class="even">
+<td><code>A --&gt; [*]</code></td>
+<td>Terminal state</td>
+</tr>
+<tr class="odd">
+<td><code>A --&gt; B : event / action</code></td>
+<td>Transition, fired by an event, optionally doing something</td>
+</tr>
+<tr class="even">
+<td><code>state X &lt;&lt;choice&gt;&gt;</code></td>
+<td>A branch on a guard condition</td>
+</tr>
+<tr class="odd">
+<td><code>state X &lt;&lt;fork&gt;&gt;</code> / <code>&lt;&lt;join&gt;&gt;</code></td>
+<td>Split into and rejoin from concurrent regions</td>
+</tr>
+<tr class="even">
+<td><code>state A { ... }</code></td>
+<td>Composite state, a machine nested inside a state</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example-the-invoice-lifecycle" class="level3">
+<h3 class="anchored" data-anchor-id="example-the-invoice-lifecycle">Example: the invoice lifecycle</h3>
+<pre class="mermaid"><code>stateDiagram-v2
+    direction LR
+
+    [*] --&gt; Draft : billing run creates it
+
+    Draft --&gt; Issued : issue, email customer, lock the period
+    Draft --&gt; Cancelled : cancel, no email sent
+
+    state check_amount &lt;&lt;choice&gt;&gt;
+    Issued --&gt; check_amount
+    check_amount --&gt; Settled : total == 0
+    check_amount --&gt; AwaitingPayment : total &gt; 0
+
+    AwaitingPayment --&gt; PartiallyPaid : payment received &lt; balance
+    PartiallyPaid --&gt; PartiallyPaid : payment received &lt; balance
+    PartiallyPaid --&gt; Settled : final payment clears
+    AwaitingPayment --&gt; Settled : payment clears
+
+    AwaitingPayment --&gt; Overdue : due date passed, nightly sweep
+    PartiallyPaid --&gt; Overdue : due date passed, nightly sweep
+    Overdue --&gt; Settled : payment clears
+    Overdue --&gt; WrittenOff : 90 days elapsed, notify collections
+
+    Settled --&gt; Refunded : refund, reverse the ledger entry
+
+    Cancelled --&gt; [*]
+    Settled --&gt; [*]
+    WrittenOff --&gt; [*]
+    Refunded --&gt; [*]
+
+    note right of Draft
+        The only state where line items
+        can still be edited.
+    end note
+
+    note right of Overdue
+        Reachable from two states and
+        escapable to two. This is where
+        the if-blocks always go wrong.
+    end note</code></pre>
+<p>The diagram argues for three things at once that prose would have buried. Editing is legal only in <code>Draft</code>, so the write path needs exactly one guard. There is no arrow from <code>Settled</code> back to <code>AwaitingPayment</code>, so a late partial refund is a <code>Refunded</code> transition rather than a reopened invoice. And <code>Overdue</code> is a hub, so it is the state that deserves the tests.</p>
+</section>
+<section id="turning-the-picture-into-code" class="level3">
+<h3 class="anchored" data-anchor-id="turning-the-picture-into-code">Turning the picture into code</h3>
+<p>A state machine on a whiteboard is a suggestion. The same machine as a transition table is enforcement:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> enum <span class="im">import</span> StrEnum</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Invoice(StrEnum):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    DRAFT <span class="op">=</span> <span class="st">"draft"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    ISSUED <span class="op">=</span> <span class="st">"issued"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    AWAITING <span class="op">=</span> <span class="st">"awaiting_payment"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    PARTIAL <span class="op">=</span> <span class="st">"partially_paid"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    OVERDUE <span class="op">=</span> <span class="st">"overdue"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    SETTLED <span class="op">=</span> <span class="st">"settled"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    WRITTEN_OFF <span class="op">=</span> <span class="st">"written_off"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    REFUNDED <span class="op">=</span> <span class="st">"refunded"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    CANCELLED <span class="op">=</span> <span class="st">"cancelled"</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># The diagram above, verbatim. Anything not listed is illegal.</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>ALLOWED: <span class="bu">dict</span>[Invoice, <span class="bu">set</span>[Invoice]] <span class="op">=</span> {</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    Invoice.DRAFT:    {Invoice.ISSUED, Invoice.CANCELLED},</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    Invoice.ISSUED:   {Invoice.AWAITING, Invoice.SETTLED},</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    Invoice.AWAITING: {Invoice.PARTIAL, Invoice.SETTLED, Invoice.OVERDUE},</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    Invoice.PARTIAL:  {Invoice.PARTIAL, Invoice.SETTLED, Invoice.OVERDUE},</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    Invoice.OVERDUE:  {Invoice.SETTLED, Invoice.WRITTEN_OFF},</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    Invoice.SETTLED:  {Invoice.REFUNDED},</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    Invoice.WRITTEN_OFF: <span class="bu">set</span>(),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    Invoice.REFUNDED: <span class="bu">set</span>(),</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    Invoice.CANCELLED: <span class="bu">set</span>(),</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> transition(current: Invoice, target: Invoice) <span class="op">-&gt;</span> Invoice:</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> target <span class="kw">not</span> <span class="kw">in</span> ALLOWED[current]:</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"illegal transition </span><span class="sc">{</span>current<span class="sc">}</span><span class="ss"> -&gt; </span><span class="sc">{</span>target<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> target</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Libraries that do this for you: <code>transitions</code> and <code>python-statemachine</code> in Python, <code>XState</code> in TypeScript, <code>AASM</code> in Ruby. All of them can emit the diagram from the definition, which is the ideal arrangement: one source, both artifacts.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Two states that always change together belong in one composite state or one machine. Two <code>status</code> columns on the same table that are edited by different code paths is a bug waiting to happen, and it shows up on the diagram as two disconnected machines fighting over one row.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="activity-diagram-flowchart" class="level2">
+<h2 class="anchored" data-anchor-id="activity-diagram-flowchart">3. Activity diagram (flowchart)</h2>
+<p><strong>What it is:</strong> the control flow of a single procedure: steps, decisions, loops, and where work happens in parallel. UML calls it an activity diagram, everyone else calls it a flowchart, and Mermaid’s <code>flowchart</code> renders it.</p>
+<p><strong>When it earns its keep:</strong> a business process with real branching (eligibility rules, refund approval, a CI pipeline), or a batch job whose failure modes matter. Also the fastest way to review a policy with someone who does not read code.</p>
+<p><strong>When to skip it:</strong> straight-line code. A flowchart of five sequential steps is a bulleted list that took longer to draw.</p>
+<p><strong>Swimlanes:</strong> if the branches are owned by <em>different people or systems</em>, add lanes. Mermaid does that with subgraphs, and the technique gets its own treatment in <a href="../Software_Diagrams/process_ops_diagrams.html">Process and Ops Diagrams</a>.</p>
+<section id="example-the-nightly-billing-run" class="level3">
+<h3 class="anchored" data-anchor-id="example-the-nightly-billing-run">Example: the nightly billing run</h3>
+<pre class="mermaid"><code>flowchart TD
+    START(["timer fires 02:00 Brisbane"]) --&gt; LOCK{"advisory lock&lt;br/&gt;acquired?"}
+    LOCK --&gt;|no| SKIP[/"log: run already in progress"/]
+    SKIP --&gt; END(["exit 0"])
+
+    LOCK --&gt;|yes| SITES[["load sites due for billing&lt;br/&gt;period_end &lt; today"]]
+    SITES --&gt; ANY{"any sites?"}
+    ANY --&gt;|no| END
+
+    ANY --&gt;|yes| LOOP["for each site"]
+    LOOP --&gt; READ["fetch readings for period"]
+    READ --&gt; GAPS{"gaps or&lt;br/&gt;estimated reads?"}
+
+    GAPS --&gt;|"gaps &gt; 2%"| FLAG["mark period as estimated&lt;br/&gt;queue for manual review"]
+    FLAG --&gt; NEXT
+
+    GAPS --&gt;|"acceptable"| PRICE["apply tariff:&lt;br/&gt;flat or time of use"]
+    PRICE --&gt; ROUND["round to cents,&lt;br/&gt;bankers rounding"]
+    ROUND --&gt; DRAFT[("write invoice as Draft")]
+    DRAFT --&gt; CHECK{"total &gt;= min charge?"}
+
+    CHECK --&gt;|no| CARRY["carry balance to next period"]
+    CARRY --&gt; NEXT
+    CHECK --&gt;|yes| ISSUE["issue invoice"]
+    ISSUE --&gt; EMAIL[/"queue email + PDF render"/]
+    EMAIL --&gt; NEXT["next site"]
+
+    NEXT --&gt; MORE{"more sites?"}
+    MORE --&gt;|yes| LOOP
+    MORE --&gt;|no| RELEASE["release lock,&lt;br/&gt;emit run metrics"]
+    RELEASE --&gt; END</code></pre>
+<p>Shapes are doing work here, and they are worth using consistently: <code>([...])</code> stadium for start and end, <code>{...}</code> diamond for a decision, <code>[[...]]</code> subroutine for a call out to something else, <code>[(...)]</code> cylinder for a database write, <code>[/.../]</code> parallelogram for input and output. Pick a vocabulary once and keep it across every diagram in the repo, otherwise the shapes are decoration.</p>
+<p>The decision worth arguing about is visible immediately: <code>gaps &gt; 2%</code> sends the whole period to manual review, and there is no path from <code>FLAG</code> back into pricing. That is a deliberate choice, drawn where a reviewer can challenge it.</p>
+</section>
+<section id="parallel-work" class="level3">
+<h3 class="anchored" data-anchor-id="parallel-work">Parallel work</h3>
+<p>When branches genuinely run at once, say so rather than implying an order:</p>
+<pre class="mermaid"><code>flowchart LR
+    A["invoice issued"] --&gt; F(("fork"))
+    F --&gt; P1["render PDF"]
+    F --&gt; P2["push to accounting system"]
+    F --&gt; P3["send email"]
+    P1 --&gt; J(("join"))
+    P2 --&gt; J
+    P3 --&gt; J
+    J --&gt; DONE["mark run complete"]</code></pre>
+<p>The filled circles are UML fork and join bars. Everything between them happens concurrently, and the run is not complete until all three finish.</p>
+<hr>
+</section>
+</section>
+<section id="communication-diagram-and-why-to-skip-it" class="level2">
+<h2 class="anchored" data-anchor-id="communication-diagram-and-why-to-skip-it">4. Communication diagram, and why to skip it</h2>
+<p>A communication diagram (called a collaboration diagram before UML 2) shows the same messages as a sequence diagram, but arranged spatially with the ordering carried by numbered labels such as <code>1.1</code>, <code>1.2</code>, <code>2.1</code>.</p>
+<p>It contains exactly the same information. The only thing it does better is emphasise <em>which participants talk to each other at all</em> rather than <em>in what order</em>, and if that is your question you want a <a href="../Software_Diagrams/structural_diagrams.html">component diagram</a> or a <a href="../Software_Diagrams/architectural_diagrams.html">C4 container diagram</a>. Reading order from decimal numbering is strictly worse than reading it from a vertical axis.</p>
+<p>Mermaid has no communication-diagram syntax, which is a reasonable verdict in itself.</p>
+<hr>
+</section>
+<section id="choosing-and-the-failure-modes" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-and-the-failure-modes">5. Choosing, and the failure modes</h2>
+<p><strong>Decision shortcut</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>The question in the room</th>
+<th>Draw</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“Why did the retry double-charge them?”</td>
+<td>Sequence, with the <code>alt</code> and <code>critical</code> blocks filled in</td>
+</tr>
+<tr class="even">
+<td>“Can an invoice go from settled back to overdue?”</td>
+<td>State machine</td>
+</tr>
+<tr class="odd">
+<td>“What exactly does the nightly job do?”</td>
+<td>Activity</td>
+</tr>
+<tr class="even">
+<td>“Which service talks to which?”</td>
+<td>Not behavioural. C4 container or component</td>
+</tr>
+<tr class="odd">
+<td>“Who is responsible for this step?”</td>
+<td>Swimlane, see <a href="../Software_Diagrams/process_ops_diagrams.html">Process and Ops</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The four ways these go wrong</strong></p>
+<ol type="1">
+<li><strong>Happy path only.</strong> The most common failure by a distance. A sequence diagram without a failure branch, or a state machine without its terminal and error states, is a marketing diagram.</li>
+<li><strong>Mixing the lenses.</strong> Participants <em>and</em> decision diamonds <em>and</em> lifecycle states in one picture produces something nobody can read. One question per diagram.</li>
+<li><strong>Too many participants.</strong> Past about seven lifelines a sequence diagram becomes a wiring harness. Collapse the ones that are not the subject into a single participant labelled with what it does.</li>
+<li><strong>Drawing the code.</strong> If the diagram has one box per function, it is a slow, stale reimplementation of the call graph. Draw the interaction between processes instead, since that is what no tool can recover for you.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Keep behavioural diagrams next to the thing they describe: the sequence diagram in the service README, the state machine in the docstring of the model it governs. A diagram that lives in a wiki describes a system that used to exist.</p>
+</div>
+</div>
+<hr>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/bthek1\.github\.io\/Software_Tools");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="quarto-dev/quarto-web" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../Software_Diagrams/structural_diagrams.html" class="pagination-link" aria-label="Structural Diagrams">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Structural Diagrams</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../Software_Diagrams/requirements_or_scope_diagrams.html" class="pagination-link" aria-label="Requirements and Scope Diagrams">
+        <span class="nav-page-text">Requirements and Scope Diagrams</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page">
+<p>Trademark</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/bthek1/bthek1_blog/issues">
+<p>FAQ</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://bthek1.github.io/bthek1_blog/index.html">
+<p>License</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../index.html">
+<p>Trademark</p>
+</a>
+  </li>  
+</ul>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/bthek1/Software_Tools/blob/main/Software_Diagrams/03_Behavioural_Diagrams.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bthek1/Software_Tools/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bthek1">
+      <i class="bi bi-github" role="img" aria-label="Github">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/benedict-thekkel/">
+      <i class="bi bi-linkedin" role="img" aria-label="Linkedin">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

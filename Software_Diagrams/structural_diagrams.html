@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Benedict Thekkel">
+<meta name="description" content="Class, ER, component, deployment and package diagrams: what each one is actually good for, with copy-paste Mermaid.">
+
+<title>Structural Diagrams – Software_Tools</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../Software_Diagrams/behavioural_diagrams.html" rel="next">
+<link href="../Software_Diagrams/diagram_overview.html" rel="prev">
+<link href="../favi.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-bbd64a6fcbf54a7b79ffed393e885326.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-175f28cc9209fa6ef4c21b809f7add8b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-bbd64a6fcbf54a7b79ffed393e885326.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Structural Diagrams – Software_Tools">
+<meta property="og:description" content="Class, ER, component, deployment and package diagrams: what each one is actually good for, with copy-paste Mermaid.">
+<meta property="og:image" content="https://bthek1.github.io/Software_Tools/Software_Diagrams/Logo.svg">
+<meta property="og:site_name" content="Software_Tools">
+<meta name="twitter:title" content="Structural Diagrams – Software_Tools">
+<meta name="twitter:description" content="Class, ER, component, deployment and package diagrams: what each one is actually good for, with copy-paste Mermaid.">
+<meta name="twitter:image" content="https://bthek1.github.io/Software_Tools/Software_Diagrams/Logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../Logo.svg" alt="Benedict Thekkel" class="navbar-logo light-content">
+    <img src="../Logo.svg" alt="Benedict Thekkel" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-deep-learning" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Deep Learning</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-deep-learning">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/FastAI_course/">
+ <span class="dropdown-text">Fast AI course</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/DL_methods/">
+ <span class="dropdown-text">DL Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/DL_tasks/">
+ <span class="dropdown-text">DL Tasks</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ml-techniques" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">ML Techniques</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ml-techniques">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/ML_methods/">
+ <span class="dropdown-text">ML Methods</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/TimeSeriesML/">
+ <span class="dropdown-text">Time series</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-web" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Web</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-web">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/WEB_doc/">
+ <span class="dropdown-text">Web Development</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Front_End/">
+ <span class="dropdown-text">Front End</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Back_End/">
+ <span class="dropdown-text">Back End</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/IaaS_docs/">
+ <span class="dropdown-text">IaaS</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tools" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tools</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tools">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Software_Tools/">
+ <span class="dropdown-text">Software Tools</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Hardware_Tools/">
+ <span class="dropdown-text">Hardware Tools</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Python_Libs/">
+ <span class="dropdown-text">Python Libraries</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/nbdevAuto/">
+ <span class="dropdown-text">Nbdev Automation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/ROS2_docs/">
+ <span class="dropdown-text">ROS 2</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-business" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Business</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-business">    
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Business_doc/">
+ <span class="dropdown-text">Business Doc</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Philosophy_doc/">
+ <span class="dropdown-text">Ideas Doc</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Finances/">
+ <span class="dropdown-text">Finances</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://bthek1.github.io/Other/">
+ <span class="dropdown-text">Other</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://bthek1.github.io/bthek1_blog/"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-help" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Help</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-help">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/bthek1/bthek1_blog/issues"><i class="bi bi-bug" role="img">
+</i> 
+ <span class="dropdown-text">Report a Bug</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/bthek1/bthek1_blog/issues"><i class="bi bi-chat-right-text" role="img">
+</i> 
+ <span class="dropdown-text">Ask a Question</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/bthek1/bthek1_blog/issues"><i class="bi bi-question-circle" role="img">
+</i> 
+ <span class="dropdown-text">FAQ</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools tools-wide">
+    <a href="https://github.com/bthek1" title="" class="quarto-navigation-tool px-1" aria-label="Github"><i class="bi bi-github"></i></a>
+    <a href="https://www.linkedin.com/in/benedict-thekkel/" title="" class="quarto-navigation-tool px-1" aria-label="Linkedin"><i class="bi bi-linkedin"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Software_Diagrams/diagram_overview.html">Software Diagrams</a></li><li class="breadcrumb-item"><a href="../Software_Diagrams/structural_diagrams.html">Structural Diagrams</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tmux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tmux</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_proxmox.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proxmox</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_proxmox_storage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Proxmox Storage</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_vim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_neovim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neovim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_coding_design_patterns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coding Design Patterns</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_coding_algorithms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Coding Algorithms</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vscode_debugging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vscode Debugging</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../jupyter_labs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jupyter Labs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../latex_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Latex</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../wsl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">WSL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quarto</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../0_make.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Make</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1_just.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Just</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mfa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MFA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ast.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abstract Syntax Tree (AST)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regex</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../graphify.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Graphify</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../browser_use.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Brower Use</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">C++</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../C++/c++.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C++</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Camera Sound</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Camera_sound/sound_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sound Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Camera_sound/sound_testing2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sound Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Camera_sound/camera_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Camera Testing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Linux</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/linux_users.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linux Users, Groups and Permissions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/service.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Services in Linux</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/journalctl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Service Journalctl</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/bash_scritps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bash Scripts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/linux_computer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linux Computer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/shell_commands.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shell Commands</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Linux/display_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Display System</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Platform IO</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Platform_IO/platformio_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Platform IO</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Software Diagrams</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/diagram_overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/structural_diagrams.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Structural Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/behavioural_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Behavioural Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/requirements_or_scope_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Requirements and Scope Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/architectural_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architectural Diagrams</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Software_Diagrams/process_ops_diagrams.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Process and Ops Diagrams</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-structural-means" id="toc-what-structural-means" class="nav-link active" data-scroll-target="#what-structural-means">0. What “structural” means</a></li>
+  <li><a href="#class-diagram" id="toc-class-diagram" class="nav-link" data-scroll-target="#class-diagram">1. Class diagram</a>
+  <ul class="collapse">
+  <li><a href="#notation" id="toc-notation" class="nav-link" data-scroll-target="#notation">Notation</a></li>
+  <li><a href="#example-the-meterhub-domain-model" id="toc-example-the-meterhub-domain-model" class="nav-link" data-scroll-target="#example-the-meterhub-domain-model">Example: the MeterHub domain model</a></li>
+  <li><a href="#generating-one-instead" id="toc-generating-one-instead" class="nav-link" data-scroll-target="#generating-one-instead">Generating one instead</a></li>
+  </ul></li>
+  <li><a href="#er-diagram" id="toc-er-diagram" class="nav-link" data-scroll-target="#er-diagram">2. ER diagram</a>
+  <ul class="collapse">
+  <li><a href="#notation-the-crows-foot-decoded" id="toc-notation-the-crows-foot-decoded" class="nav-link" data-scroll-target="#notation-the-crows-foot-decoded">Notation: the crow’s foot, decoded</a></li>
+  <li><a href="#example-the-meterhub-schema" id="toc-example-the-meterhub-schema" class="nav-link" data-scroll-target="#example-the-meterhub-schema">Example: the MeterHub schema</a></li>
+  <li><a href="#generating-one-instead-1" id="toc-generating-one-instead-1" class="nav-link" data-scroll-target="#generating-one-instead-1">Generating one instead</a></li>
+  </ul></li>
+  <li><a href="#component-diagram" id="toc-component-diagram" class="nav-link" data-scroll-target="#component-diagram">3. Component diagram</a>
+  <ul class="collapse">
+  <li><a href="#example-meterhub-components-and-their-contracts" id="toc-example-meterhub-components-and-their-contracts" class="nav-link" data-scroll-target="#example-meterhub-components-and-their-contracts">Example: MeterHub components and their contracts</a></li>
+  <li><a href="#where-mermaid-runs-out" id="toc-where-mermaid-runs-out" class="nav-link" data-scroll-target="#where-mermaid-runs-out">Where Mermaid runs out</a></li>
+  </ul></li>
+  <li><a href="#deployment-diagram" id="toc-deployment-diagram" class="nav-link" data-scroll-target="#deployment-diagram">4. Deployment diagram</a>
+  <ul class="collapse">
+  <li><a href="#example-meterhub-on-a-proxmox-home-lab" id="toc-example-meterhub-on-a-proxmox-home-lab" class="nav-link" data-scroll-target="#example-meterhub-on-a-proxmox-home-lab">Example: MeterHub on a Proxmox home lab</a></li>
+  </ul></li>
+  <li><a href="#package-dependency-diagram" id="toc-package-dependency-diagram" class="nav-link" data-scroll-target="#package-dependency-diagram">5. Package / dependency diagram</a>
+  <ul class="collapse">
+  <li><a href="#example-meterhubs-python-packages-with-the-cycle-it-grew" id="toc-example-meterhubs-python-packages-with-the-cycle-it-grew" class="nav-link" data-scroll-target="#example-meterhubs-python-packages-with-the-cycle-it-grew">Example: MeterHub’s Python packages, with the cycle it grew</a></li>
+  <li><a href="#generating-one-and-enforcing-it" id="toc-generating-one-and-enforcing-it" class="nav-link" data-scroll-target="#generating-one-and-enforcing-it">Generating one, and enforcing it</a></li>
+  </ul></li>
+  <li><a href="#picking-one-and-keeping-it-honest" id="toc-picking-one-and-keeping-it-honest" class="nav-link" data-scroll-target="#picking-one-and-keeping-it-honest">6. Picking one, and keeping it honest</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/bthek1/Software_Tools/blob/main/Software_Diagrams/02_Structural_Diagrams.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bthek1/Software_Tools/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Software_Diagrams/diagram_overview.html">Software Diagrams</a></li><li class="breadcrumb-item"><a href="../Software_Diagrams/structural_diagrams.html">Structural Diagrams</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Structural Diagrams</h1>
+</div>
+
+<div>
+  <div class="description">
+    Class, ER, component, deployment and package diagrams: what each one is actually good for, with copy-paste Mermaid.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Benedict Thekkel </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<section id="what-structural-means" class="level2">
+<h2 class="anchored" data-anchor-id="what-structural-means">0. What “structural” means</h2>
+<p>A structural diagram answers <strong>“what exists and how is it wired?”</strong>, a snapshot with time removed. If your question contains the word <em>when</em>, <em>then</em>, or <em>retry</em>, you want a <a href="../Software_Diagrams/behavioural_diagrams.html">behavioural diagram</a> instead.</p>
+<p>The five that matter, ordered by value per minute of effort:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Diagram</th>
+<th>Answers</th>
+<th>Lives at</th>
+<th>Drawn by hand?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>ER</strong></td>
+<td>What is the data shape?</td>
+<td>Database</td>
+<td>No, generate it</td>
+</tr>
+<tr class="even">
+<td><strong>Deployment</strong></td>
+<td>What runs where?</td>
+<td>Hosts, containers, cloud</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td><strong>Component</strong></td>
+<td>What are the moving parts and their contracts?</td>
+<td>Services, modules</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><strong>Package / dependency</strong></td>
+<td>What imports what, and is it a cycle?</td>
+<td>Source tree</td>
+<td>No, generate it</td>
+</tr>
+<tr class="odd">
+<td><strong>Class</strong></td>
+<td>What are the types and relationships?</td>
+<td>Code</td>
+<td>Rarely, the code says it better</td>
+</tr>
+</tbody>
+</table>
+<p>Rule of thumb: <strong>generate the ones that describe code, hand-draw the ones that describe intent.</strong> A generated class diagram of 200 classes is noise. A hand-drawn one of the 6 classes in your billing core is a design document. Anything hand-drawn will rot, so keep it small enough that fixing it stays worthwhile.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Every diagram in this notebook describes <strong>one running example</strong>: <em>MeterHub</em>, a service that ingests smart-meter readings over MQTT, stores them as time series, and bills customers monthly. Same system, five lenses. Comparing the lenses is the point.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="class-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="class-diagram">1. Class diagram</h2>
+<p><strong>What it is:</strong> types, their fields and methods, and the relationships between them. The most-taught and least-useful UML diagram, because the code already contains every fact in it, and the code is never out of date.</p>
+<p><strong>When it earns its keep</strong></p>
+<ul>
+<li>Designing a domain model <em>before</em> the code exists. The diagram is cheaper to throw away than classes.</li>
+<li>Explaining a polymorphic seam: an interface plus its three implementations, on one page.</li>
+<li>Onboarding someone into a model with non-obvious cardinality. <code>Site</code> has many <code>Meter</code>s, but a <code>Meter</code> can move between <code>Site</code>s over time, and that fact is worth drawing.</li>
+</ul>
+<p><strong>When to skip it:</strong> documenting an existing codebase class by class. Use <code>pyreverse</code> if you must, and do not commit the output.</p>
+<section id="notation" class="level3">
+<h3 class="anchored" data-anchor-id="notation">Notation</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mermaid</th>
+<th>Means</th>
+<th>Read as</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>A &lt;\|-- B</code></td>
+<td>Inheritance</td>
+<td>B <em>is a</em> A</td>
+</tr>
+<tr class="even">
+<td><code>A *-- B</code></td>
+<td>Composition</td>
+<td>B cannot exist without A (delete A, B dies)</td>
+</tr>
+<tr class="odd">
+<td><code>A o-- B</code></td>
+<td>Aggregation</td>
+<td>A holds B, but B outlives it</td>
+</tr>
+<tr class="even">
+<td><code>A --&gt; B</code></td>
+<td>Association</td>
+<td>A has a reference to B</td>
+</tr>
+<tr class="odd">
+<td><code>A ..&gt; B</code></td>
+<td>Dependency</td>
+<td>A merely uses B (parameter, local variable)</td>
+</tr>
+<tr class="even">
+<td><code>A ..\|&gt; B</code></td>
+<td>Realization</td>
+<td>A implements interface B</td>
+</tr>
+<tr class="odd">
+<td><code>+ - # ~</code></td>
+<td>Visibility</td>
+<td>public, private, protected, package</td>
+</tr>
+</tbody>
+</table>
+<p>Multiplicity goes in quotes on the ends: <code>Site "1" --&gt; "0..*" Meter</code>.</p>
+</section>
+<section id="example-the-meterhub-domain-model" class="level3">
+<h3 class="anchored" data-anchor-id="example-the-meterhub-domain-model">Example: the MeterHub domain model</h3>
+<pre class="mermaid"><code>classDiagram
+    direction LR
+
+    class Site {
+        +UUID id
+        +str nmi
+        +str address
+        +active_meters() list~Meter~
+    }
+
+    class Meter {
+        +UUID id
+        +str serial
+        +datetime installed_at
+        +datetime removed_at
+        +is_active() bool
+    }
+
+    class Reading {
+        +datetime ts
+        +float kwh
+        +Quality quality
+    }
+
+    class Tariff {
+        &lt;&lt;abstract&gt;&gt;
+        +str code
+        +price(readings) Money*
+    }
+
+    class FlatRate {
+        +Money c_per_kwh
+        +price(readings) Money
+    }
+
+    class TimeOfUse {
+        +dict~str, Money~ windows
+        +price(readings) Money
+    }
+
+    class Invoice {
+        +UUID id
+        +date period_start
+        +date period_end
+        +Money total
+        +issue() void
+    }
+
+    class InvoiceLine {
+        +str description
+        +float quantity
+        +Money amount
+    }
+
+    Site "1" o-- "0..*" Meter : hosts
+    Meter "1" *-- "0..*" Reading : records
+    Site "1" --&gt; "1" Tariff : billed on
+    Tariff &lt;|-- FlatRate
+    Tariff &lt;|-- TimeOfUse
+    Site "1" --&gt; "0..*" Invoice : owes
+    Invoice "1" *-- "1..*" InvoiceLine : contains
+    Invoice ..&gt; Tariff : uses</code></pre>
+<p>Read what the arrowheads claim. A <code>Reading</code> is <em>composed</em> into its <code>Meter</code>, so dropping the meter drops the readings with it. A <code>Meter</code> is only <em>aggregated</em> by a <code>Site</code>, so moving the meter to another site leaves it intact. That distinction is the entire reason <code>removed_at</code> exists on <code>Meter</code>, and it is the kind of thing a diagram states in one glyph while prose takes a paragraph to fumble.</p>
+</section>
+<section id="generating-one-instead" class="level3">
+<h3 class="anchored" data-anchor-id="generating-one-instead">Generating one instead</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python: writes classes.dot / packages.dot (pylint ships it)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pyreverse</span> <span class="at">-o</span> png <span class="at">-p</span> MeterHub meterhub/</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># TypeScript</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> tsuml2 <span class="at">--glob</span> <span class="st">"./src/**/*.ts"</span> <span class="at">-o</span> classes.svg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Mermaid’s <code>classDiagram</code> uses <code>~</code> for generics (<code>list~Meter~</code>), not angle brackets, which collide with the HTML it renders into. A trailing asterisk (<code>Money*</code>) marks an abstract method, and a trailing <code>$</code> marks a static one.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="er-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="er-diagram">2. ER diagram</h2>
+<p><strong>What it is:</strong> tables, columns, keys and the cardinality of the relationships between them. The highest value-per-effort structural diagram, because the schema is the one part of a system that is genuinely hard to read from source and genuinely expensive to get wrong.</p>
+<p><strong>When it earns its keep:</strong> almost always. Before a migration, during a design review, in the README of any service that owns a database.</p>
+<section id="notation-the-crows-foot-decoded" class="level3">
+<h3 class="anchored" data-anchor-id="notation-the-crows-foot-decoded">Notation: the crow’s foot, decoded</h3>
+<p>Mermaid writes a relationship as <code>LEFT &lt;left-card&gt;--&lt;right-card&gt; RIGHT : label</code>, and each cardinality is <strong>two characters</strong>: the inner one is the minimum, the outer one is the maximum.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Min</th>
+<th>Max</th>
+<th>Reads as</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>\|\|</code></td>
+<td>one</td>
+<td>one</td>
+<td>exactly one</td>
+</tr>
+<tr class="even">
+<td><code>\|o</code></td>
+<td>zero</td>
+<td>one</td>
+<td>at most one</td>
+</tr>
+<tr class="odd">
+<td><code>}o</code></td>
+<td>zero</td>
+<td>many</td>
+<td>any number, including none</td>
+</tr>
+<tr class="even">
+<td><code>}\|</code></td>
+<td>one</td>
+<td>many</td>
+<td>at least one</td>
+</tr>
+</tbody>
+</table>
+<p>So <code>CUSTOMER ||--o{ INVOICE</code> says “one customer has zero or more invoices, and every invoice has exactly one customer”. The symbol nearest a table describes <em>that</em> table’s side.</p>
+</section>
+<section id="example-the-meterhub-schema" class="level3">
+<h3 class="anchored" data-anchor-id="example-the-meterhub-schema">Example: the MeterHub schema</h3>
+<pre class="mermaid"><code>erDiagram
+    CUSTOMER ||--o{ SITE : owns
+    SITE ||--o{ METER : "hosts over time"
+    SITE }o--|| TARIFF : "billed on"
+    METER ||--o{ READING : records
+    SITE ||--o{ INVOICE : accrues
+    INVOICE ||--|{ INVOICE_LINE : contains
+
+    CUSTOMER {
+        uuid id PK
+        text email UK
+        text name
+        timestamptz created_at
+    }
+    SITE {
+        uuid id PK
+        uuid customer_id FK
+        uuid tariff_id FK
+        text nmi UK "national metering identifier"
+        text address
+    }
+    METER {
+        uuid id PK
+        uuid site_id FK
+        text serial UK
+        timestamptz installed_at
+        timestamptz removed_at "null while active"
+    }
+    READING {
+        uuid meter_id PK "composite key with ts"
+        timestamptz ts PK
+        double kwh
+        smallint quality "0 measured, 1 estimated"
+    }
+    TARIFF {
+        uuid id PK
+        text code UK
+        text kind "flat or tou"
+        jsonb params
+    }
+    INVOICE {
+        uuid id PK
+        uuid site_id FK
+        date period_start
+        date period_end
+        numeric total_cents
+        text status
+    }
+    INVOICE_LINE {
+        uuid id PK
+        uuid invoice_id FK
+        text description
+        numeric quantity
+        numeric amount_cents
+    }</code></pre>
+<p>Two things this diagram makes visible that the migration files do not:</p>
+<ol type="1">
+<li><code>READING</code> has a <strong>composite primary key</strong> <code>(meter_id, ts)</code> and no surrogate id, the giveaway that it is a time-series table (a Timescale hypertable) rather than a normal entity.</li>
+<li><code>INVOICE ||--|{ INVOICE_LINE</code> uses <code>|{</code>, meaning “one or more”. An invoice with zero lines is not something the domain allows. That is a business rule, sitting in the diagram where a reviewer can argue with it.</li>
+</ol>
+</section>
+<section id="generating-one-instead-1" class="level3">
+<h3 class="anchored" data-anchor-id="generating-one-instead-1">Generating one instead</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Django</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> manage.py graph_models <span class="at">-a</span> <span class="at">-o</span> erd.png          <span class="co"># django-extensions</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Any SQL database, straight to Mermaid</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> @liam-hq/cli erd build <span class="at">--format</span> postgres <span class="at">--input</span> <span class="st">"</span><span class="va">$DATABASE_URL</span><span class="st">"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># SQLAlchemy</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ex">eralchemy</span> <span class="at">-i</span> <span class="st">"postgresql://..."</span> <span class="at">-o</span> erd.pdf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Commit the <em>generated</em> ER diagram and regenerate it in CI. It is the one diagram where staleness is both likely and immediately harmful, and the one where regeneration is free.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="component-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="component-diagram">3. Component diagram</h2>
+<p><strong>What it is:</strong> the deployable or linkable parts of a system and the <strong>interfaces</strong> they offer and require. UML draws these as boxes with lollipop (provided) and socket (required) connectors.</p>
+<p><strong>When it earns its keep:</strong> whenever the interesting fact is the contract rather than the box. “The worker talks to the database” is not worth drawing. “The worker is the only thing holding a write connection to the readings table, and everything else goes through the query API” is worth drawing, because it is a constraint someone can violate.</p>
+<p><strong>Component versus container:</strong> if you are drawing boxes for <em>processes</em>, you are drawing a <a href="../Software_Diagrams/architectural_diagrams.html">C4 container diagram</a>, which is usually the better tool. A component diagram lives one level down, describing the modules <em>inside</em> one deployable.</p>
+<p>Mermaid has no UML component notation, so use a <code>flowchart</code> with subgraphs and label every edge with the protocol plus the contract. <strong>An unlabelled arrow in a component diagram is a wasted arrow.</strong></p>
+<section id="example-meterhub-components-and-their-contracts" class="level3">
+<h3 class="anchored" data-anchor-id="example-meterhub-components-and-their-contracts">Example: MeterHub components and their contracts</h3>
+<pre class="mermaid"><code>flowchart LR
+    subgraph edge["Edge"]
+        DEV["Meter firmware&lt;br/&gt;(ESP32)"]
+    end
+
+    subgraph ingest["ingest-svc (Go)"]
+        MQTT["MQTT bridge&lt;br/&gt;provides: mqtt/tls :8883"]
+        VAL["Validator&lt;br/&gt;requires: SchemaRegistry"]
+        WRT["Batch writer&lt;br/&gt;requires: pg COPY"]
+    end
+
+    subgraph billing["billing-svc (Python)"]
+        SCHED["Scheduler&lt;br/&gt;provides: cron"]
+        PRICE["Pricing engine&lt;br/&gt;requires: TariffPolicy"]
+        PDF["Invoice renderer&lt;br/&gt;provides: /invoices/:id.pdf"]
+    end
+
+    subgraph api["query-api (Python)"]
+        REST["REST&lt;br/&gt;provides: /v1/readings"]
+        AUTH["Authz&lt;br/&gt;requires: OIDC"]
+    end
+
+    DB[("TimescaleDB&lt;br/&gt;readings, invoices")]
+    CACHE[("Redis&lt;br/&gt;dedupe window")]
+    IDP["Identity provider"]
+
+    DEV --&gt;|"MQTT/TLS, protobuf"| MQTT
+    MQTT --&gt; VAL
+    VAL --&gt;|"dedupe key: meter+ts"| CACHE
+    VAL --&gt; WRT
+    WRT --&gt;|"COPY, write-only role"| DB
+    SCHED --&gt; PRICE
+    PRICE --&gt;|"SELECT, read-only role"| DB
+    PRICE --&gt; PDF
+    REST --&gt;|"SELECT, read-only role"| DB
+    AUTH --&gt;|"OIDC discovery"| IDP
+    REST -.-&gt;|"redirect"| PDF
+
+    classDef store fill:#2b6cb0,stroke:#1a365d,color:#fff
+    class DB,CACHE store</code></pre>
+<p>The diagram earns its place on one edge: <code>WRT</code> is the <strong>only</strong> arrow into <code>DB</code> not labelled read-only. That is the architectural rule, and it is now checkable. If a second write arrow ever appears in this picture, someone has to justify it in review.</p>
+</section>
+<section id="where-mermaid-runs-out" class="level3">
+<h3 class="anchored" data-anchor-id="where-mermaid-runs-out">Where Mermaid runs out</h3>
+<p>For true lollipop and socket notation, or for interfaces as first-class named things, use PlantUML:</p>
+<pre class="plantuml"><code>@startuml
+component "ingest-svc" as ingest
+component "query-api" as api
+interface "ReadingsQuery" as RQ
+api -up- RQ
+ingest ..&gt; RQ : requires
+@enduml</code></pre>
+<p>Or <a href="https://d2lang.com">D2</a>, which handles dense many-to-many layouts far better than Mermaid does.</p>
+<hr>
+</section>
+</section>
+<section id="deployment-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="deployment-diagram">4. Deployment diagram</h2>
+<p><strong>What it is:</strong> the mapping from software artifacts to the physical or virtual things that run them: hosts, VMs, containers, availability zones, devices.</p>
+<p><strong>When it earns its keep:</strong> every time. This is the diagram people actually open at 2am. It is also the only structural diagram whose facts live nowhere in the source code. They are spread across Terraform, Ansible, compose files and a DNS console, which is exactly why one picture pays for itself.</p>
+<p><strong>What must be on it:</strong> node boundaries, what is deployed inside each, the network path between them with <strong>ports and protocols</strong>, and the trust boundary. What must <em>not</em> be on it: anything that is not a deployment fact. Resist adding classes.</p>
+<section id="example-meterhub-on-a-proxmox-home-lab" class="level3">
+<h3 class="anchored" data-anchor-id="example-meterhub-on-a-proxmox-home-lab">Example: MeterHub on a Proxmox home lab</h3>
+<pre class="mermaid"><code>flowchart TB
+    subgraph field["Field / customer premises (untrusted)"]
+        M1["Meter + ESP32&lt;br/&gt;artifact: fw-1.4.2"]
+        M2["Meter + ESP32&lt;br/&gt;artifact: fw-1.4.2"]
+    end
+
+    subgraph internet["Public internet (untrusted)"]
+        CF["Cloudflare&lt;br/&gt;TLS termination, WAF"]
+    end
+
+    subgraph host["Proxmox host, 192.168.2.70"]
+        subgraph ct204["LXC 204: edge (unprivileged)"]
+            NGINX["nginx 1.26&lt;br/&gt;:443 to :8000"]
+            MOSQ["mosquitto&lt;br/&gt;:8883 mqtts"]
+        end
+        subgraph ct205["LXC 205: meterhub (4 vCPU, 20 GB, RTX 3060)"]
+            ING["ingest-svc&lt;br/&gt;systemd, :9001"]
+            QAPI["query-api&lt;br/&gt;gunicorn, :8000"]
+            BILL["billing-svc&lt;br/&gt;systemd timer, nightly 02:00"]
+        end
+        subgraph ct206["LXC 206: data"]
+            TS[("TimescaleDB 2.15&lt;br/&gt;:5432, pgdata on nvme4tb-lvm")]
+            RD[("Redis 7&lt;br/&gt;:6379, maxmemory 256mb")]
+        end
+    end
+
+    subgraph cloud["AWS ap-southeast-2"]
+        S3[("S3&lt;br/&gt;invoice PDFs, nightly pg_dump")]
+    end
+
+    M1 --&gt;|"mqtts :8883"| CF
+    M2 --&gt;|"mqtts :8883"| CF
+    CF --&gt;|"tcp :8883"| MOSQ
+    CF --&gt;|"https :443"| NGINX
+    MOSQ --&gt;|"mqtt :1883, lan only"| ING
+    NGINX --&gt;|"http :8000"| QAPI
+    ING --&gt;|"pg :5432"| TS
+    QAPI --&gt;|"pg :5432"| TS
+    BILL --&gt;|"pg :5432"| TS
+    ING --&gt;|"resp :6379"| RD
+    BILL --&gt;|"https, PutObject"| S3
+    TS -.-&gt;|"cron 03:00, pg_dump"| S3
+
+    classDef untrusted fill:#742a2a,stroke:#e53e3e,color:#fff
+    classDef store fill:#2b6cb0,stroke:#1a365d,color:#fff
+    class M1,M2,CF untrusted
+    class TS,RD,S3 store</code></pre>
+<p>Note what the red nodes do: they mark everything outside the LAN trust boundary. Once that line is on the page, “which hops are encrypted?” becomes a question you answer by tracing edges, and it is the seed of a <a href="../Software_Diagrams/architectural_diagrams.html">data flow diagram for threat modelling</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>UML has real deployment notation: 3D <code>&lt;&lt;device&gt;&gt;</code> and <code>&lt;&lt;execution environment&gt;&gt;</code> nodes with nested artifacts. Nobody misses it. A nested-subgraph flowchart carries the same information and renders in a pull request.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="package-dependency-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="package-dependency-diagram">5. Package / dependency diagram</h2>
+<p><strong>What it is:</strong> modules or packages as nodes, imports as edges. The one structural diagram whose main purpose is not communication but <strong>detection</strong>. You draw it to find the cycle.</p>
+<p><strong>When it earns its keep:</strong> when builds are slow, when small changes trigger wide rebuilds, when a unit test needs six unrelated imports to run, or before splitting a monolith. Layering violations are almost invisible in a file tree and glaring in a graph.</p>
+<section id="example-meterhubs-python-packages-with-the-cycle-it-grew" class="level3">
+<h3 class="anchored" data-anchor-id="example-meterhubs-python-packages-with-the-cycle-it-grew">Example: MeterHub’s Python packages, with the cycle it grew</h3>
+<pre class="mermaid"><code>flowchart TD
+    api["meterhub.api"]
+    billing["meterhub.billing"]
+    ingest["meterhub.ingest"]
+    domain["meterhub.domain"]
+    tariffs["meterhub.tariffs"]
+    storage["meterhub.storage"]
+    notify["meterhub.notify"]
+    common["meterhub.common"]
+
+    api --&gt; domain
+    api --&gt; storage
+    ingest --&gt; domain
+    ingest --&gt; storage
+    billing --&gt; domain
+    billing --&gt; tariffs
+    billing --&gt; storage
+    billing --&gt; notify
+    tariffs --&gt; domain
+    storage --&gt; domain
+    domain --&gt; common
+    storage --&gt; common
+    notify --&gt; common
+
+    notify --&gt;|"imports render_invoice"| billing
+
+    linkStyle 13 stroke:#e53e3e,stroke-width:3px
+    classDef bad stroke:#e53e3e,stroke-width:3px
+    class notify,billing bad</code></pre>
+<p><code>billing</code> imports <code>notify</code>, and <code>notify</code> imports <code>billing</code> straight back. It happened the usual way: the email template needed to render an invoice, <code>render_invoice</code> lived in <code>billing</code>, and importing it was one line. The fix is also the usual one. Move the shared thing down (<code>render_invoice</code> into <code>domain</code>) or invert the dependency (pass an already-rendered blob into <code>notify</code>). Either way, the graph is what makes the argument.</p>
+</section>
+<section id="generating-one-and-enforcing-it" class="level3">
+<h3 class="anchored" data-anchor-id="generating-one-and-enforcing-it">Generating one, and enforcing it</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python: draw it</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pydeps</span> meterhub <span class="at">--max-bacon</span> 2 <span class="at">--cluster</span> <span class="at">-o</span> deps.svg</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pyreverse</span> <span class="at">-o</span> png <span class="at">-p</span> MeterHub meterhub/          <span class="co"># produces packages.png</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Python: fail CI on a violation</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install import-linter                       <span class="co"># then define contracts in setup.cfg</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="ex">lint-imports</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># JS/TS</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> madge <span class="at">--circular</span> <span class="at">--extensions</span> ts,tsx src/</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> depcruise <span class="at">--validate</span> .dependency-cruiser.js src</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>An <code>import-linter</code> contract that would have caught the cycle above:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode ini code-with-copy"><code class="sourceCode ini"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[importlinter]</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dt">root_package </span><span class="ot">=</span><span class="st"> meterhub</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[importlinter:contract:layers]</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="dt">name </span><span class="ot">=</span><span class="st"> MeterHub layers</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="dt">type </span><span class="ot">=</span><span class="st"> layers</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="dt">layers </span><span class="ot">=</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="dt">    meterhub.api</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="dt">    meterhub.billing</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="dt">    meterhub.storage</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="dt">    meterhub.domain</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="dt">    meterhub.common</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The diagram finds the cycle once. The linter contract stops it coming back. Draw it to convince people, then encode it so you never have to draw it again.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="picking-one-and-keeping-it-honest" class="level2">
+<h2 class="anchored" data-anchor-id="picking-one-and-keeping-it-honest">6. Picking one, and keeping it honest</h2>
+<p><strong>Decision shortcut</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>The question in the room</th>
+<th>Draw</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“What columns does that live in?”</td>
+<td>ER</td>
+</tr>
+<tr class="even">
+<td>“Where does this actually run, on which port?”</td>
+<td>Deployment</td>
+</tr>
+<tr class="odd">
+<td>“Who is allowed to call what?”</td>
+<td>Component, with every edge labelled</td>
+</tr>
+<tr class="even">
+<td>“Why is the build slow, why can’t I test this alone?”</td>
+<td>Package</td>
+</tr>
+<tr class="odd">
+<td>“How should we model this before we build it?”</td>
+<td>Class, then delete it once the code lands</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Three habits that keep structural diagrams from rotting</strong></p>
+<ol type="1">
+<li><strong>Store the source, not the picture.</strong> A Mermaid block in a markdown file diffs in review. A PNG from a whiteboard does not. Every diagram in this notebook is text.</li>
+<li><strong>Generate whatever can be generated</strong> (ER, package) and run it in CI. Hand-maintain only the diagrams that encode intent (component, deployment), and put them in the repo they describe rather than a wiki nobody opens.</li>
+<li><strong>Cap it at what fits on a screen.</strong> Past roughly 15 nodes a structural diagram stops being read and starts being scrolled. Split by lens rather than by zoom: one deployment diagram, one component diagram, never one diagram carrying both.</li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The most common failure is drawing a class diagram when the question was behavioural. “Why did the invoice come out wrong?” is not answered by anything in this notebook. That is a <a href="../Software_Diagrams/behavioural_diagrams.html">sequence diagram or a state machine</a>.</p>
+</div>
+</div>
+<hr>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/bthek1\.github\.io\/Software_Tools");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="quarto-dev/quarto-web" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../Software_Diagrams/diagram_overview.html" class="pagination-link" aria-label="Diagrams">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Diagrams</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../Software_Diagrams/behavioural_diagrams.html" class="pagination-link" aria-label="Behavioural Diagrams">
+        <span class="nav-page-text">Behavioural Diagrams</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page">
+<p>Trademark</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/bthek1/bthek1_blog/issues">
+<p>FAQ</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://bthek1.github.io/bthek1_blog/index.html">
+<p>License</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../index.html">
+<p>Trademark</p>
+</a>
+  </li>  
+</ul>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/bthek1/Software_Tools/blob/main/Software_Diagrams/02_Structural_Diagrams.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bthek1/Software_Tools/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bthek1">
+      <i class="bi bi-github" role="img" aria-label="Github">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/benedict-thekkel/">
+      <i class="bi bi-linkedin" role="img" aria-label="Linkedin">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

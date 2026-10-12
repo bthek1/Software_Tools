@@ -28,7 +28,7 @@ services see [IaaS](https://bthek1.github.io/IaaS_docs/).
 | [Bash Scripts](Linux/04_Bash_Scritps.ipynb) | Variables, conditionals, loops, functions, arguments, and error handling, with worked examples |
 | [systemd Services](Linux/02_Service.ipynb) | Unit files, creating and enabling a service, resource management through cgroups, and the practices that keep units maintainable |
 | [journalctl](Linux/03_Journalctl.ipynb) | Reading the logs that systemd produces |
-| [Display Systems](Linux/07_Display_System.ipynb) | X11 against Wayland, then the desktop environments on top: GNOME, KDE Plasma, XFCE |
+| [Display Systems](Linux/07_Display_System.ipynb) | X11 against Wayland, the desktop environments on top (GNOME, KDE Plasma, XFCE), and a multi-monitor runbook for GNOME on NVIDIA: identical-EDID twins, a screen left black after unlock, and the monitor input-source trap |
 | [New Linux Computer](Linux/05_Linux_Computer.ipynb) | The setup checklist for a fresh Ubuntu box: git, VS Code, stow, tmux, SSH keys, curl, and battery charge limits |
 | [WSL](11_WSL.ipynb) | Running Linux under Windows: enabling the feature, the config files, and port forwarding back to Windows |
 

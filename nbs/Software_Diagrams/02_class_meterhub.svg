@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="tri" viewBox="0 0 16 14" refX="15" refY="7" markerWidth="16" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1,1 L15,7 L1,13 z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    </marker>
+    <marker id="dfill" viewBox="0 0 18 10" refX="17" refY="5" markerWidth="18" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1,5 L9,1 L17,5 L9,9 z" fill="#475569" stroke="#475569" stroke-width="1"/>
+    </marker>
+    <marker id="dhol" viewBox="0 0 18 10" refX="17" refY="5" markerWidth="18" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1,5 L9,1 L17,5 L9,9 z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    </marker>
+    <marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1,1 L11,6 L1,11" fill="none" stroke="#475569" stroke-width="1.6"/>
+    </marker>
+  </defs>
+  <rect width="900" height="600" fill="#ffffff"/>
+  <rect x="20" y="221" width="220" height="112" rx="4" fill="#eff6ff" stroke="#1d4ed8"/>
+  <line x1="20" y1="249" x2="240" y2="249" stroke="#1d4ed8"/>
+  <line x1="20" y1="307" x2="240" y2="307" stroke="#1d4ed8"/>
+  <text x="130.0" y="240" text-anchor="middle" font-weight="bold">Site</text>
+  <text x="30" y="266" text-anchor="start" font-size="12">+UUID id</text>
+  <text x="30" y="282" text-anchor="start" font-size="12">+str nmi</text>
+  <text x="30" y="298" text-anchor="start" font-size="12">+str address</text>
+  <text x="30" y="324" text-anchor="start" font-size="12">+active_meters() list&lt;Meter&gt;</text>
+  <rect x="340" y="20" width="220" height="128" rx="4" fill="#eff6ff" stroke="#1d4ed8"/>
+  <line x1="340" y1="48" x2="560" y2="48" stroke="#1d4ed8"/>
+  <line x1="340" y1="122" x2="560" y2="122" stroke="#1d4ed8"/>
+  <text x="450.0" y="39" text-anchor="middle" font-weight="bold">Meter</text>
+  <text x="350" y="65" text-anchor="start" font-size="12">+UUID id</text>
+  <text x="350" y="81" text-anchor="start" font-size="12">+str serial</text>
+  <text x="350" y="97" text-anchor="start" font-size="12">+datetime installed_at</text>
+  <text x="350" y="113" text-anchor="start" font-size="12">+datetime removed_at</text>
+  <text x="350" y="139" text-anchor="start" font-size="12">+is_active() bool</text>
+  <rect x="660" y="36" width="220" height="96" rx="4" fill="#eff6ff" stroke="#1d4ed8"/>
+  <line x1="660" y1="64" x2="880" y2="64" stroke="#1d4ed8"/>
+  <line x1="660" y1="122" x2="880" y2="122" stroke="#1d4ed8"/>
+  <text x="770.0" y="55" text-anchor="middle" font-weight="bold">Reading</text>
+  <text x="670" y="81" text-anchor="start" font-size="12">+datetime ts</text>
+  <text x="670" y="97" text-anchor="start" font-size="12">+float kwh</text>
+  <text x="670" y="113" text-anchor="start" font-size="12">+Quality quality</text>
+  <rect x="340" y="230" width="220" height="94" rx="4" fill="#fef3c7" stroke="#b45309"/>
+  <line x1="340" y1="272" x2="560" y2="272" stroke="#b45309"/>
+  <line x1="340" y1="298" x2="560" y2="298" stroke="#b45309"/>
+  <text x="450.0" y="246" text-anchor="middle" font-size="11" fill="#475569">&lt;&lt;abstract&gt;&gt;</text>
+  <text x="450.0" y="263" text-anchor="middle" font-weight="bold" font-style="italic">Tariff</text>
+  <text x="350" y="289" text-anchor="start" font-size="12">+str code</text>
+  <text x="350" y="315" text-anchor="start" font-size="12" font-style="italic">+price(readings) Money</text>
+  <rect x="660" y="180" width="220" height="80" rx="4" fill="#fef3c7" stroke="#b45309"/>
+  <line x1="660" y1="208" x2="880" y2="208" stroke="#b45309"/>
+  <line x1="660" y1="234" x2="880" y2="234" stroke="#b45309"/>
+  <text x="770.0" y="199" text-anchor="middle" font-weight="bold">FlatRate</text>
+  <text x="670" y="225" text-anchor="start" font-size="12">+Money c_per_kwh</text>
+  <text x="670" y="251" text-anchor="start" font-size="12">+price(readings) Money</text>
+  <rect x="660" y="300" width="220" height="80" rx="4" fill="#fef3c7" stroke="#b45309"/>
+  <line x1="660" y1="328" x2="880" y2="328" stroke="#b45309"/>
+  <line x1="660" y1="354" x2="880" y2="354" stroke="#b45309"/>
+  <text x="770.0" y="319" text-anchor="middle" font-weight="bold">TimeOfUse</text>
+  <text x="670" y="345" text-anchor="start" font-size="12">+dict&lt;str, Money&gt; windows</text>
+  <text x="670" y="371" text-anchor="start" font-size="12">+price(readings) Money</text>
+  <rect x="340" y="430" width="220" height="128" rx="4" fill="#ecfdf5" stroke="#047857"/>
+  <line x1="340" y1="458" x2="560" y2="458" stroke="#047857"/>
+  <line x1="340" y1="532" x2="560" y2="532" stroke="#047857"/>
+  <text x="450.0" y="449" text-anchor="middle" font-weight="bold">Invoice</text>
+  <text x="350" y="475" text-anchor="start" font-size="12">+UUID id</text>
+  <text x="350" y="491" text-anchor="start" font-size="12">+date period_start</text>
+  <text x="350" y="507" text-anchor="start" font-size="12">+date period_end</text>
+  <text x="350" y="523" text-anchor="start" font-size="12">+Money total</text>
+  <text x="350" y="549" text-anchor="start" font-size="12">+issue() void</text>
+  <rect x="660" y="446" width="220" height="96" rx="4" fill="#ecfdf5" stroke="#047857"/>
+  <line x1="660" y1="474" x2="880" y2="474" stroke="#047857"/>
+  <line x1="660" y1="532" x2="880" y2="532" stroke="#047857"/>
+  <text x="770.0" y="465" text-anchor="middle" font-weight="bold">InvoiceLine</text>
+  <text x="670" y="491" text-anchor="start" font-size="12">+str description</text>
+  <text x="670" y="507" text-anchor="start" font-size="12">+float quantity</text>
+  <text x="670" y="523" text-anchor="start" font-size="12">+Money amount</text>
+  <path d="M130,221 L130,84 L340,84" fill="none" stroke="#475569" stroke-width="1.6" marker-start="url(#dhol)"/>
+  <rect x="112" y="188.5" width="13" height="16" fill="#ffffff"/>
+  <text x="122" y="200" text-anchor="end" font-size="12">1</text>
+  <rect x="302" y="66.5" width="33" height="16" fill="#ffffff"/>
+  <text x="332" y="78" text-anchor="end" font-size="12">0..*</text>
+  <rect x="215" y="66.5" width="40" height="16" fill="#ffffff"/>
+  <text x="235" y="78" text-anchor="middle" font-size="12" fill="#475569">hosts</text>
+  <path d="M560,84 L660,84" fill="none" stroke="#475569" stroke-width="1.6" marker-start="url(#dfill)"/>
+  <rect x="579" y="64.5" width="13" height="16" fill="#ffffff"/>
+  <text x="582" y="76" text-anchor="start" font-size="12">1</text>
+  <rect x="622" y="64.5" width="33" height="16" fill="#ffffff"/>
+  <text x="652" y="76" text-anchor="end" font-size="12">0..*</text>
+  <rect x="583.5" y="90.5" width="53" height="16" fill="#ffffff"/>
+  <text x="610" y="102" text-anchor="middle" font-size="12" fill="#475569">records</text>
+  <path d="M240,277 L340,277" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#open)"/>
+  <rect x="245" y="258.5" width="13" height="16" fill="#ffffff"/>
+  <text x="248" y="270" text-anchor="start" font-size="12">1</text>
+  <rect x="320" y="258.5" width="13" height="16" fill="#ffffff"/>
+  <text x="330" y="270" text-anchor="end" font-size="12">1</text>
+  <rect x="257" y="283.5" width="66" height="16" fill="#ffffff"/>
+  <text x="290" y="295" text-anchor="middle" font-size="12" fill="#475569">billed on</text>
+  <path d="M660,220 L610,220 L610,277 L560,277" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#tri)"/>
+  <path d="M660,340 L610,340 L610,277" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <path d="M130,333 L130,494 L340,494" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#open)"/>
+  <rect x="135" y="338.5" width="13" height="16" fill="#ffffff"/>
+  <text x="138" y="350" text-anchor="start" font-size="12">1</text>
+  <rect x="300" y="475.5" width="33" height="16" fill="#ffffff"/>
+  <text x="330" y="487" text-anchor="end" font-size="12">0..*</text>
+  <rect x="218.5" y="475.5" width="33" height="16" fill="#ffffff"/>
+  <text x="235" y="487" text-anchor="middle" font-size="12" fill="#475569">owes</text>
+  <path d="M560,494 L660,494" fill="none" stroke="#475569" stroke-width="1.6" marker-start="url(#dfill)"/>
+  <rect x="579" y="474.5" width="13" height="16" fill="#ffffff"/>
+  <text x="582" y="486" text-anchor="start" font-size="12">1</text>
+  <rect x="622" y="474.5" width="33" height="16" fill="#ffffff"/>
+  <text x="652" y="486" text-anchor="end" font-size="12">1..*</text>
+  <rect x="580" y="500.5" width="60" height="16" fill="#ffffff"/>
+  <text x="610" y="512" text-anchor="middle" font-size="12" fill="#475569">contains</text>
+  <path d="M450,430 L450,324" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#open)"/>
+  <rect x="455" y="370.5" width="33" height="16" fill="#ffffff"/>
+  <text x="458" y="382" text-anchor="start" font-size="12" fill="#475569">uses</text>
+  <path d="M20,570 L70,570" fill="none" stroke="#475569" stroke-width="1.6" marker-start="url(#dhol)"/>
+  <text x="78" y="574" text-anchor="start" font-size="11" fill="#475569">aggregation</text>
+  <path d="M170,570 L220,570" fill="none" stroke="#475569" stroke-width="1.6" marker-start="url(#dfill)"/>
+  <text x="228" y="574" text-anchor="start" font-size="11" fill="#475569">composition</text>
+  <path d="M320,570 L370,570" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#tri)"/>
+  <text x="378" y="574" text-anchor="start" font-size="11" fill="#475569">inheritance</text>
+  <path d="M470,570 L520,570" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#open)"/>
+  <text x="528" y="574" text-anchor="start" font-size="11" fill="#475569">association</text>
+  <path d="M620,570 L670,570" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#open)"/>
+  <text x="678" y="574" text-anchor="start" font-size="11" fill="#475569">dependency</text>
+</svg>

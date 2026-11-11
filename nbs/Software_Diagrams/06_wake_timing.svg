@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1012 342" width="1012" height="342" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+  </defs>
+  <rect width="1012" height="342" fill="#ffffff"/>
+  <text x="506.0" y="26" text-anchor="middle" font-size="15" fill="#0f172a" font-weight="bold">Meter wake cycle: MCU state and MQTT session</text>
+  <text x="20" y="109.0" text-anchor="start" font-size="13" fill="#0f172a" font-weight="bold">Meter MCU</text>
+  <rect x="190" y="48" width="782.0" height="114" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="182" y="64" text-anchor="end" font-size="11" fill="#475569">Publishing</text>
+  <line x1="190" y1="60" x2="972.0" y2="60" stroke="#e2e8f0"/>
+  <text x="182" y="94" text-anchor="end" font-size="11" fill="#475569">Connecting</text>
+  <line x1="190" y1="90" x2="972.0" y2="90" stroke="#e2e8f0"/>
+  <text x="182" y="124" text-anchor="end" font-size="11" fill="#475569">Sampling</text>
+  <line x1="190" y1="120" x2="972.0" y2="120" stroke="#e2e8f0"/>
+  <text x="182" y="154" text-anchor="end" font-size="11" fill="#475569">DeepSleep</text>
+  <line x1="190" y1="150" x2="972.0" y2="150" stroke="#e2e8f0"/>
+  <polyline points="190.0,150 394.0,150 394.0,120 434.8,120 434.8,90 802.0,90 802.0,60 870.0,60 870.0,150 972.0,150" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+  <text x="20" y="224" text-anchor="start" font-size="13" fill="#0f172a" font-weight="bold">MQTT session</text>
+  <path d="M190.0,220 L196.0,206 L428.8,206 L434.8,220 L428.8,234 L196.0,234 z" fill="#f1f5f9" stroke="#475569" stroke-width="1.5"/>
+  <text x="312.4" y="224" text-anchor="middle" font-size="11" fill="#0f172a">Disconnected</text>
+  <path d="M434.8,220 L440.8,206 L796.0,206 L802.0,220 L796.0,234 L440.8,234 z" fill="#fef3c7" stroke="#475569" stroke-width="1.5"/>
+  <text x="618.4" y="224" text-anchor="middle" font-size="11" fill="#0f172a">Handshake</text>
+  <path d="M802.0,220 L808.0,206 L864.0,206 L870.0,220 L864.0,234 L808.0,234 z" fill="#ecfdf5" stroke="#475569" stroke-width="1.5"/>
+  <text x="836.0" y="224" text-anchor="middle" font-size="10" fill="#0f172a">Connected</text>
+  <path d="M870.0,220 L876.0,206 L966.0,206 L972.0,220 L966.0,234 L876.0,234 z" fill="#f1f5f9" stroke="#475569" stroke-width="1.5"/>
+  <text x="921.0" y="224" text-anchor="middle" font-size="10" fill="#0f172a">Disconnected</text>
+  <line x1="190" y1="270" x2="972.0" y2="270" stroke="#475569"/>
+  <line x1="190.0" y1="270" x2="190.0" y2="275" stroke="#475569"/>
+  <text x="190.0" y="288" text-anchor="middle" font-size="10" fill="#475569">0</text>
+  <line x1="258.0" y1="270" x2="258.0" y2="275" stroke="#475569"/>
+  <text x="258.0" y="288" text-anchor="middle" font-size="10" fill="#475569">100</text>
+  <line x1="326.0" y1="270" x2="326.0" y2="275" stroke="#475569"/>
+  <text x="326.0" y="288" text-anchor="middle" font-size="10" fill="#475569">200</text>
+  <line x1="394.0" y1="270" x2="394.0" y2="275" stroke="#475569"/>
+  <text x="394.0" y="288" text-anchor="middle" font-size="10" fill="#475569">300</text>
+  <line x1="462.0" y1="270" x2="462.0" y2="275" stroke="#475569"/>
+  <text x="462.0" y="288" text-anchor="middle" font-size="10" fill="#475569">400</text>
+  <line x1="530.0" y1="270" x2="530.0" y2="275" stroke="#475569"/>
+  <text x="530.0" y="288" text-anchor="middle" font-size="10" fill="#475569">500</text>
+  <line x1="598.0" y1="270" x2="598.0" y2="275" stroke="#475569"/>
+  <text x="598.0" y="288" text-anchor="middle" font-size="10" fill="#475569">600</text>
+  <line x1="666.0" y1="270" x2="666.0" y2="275" stroke="#475569"/>
+  <text x="666.0" y="288" text-anchor="middle" font-size="10" fill="#475569">700</text>
+  <line x1="734.0" y1="270" x2="734.0" y2="275" stroke="#475569"/>
+  <text x="734.0" y="288" text-anchor="middle" font-size="10" fill="#475569">800</text>
+  <line x1="802.0" y1="270" x2="802.0" y2="275" stroke="#475569"/>
+  <text x="802.0" y="288" text-anchor="middle" font-size="10" fill="#475569">900</text>
+  <line x1="870.0" y1="270" x2="870.0" y2="275" stroke="#475569"/>
+  <text x="870.0" y="288" text-anchor="middle" font-size="10" fill="#475569">1000</text>
+  <line x1="938.0" y1="270" x2="938.0" y2="275" stroke="#475569"/>
+  <text x="938.0" y="288" text-anchor="middle" font-size="10" fill="#475569">1100</text>
+  <text x="972.0" y="302" text-anchor="end" font-size="10" fill="#475569">ms</text>
+  <line x1="394.0" y1="48" x2="394.0" y2="270" stroke="#94a3b8" stroke-dasharray="3,3"/>
+  <line x1="434.8" y1="48" x2="434.8" y2="270" stroke="#94a3b8" stroke-dasharray="3,3"/>
+  <line x1="802.0" y1="48" x2="802.0" y2="270" stroke="#94a3b8" stroke-dasharray="3,3"/>
+  <line x1="870.0" y1="48" x2="870.0" y2="270" stroke="#94a3b8" stroke-dasharray="3,3"/>
+  <line x1="394.0" y1="270" x2="394.0" y2="324" stroke="#94a3b8"/>
+  <line x1="802.0" y1="270" x2="802.0" y2="324" stroke="#94a3b8"/>
+  <polyline points="395.0,318 801.0,318" fill="none" stroke="#b91c1c" stroke-width="2" marker-start="url(#r)" marker-end="url(#r)"/>
+  <rect x="446.2" y="299.6" width="303.6" height="15.6" fill="#ffffff" fill-opacity="0.92"/>
+  <text x="598.0" y="311" text-anchor="middle" font-size="12" fill="#b91c1c" font-weight="bold">600 ms of radio, the entire power budget</text>
+</svg>

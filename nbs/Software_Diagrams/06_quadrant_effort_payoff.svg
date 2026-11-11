@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" width="900" height="720" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+  </defs>
+  <rect width="900" height="720" fill="#ffffff"/>
+  <text x="440.0" y="34" text-anchor="middle" font-size="15" fill="#0f172a" font-weight="bold">Diagram effort against payoff</text>
+  <rect x="150.0" y="70.0" width="290.0" height="290.0" fill="#ecfdf5" stroke="#94a3b8"/>
+  <text x="295.0" y="92.0" text-anchor="middle" font-size="13" fill="#475569" font-weight="bold">Draw these first</text>
+  <rect x="440.0" y="70.0" width="290.0" height="290.0" fill="#eff6ff" stroke="#94a3b8"/>
+  <text x="585.0" y="92.0" text-anchor="middle" font-size="13" fill="#475569" font-weight="bold">Worth the upkeep</text>
+  <rect x="150.0" y="360.0" width="290.0" height="290.0" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="295.0" y="382.0" text-anchor="middle" font-size="13" fill="#475569" font-weight="bold">Generate it or skip it</text>
+  <rect x="440.0" y="360.0" width="290.0" height="290.0" fill="#fef2f2" stroke="#94a3b8"/>
+  <text x="585.0" y="382.0" text-anchor="middle" font-size="13" fill="#475569" font-weight="bold">Usually not worth it</text>
+  <text x="150" y="672" text-anchor="start" font-size="12" fill="#475569">Cheap to keep current</text>
+  <text x="730" y="672" text-anchor="end" font-size="12" fill="#475569">Expensive to keep current</text>
+  <polyline points="320,668 550,668" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="134" y="650" text-anchor="middle" font-size="1" fill="#0f172a"></text>
+  <text x="134" y="650" text-anchor="start" font-size="12" fill="#475569" transform="rotate(-90 134 650)">Low payoff</text>
+  <text x="134" y="70" text-anchor="end" font-size="12" fill="#475569" transform="rotate(-90 134 70)">High payoff</text>
+  <polyline points="130,560 130,160" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <circle cx="266.0" cy="157.0" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="277.0" y="161.0" text-anchor="start" font-size="11" fill="#0f172a">ER diagram (0.2, 0.85)</text>
+  <circle cx="295.0" cy="127.99999999999999" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="306.0" y="132.0" text-anchor="start" font-size="11" fill="#0f172a">Sequence with failure paths (0.25, 0.9)</text>
+  <circle cx="324.0" cy="185.99999999999997" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="335.0" y="189.99999999999997" text-anchor="start" font-size="11" fill="#0f172a">C4 container (0.3, 0.8)</text>
+  <circle cx="382.0" cy="215.0" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="393.0" y="219.0" text-anchor="start" font-size="11" fill="#0f172a">Deployment (0.4, 0.75)</text>
+  <circle cx="324.0" cy="244.00000000000003" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="335.0" y="248.00000000000003" text-anchor="start" font-size="11" fill="#0f172a">State machine (0.3, 0.7)</text>
+  <circle cx="440.0" cy="273.0" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="451.0" y="277.0" text-anchor="start" font-size="11" fill="#0f172a">Network topology (0.5, 0.65)</text>
+  <circle cx="614.0" cy="418.0" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="625.0" y="422.0" text-anchor="start" font-size="11" fill="#0f172a">Gantt (0.8, 0.4)</text>
+  <circle cx="556.0" cy="534.0" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="567.0" y="538.0" text-anchor="start" font-size="11" fill="#0f172a">Class diagram (0.7, 0.2)</text>
+  <circle cx="498.0" cy="563.0" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="509.0" y="567.0" text-anchor="start" font-size="11" fill="#0f172a">Use case (0.6, 0.15)</text>
+  <circle cx="498.0" cy="592.0" r="6" fill="#1d4ed8" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="509.0" y="596.0" text-anchor="start" font-size="11" fill="#0f172a">Communication (0.6, 0.1)</text>
+</svg>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 330" width="980" height="330" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+  </defs>
+  <rect width="980" height="330" fill="#ffffff"/>
+  <text x="490.0" y="30" text-anchor="middle" font-size="15" fill="#0f172a" font-weight="bold">Dependency network (PERT style), durations in working days</text>
+  <polyline points="132.0,180 140.0,180 140.0,80 148.0,80" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <polyline points="132.0,180 148.0,180" fill="none" stroke="#b91c1c" stroke-width="3" marker-end="url(#r)"/>
+  <polyline points="272.0,80 288.0,80" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <polyline points="412.0,80 428.0,80" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <polyline points="552.0,80 568.0,80" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <polyline points="272.0,180 288.0,180" fill="none" stroke="#b91c1c" stroke-width="3" marker-end="url(#r)"/>
+  <polyline points="412.0,180 428.0,180" fill="none" stroke="#b91c1c" stroke-width="3" marker-end="url(#r)"/>
+  <polyline points="552.0,180 568.0,180" fill="none" stroke="#b91c1c" stroke-width="3" marker-end="url(#r)"/>
+  <polyline points="692.0,180 708.0,180" fill="none" stroke="#b91c1c" stroke-width="3" marker-end="url(#r)"/>
+  <polyline points="272.0,180 280.0,180 280.0,270 288.0,270" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <polyline points="692.0,80 708.0,80" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <polyline points="832.0,180 848.0,180" fill="none" stroke="#b91c1c" stroke-width="3" marker-end="url(#r)"/>
+  <rect x="8.0" y="158.0" width="124" height="44" rx="8" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="70" y="176.7" text-anchor="middle" font-size="12" fill="#0f172a">Provision infra</text>
+  <text x="70" y="191.7" text-anchor="middle" font-size="12" fill="#0f172a">4d</text>
+  <rect x="148.0" y="58.0" width="124" height="44" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1"/>
+  <text x="210" y="76.7" text-anchor="middle" font-size="12" fill="#0f172a">Cert authority</text>
+  <text x="210" y="91.7" text-anchor="middle" font-size="12" fill="#0f172a">3d</text>
+  <rect x="148.0" y="158.0" width="124" height="44" rx="8" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="210" y="176.7" text-anchor="middle" font-size="12" fill="#0f172a">TimescaleDB</text>
+  <text x="210" y="191.7" text-anchor="middle" font-size="12" fill="#0f172a">6d</text>
+  <rect x="288.0" y="58.0" width="124" height="44" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1"/>
+  <text x="350" y="76.7" text-anchor="middle" font-size="12" fill="#0f172a">Broker + certs</text>
+  <text x="350" y="91.7" text-anchor="middle" font-size="12" fill="#0f172a">5d</text>
+  <rect x="428.0" y="58.0" width="124" height="44" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1"/>
+  <text x="490" y="76.7" text-anchor="middle" font-size="12" fill="#0f172a">Validate + dedupe</text>
+  <text x="490" y="91.7" text-anchor="middle" font-size="12" fill="#0f172a">8d</text>
+  <rect x="568.0" y="58.0" width="124" height="44" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1"/>
+  <text x="630" y="76.7" text-anchor="middle" font-size="12" fill="#0f172a">Load test</text>
+  <text x="630" y="91.7" text-anchor="middle" font-size="12" fill="#0f172a">4d</text>
+  <rect x="288.0" y="158.0" width="124" height="44" rx="8" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="350" y="176.7" text-anchor="middle" font-size="12" fill="#0f172a">Tariff flat</text>
+  <text x="350" y="191.7" text-anchor="middle" font-size="12" fill="#0f172a">6d</text>
+  <rect x="428.0" y="158.0" width="124" height="44" rx="8" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="490" y="176.7" text-anchor="middle" font-size="12" fill="#0f172a">Tariff ToU</text>
+  <text x="490" y="191.7" text-anchor="middle" font-size="12" fill="#0f172a">7d</text>
+  <rect x="568.0" y="158.0" width="124" height="44" rx="8" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="630" y="176.7" text-anchor="middle" font-size="12" fill="#0f172a">Invoice PDF</text>
+  <text x="630" y="191.7" text-anchor="middle" font-size="12" fill="#0f172a">5d</text>
+  <rect x="708.0" y="158.0" width="124" height="44" rx="8" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="770" y="176.7" text-anchor="middle" font-size="12" fill="#0f172a">Payment flow</text>
+  <text x="770" y="191.7" text-anchor="middle" font-size="12" fill="#0f172a">9d</text>
+  <rect x="288.0" y="248.0" width="124" height="44" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1"/>
+  <text x="350" y="266.7" text-anchor="middle" font-size="12" fill="#0f172a">Usage charts</text>
+  <text x="350" y="281.7" text-anchor="middle" font-size="12" fill="#0f172a">8d</text>
+  <rect x="708.0" y="63.0" width="124" height="34" rx="17" fill="#ecfdf5" stroke="#047857" stroke-width="1"/>
+  <text x="770" y="84.2" text-anchor="middle" font-size="12" fill="#0f172a">Meters in field</text>
+  <rect x="848.0" y="163.0" width="124" height="34" rx="17" fill="#ecfdf5" stroke="#047857" stroke-width="1"/>
+  <text x="910" y="184.2" text-anchor="middle" font-size="12" fill="#0f172a">First live bill</text>
+  <polyline points="560,300 600,300" fill="none" stroke="#b91c1c" stroke-width="3"/>
+  <text x="608" y="304" text-anchor="start" font-size="12" fill="#475569">critical path: 4 + 6 + 6 + 7 + 5 + 9 = 37 days</text>
+</svg>

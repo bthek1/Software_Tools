@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 660" width="1000" height="660" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+  </defs>
+  <rect width="1000" height="660" fill="#ffffff"/>
+  <rect x="15" y="30" width="175" height="170" rx="10" fill="none" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="25" y="47" text-anchor="start" font-size="11.5" font-weight="bold" fill="#b91c1c">Trust boundary 1:</text>
+  <text x="25" y="61" text-anchor="start" font-size="11.5" font-weight="bold" fill="#b91c1c">the field, physically</text>
+  <text x="25" y="75" text-anchor="start" font-size="11.5" font-weight="bold" fill="#b91c1c">unprotected</text>
+  <rect x="15" y="380" width="175" height="160" rx="10" fill="none" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="25" y="397" text-anchor="start" font-size="11.5" font-weight="bold" fill="#b91c1c">Trust boundary 2:</text>
+  <text x="25" y="411" text-anchor="start" font-size="11.5" font-weight="bold" fill="#b91c1c">internet</text>
+  <rect x="250" y="30" width="180" height="510" rx="10" fill="none" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="260" y="47" text-anchor="start" font-size="11.5" font-weight="bold" fill="#b91c1c">Trust boundary 3: DMZ</text>
+  <rect x="505" y="30" width="185" height="510" rx="10" fill="none" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="515" y="47" text-anchor="start" font-size="11.5" font-weight="bold" fill="#b91c1c">Trust boundary 4:</text>
+  <text x="515" y="61" text-anchor="start" font-size="11.5" font-weight="bold" fill="#b91c1c">application LAN</text>
+  <rect x="760" y="30" width="230" height="470" rx="10" fill="none" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="770" y="47" text-anchor="start" font-size="11.5" font-weight="bold" fill="#b91c1c">Trust boundary 5: data LAN</text>
+  <rect x="28" y="114" width="148" height="52" rx="2" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="102" y="137" text-anchor="middle" font-size="12.5" font-weight="bold">Smart meter</text>
+  <text x="102" y="153" text-anchor="middle" font-size="11" font-style="italic" fill="#475569">external entity</text>
+  <rect x="28" y="444" width="148" height="52" rx="2" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="102" y="467" text-anchor="middle" font-size="12.5" font-weight="bold">Customer browser</text>
+  <text x="102" y="483" text-anchor="middle" font-size="11" font-style="italic" fill="#475569">external entity</text>
+  <rect x="796" y="569" width="148" height="52" rx="2" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="870" y="592" text-anchor="middle" font-size="12.5" font-weight="bold">Payment gateway</text>
+  <text x="870" y="608" text-anchor="middle" font-size="11" font-style="italic" fill="#475569">external entity</text>
+  <circle cx="340" cy="140" r="55" fill="#f1f5f9" stroke="#475569" stroke-width="1.6"/>
+  <text x="340" y="121.5" text-anchor="middle" font-size="12" font-weight="bold">1.0</text>
+  <text x="340" y="136.5" text-anchor="middle" font-size="11.5">Terminate TLS</text>
+  <text x="340" y="151.5" text-anchor="middle" font-size="11.5">and authenticate</text>
+  <text x="340" y="166.5" text-anchor="middle" font-size="11.5">meter</text>
+  <circle cx="340" cy="470" r="55" fill="#f1f5f9" stroke="#475569" stroke-width="1.6"/>
+  <text x="340" y="466.5" text-anchor="middle" font-size="12" font-weight="bold">2.0</text>
+  <text x="340" y="481.5" text-anchor="middle" font-size="11.5">Serve web app</text>
+  <circle cx="597" cy="140" r="55" fill="#f1f5f9" stroke="#475569" stroke-width="1.6"/>
+  <text x="597" y="121.5" text-anchor="middle" font-size="12" font-weight="bold">3.0</text>
+  <text x="597" y="136.5" text-anchor="middle" font-size="11.5">Validate and</text>
+  <text x="597" y="151.5" text-anchor="middle" font-size="11.5">deduplicate</text>
+  <text x="597" y="166.5" text-anchor="middle" font-size="11.5">reading</text>
+  <circle cx="597" cy="315" r="55" fill="#f1f5f9" stroke="#475569" stroke-width="1.6"/>
+  <text x="597" y="304.0" text-anchor="middle" font-size="12" font-weight="bold">4.0</text>
+  <text x="597" y="319.0" text-anchor="middle" font-size="11.5">Price and</text>
+  <text x="597" y="334.0" text-anchor="middle" font-size="11.5">issue invoice</text>
+  <circle cx="597" cy="460" r="55" fill="#f1f5f9" stroke="#475569" stroke-width="1.6"/>
+  <text x="597" y="449.0" text-anchor="middle" font-size="12" font-weight="bold">5.0</text>
+  <text x="597" y="464.0" text-anchor="middle" font-size="11.5">Authorise and</text>
+  <text x="597" y="479.0" text-anchor="middle" font-size="11.5">serve query</text>
+  <rect x="785" y="120.0" width="160" height="40" fill="#eff6ff" stroke="none"/>
+  <path d="M945,120.0 L785,120.0 L785,160.0 L945,160.0" fill="none" stroke="#1d4ed8" stroke-width="1.6"/>
+  <path d="M821,120.0 L821,160.0" fill="none" stroke="#1d4ed8" stroke-width="1.6"/>
+  <text x="803" y="144" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">D3</text>
+  <text x="883.0" y="144" text-anchor="middle" font-size="11.5">dedupe keys</text>
+  <rect x="785" y="245.0" width="160" height="40" fill="#eff6ff" stroke="none"/>
+  <path d="M945,245.0 L785,245.0 L785,285.0 L945,285.0" fill="none" stroke="#1d4ed8" stroke-width="1.6"/>
+  <path d="M821,245.0 L821,285.0" fill="none" stroke="#1d4ed8" stroke-width="1.6"/>
+  <text x="803" y="269" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">D1</text>
+  <text x="883.0" y="269" text-anchor="middle" font-size="11.5">readings</text>
+  <rect x="785" y="360.0" width="160" height="40" fill="#eff6ff" stroke="none"/>
+  <path d="M945,360.0 L785,360.0 L785,400.0 L945,400.0" fill="none" stroke="#1d4ed8" stroke-width="1.6"/>
+  <path d="M821,360.0 L821,400.0" fill="none" stroke="#1d4ed8" stroke-width="1.6"/>
+  <text x="803" y="384" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d4ed8">D2</text>
+  <text x="883.0" y="384" text-anchor="middle" font-size="11.5">invoices, customers</text>
+  <path d="M176,140 L285,140" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="193" y="108" width="74" height="29" fill="#ffffff"/>
+  <text x="230" y="120" text-anchor="middle" font-size="11" fill="#475569">a. reading,</text>
+  <text x="230" y="133" text-anchor="middle" font-size="11" fill="#475569">MQTT TLS</text>
+  <path d="M395,140 L542,140" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="422" y="108" width="92" height="29" fill="#ffffff"/>
+  <text x="468" y="120" text-anchor="middle" font-size="11" fill="#475569">b. reading,</text>
+  <text x="468" y="133" text-anchor="middle" font-size="11" fill="#475569">plaintext MQTT</text>
+  <path d="M652,140 L785,140" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="675" y="120" width="86" height="16" fill="#ffffff"/>
+  <text x="718" y="132" text-anchor="middle" font-size="11" fill="#475569">c. dedupe key</text>
+  <path d="M643,170 L785,255" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="678" y="193" width="80" height="29" fill="#ffffff"/>
+  <text x="718" y="205" text-anchor="middle" font-size="11" fill="#475569">d. validated</text>
+  <text x="718" y="218" text-anchor="middle" font-size="11" fill="#475569">reading</text>
+  <path d="M785,275 L650,299" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="683" y="271" width="105" height="16" fill="#ffffff"/>
+  <text x="735" y="283" text-anchor="middle" font-size="11" fill="#475569">e. interval data</text>
+  <path d="M650,331 L785,373" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="686" y="337" width="98" height="16" fill="#ffffff"/>
+  <text x="735" y="349" text-anchor="middle" font-size="11" fill="#475569">f. invoice, PDF</text>
+  <path d="M176,470 L285,470" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="193" y="438" width="74" height="29" fill="#ffffff"/>
+  <text x="230" y="450" text-anchor="middle" font-size="11" fill="#475569">g. session,</text>
+  <text x="230" y="463" text-anchor="middle" font-size="11" fill="#475569">HTTPS</text>
+  <path d="M395,466 L542,462" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="428" y="434" width="80" height="29" fill="#ffffff"/>
+  <text x="468" y="446" text-anchor="middle" font-size="11" fill="#475569">h. API call,</text>
+  <text x="468" y="459" text-anchor="middle" font-size="11" fill="#475569">JWT</text>
+  <path d="M645,433 L785,390" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <rect x="683" y="406" width="105" height="16" fill="#ffffff"/>
+  <text x="735" y="418" text-anchor="middle" font-size="11" fill="#475569">j. invoice fetch</text>
+  <path d="M652,465 L972,465 L972,265 L945,265" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="890" y="457" text-anchor="middle" font-size="11" fill="#475569">i. query</text>
+  <path d="M620,510 L620,585 L796,585" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="712" y="578" text-anchor="middle" font-size="11" fill="#475569">k. charge request</text>
+  <path d="M796,607 L575,607 L575,512" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="690" y="625" text-anchor="middle" font-size="11" fill="#475569">l. webhook, payment result</text>
+  <text x="20" y="572" text-anchor="start" font-size="11.5" font-weight="bold" fill="#475569">Notation</text>
+  <rect x="20" y="584" width="34" height="20" rx="2" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="62" y="598" text-anchor="start" font-size="11" fill="#475569">external entity</text>
+  <circle cx="172" cy="594" r="11" fill="#f1f5f9" stroke="#475569" stroke-width="1.6"/>
+  <text x="190" y="598" text-anchor="start" font-size="11" fill="#475569">process</text>
+  <path d="M274,584 L246,584 L246,604 L274,604" fill="none" stroke="#1d4ed8" stroke-width="1.6"/>
+  <text x="282" y="598" text-anchor="start" font-size="11" fill="#475569">data store</text>
+  <rect x="20" y="616" width="34" height="20" rx="4" fill="none" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="62" y="630" text-anchor="start" font-size="11" fill="#475569">trust boundary (every flow crossing one is a threat candidate)</text>
+</svg>

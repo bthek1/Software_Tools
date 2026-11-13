@@ -109,7 +109,7 @@ A six-part folder on drawing software, organised by what the diagram is for rath
 
 ## Not Covered Yet
 
-- **Git has no page**, despite being the tool used most. Version control is covered from the GitHub side in [Web Development](https://bthek1.github.io/WEB_doc/).
+- **Git has no page**, despite being the tool used most. Version control is covered from the GitHub side in [Web Development](https://bthek1.github.io/Web_development/).
 - **No editor configuration page.** Vim and Neovim are covered as tools, but the actual dotfiles and plugin setup are not written down anywhere.
 - **Nothing on ssh and remote work** as a subject, only the key setup buried in the new-computer checklist.
 - **[Graphify](17_Graphify.ipynb) is a stub**, three cells with no content.

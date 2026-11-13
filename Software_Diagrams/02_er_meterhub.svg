@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 690" width="1000" height="690" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="690" fill="#ffffff"/>
+  <rect x="20" y="40" width="270" height="120" rx="4" fill="#ffffff" stroke="#1d4ed8"/>
+  <path d="M20,66 L20,44 Q20,40 24,40 L286,40 Q290,40 290,44 L290,66 Z" fill="#eff6ff" stroke="#1d4ed8"/>
+  <text x="155.0" y="58" text-anchor="middle" font-weight="bold">CUSTOMER</text>
+  <text x="30" y="82" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="112" y="82" text-anchor="start" font-size="12">id</text>
+  <text x="280" y="82" text-anchor="end" font-size="11" font-weight="bold" fill="#b45309">PK</text>
+  <line x1="20" y1="88" x2="290" y2="88" stroke="#e2e8f0"/>
+  <text x="30" y="104" text-anchor="start" font-size="12" fill="#475569">text</text>
+  <text x="112" y="104" text-anchor="start" font-size="12">email</text>
+  <text x="280" y="104" text-anchor="end" font-size="11" font-weight="bold" fill="#047857">UK</text>
+  <line x1="20" y1="110" x2="290" y2="110" stroke="#e2e8f0"/>
+  <text x="30" y="126" text-anchor="start" font-size="12" fill="#475569">text</text>
+  <text x="112" y="126" text-anchor="start" font-size="12">name</text>
+  <line x1="20" y1="132" x2="290" y2="132" stroke="#e2e8f0"/>
+  <text x="30" y="148" text-anchor="start" font-size="12" fill="#475569">timestamptz</text>
+  <text x="112" y="148" text-anchor="start" font-size="12">created_at</text>
+  <rect x="365" y="40" width="270" height="156" rx="4" fill="#ffffff" stroke="#1d4ed8"/>
+  <path d="M365,66 L365,44 Q365,40 369,40 L631,40 Q635,40 635,44 L635,66 Z" fill="#eff6ff" stroke="#1d4ed8"/>
+  <text x="500.0" y="58" text-anchor="middle" font-weight="bold">SITE</text>
+  <text x="375" y="82" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="457" y="82" text-anchor="start" font-size="12">id</text>
+  <text x="625" y="82" text-anchor="end" font-size="11" font-weight="bold" fill="#b45309">PK</text>
+  <line x1="365" y1="88" x2="635" y2="88" stroke="#e2e8f0"/>
+  <text x="375" y="104" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="457" y="104" text-anchor="start" font-size="12">customer_id</text>
+  <text x="625" y="104" text-anchor="end" font-size="11" font-weight="bold" fill="#1d4ed8">FK</text>
+  <line x1="365" y1="110" x2="635" y2="110" stroke="#e2e8f0"/>
+  <text x="375" y="126" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="457" y="126" text-anchor="start" font-size="12">tariff_id</text>
+  <text x="625" y="126" text-anchor="end" font-size="11" font-weight="bold" fill="#1d4ed8">FK</text>
+  <line x1="365" y1="132" x2="635" y2="132" stroke="#e2e8f0"/>
+  <text x="375" y="148" text-anchor="start" font-size="12" fill="#475569">text</text>
+  <text x="457" y="148" text-anchor="start" font-size="12">nmi</text>
+  <text x="625" y="148" text-anchor="end" font-size="11" font-weight="bold" fill="#047857">UK</text>
+  <text x="457" y="162" text-anchor="start" font-size="11" font-style="italic" fill="#475569">national metering identifier</text>
+  <line x1="365" y1="168" x2="635" y2="168" stroke="#e2e8f0"/>
+  <text x="375" y="184" text-anchor="start" font-size="12" fill="#475569">text</text>
+  <text x="457" y="184" text-anchor="start" font-size="12">address</text>
+  <rect x="710" y="40" width="270" height="156" rx="4" fill="#ffffff" stroke="#1d4ed8"/>
+  <path d="M710,66 L710,44 Q710,40 714,40 L976,40 Q980,40 980,44 L980,66 Z" fill="#eff6ff" stroke="#1d4ed8"/>
+  <text x="845.0" y="58" text-anchor="middle" font-weight="bold">METER</text>
+  <text x="720" y="82" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="802" y="82" text-anchor="start" font-size="12">id</text>
+  <text x="970" y="82" text-anchor="end" font-size="11" font-weight="bold" fill="#b45309">PK</text>
+  <line x1="710" y1="88" x2="980" y2="88" stroke="#e2e8f0"/>
+  <text x="720" y="104" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="802" y="104" text-anchor="start" font-size="12">site_id</text>
+  <text x="970" y="104" text-anchor="end" font-size="11" font-weight="bold" fill="#1d4ed8">FK</text>
+  <line x1="710" y1="110" x2="980" y2="110" stroke="#e2e8f0"/>
+  <text x="720" y="126" text-anchor="start" font-size="12" fill="#475569">text</text>
+  <text x="802" y="126" text-anchor="start" font-size="12">serial</text>
+  <text x="970" y="126" text-anchor="end" font-size="11" font-weight="bold" fill="#047857">UK</text>
+  <line x1="710" y1="132" x2="980" y2="132" stroke="#e2e8f0"/>
+  <text x="720" y="148" text-anchor="start" font-size="12" fill="#475569">timestamptz</text>
+  <text x="802" y="148" text-anchor="start" font-size="12">installed_at</text>
+  <line x1="710" y1="154" x2="980" y2="154" stroke="#e2e8f0"/>
+  <text x="720" y="170" text-anchor="start" font-size="12" fill="#475569">timestamptz</text>
+  <text x="802" y="170" text-anchor="start" font-size="12">removed_at</text>
+  <text x="802" y="184" text-anchor="start" font-size="11" font-style="italic" fill="#475569">null while active</text>
+  <rect x="20" y="270" width="270" height="134" rx="4" fill="#ffffff" stroke="#b45309"/>
+  <path d="M20,296 L20,274 Q20,270 24,270 L286,270 Q290,270 290,274 L290,296 Z" fill="#fef3c7" stroke="#b45309"/>
+  <text x="155.0" y="288" text-anchor="middle" font-weight="bold">TARIFF</text>
+  <text x="30" y="312" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="112" y="312" text-anchor="start" font-size="12">id</text>
+  <text x="280" y="312" text-anchor="end" font-size="11" font-weight="bold" fill="#b45309">PK</text>
+  <line x1="20" y1="318" x2="290" y2="318" stroke="#e2e8f0"/>
+  <text x="30" y="334" text-anchor="start" font-size="12" fill="#475569">text</text>
+  <text x="112" y="334" text-anchor="start" font-size="12">code</text>
+  <text x="280" y="334" text-anchor="end" font-size="11" font-weight="bold" fill="#047857">UK</text>
+  <line x1="20" y1="340" x2="290" y2="340" stroke="#e2e8f0"/>
+  <text x="30" y="356" text-anchor="start" font-size="12" fill="#475569">text</text>
+  <text x="112" y="356" text-anchor="start" font-size="12">kind</text>
+  <text x="112" y="370" text-anchor="start" font-size="11" font-style="italic" fill="#475569">flat or tou</text>
+  <line x1="20" y1="376" x2="290" y2="376" stroke="#e2e8f0"/>
+  <text x="30" y="392" text-anchor="start" font-size="12" fill="#475569">jsonb</text>
+  <text x="112" y="392" text-anchor="start" font-size="12">params</text>
+  <rect x="710" y="270" width="270" height="148" rx="4" fill="#ffffff" stroke="#1d4ed8"/>
+  <path d="M710,296 L710,274 Q710,270 714,270 L976,270 Q980,270 980,274 L980,296 Z" fill="#eff6ff" stroke="#1d4ed8"/>
+  <text x="845.0" y="288" text-anchor="middle" font-weight="bold">READING</text>
+  <text x="720" y="312" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="802" y="312" text-anchor="start" font-size="12">meter_id</text>
+  <text x="970" y="312" text-anchor="end" font-size="11" font-weight="bold" fill="#b45309">PK</text>
+  <text x="802" y="326" text-anchor="start" font-size="11" font-style="italic" fill="#475569">composite key with ts</text>
+  <line x1="710" y1="332" x2="980" y2="332" stroke="#e2e8f0"/>
+  <text x="720" y="348" text-anchor="start" font-size="12" fill="#475569">timestamptz</text>
+  <text x="802" y="348" text-anchor="start" font-size="12">ts</text>
+  <text x="970" y="348" text-anchor="end" font-size="11" font-weight="bold" fill="#b45309">PK</text>
+  <line x1="710" y1="354" x2="980" y2="354" stroke="#e2e8f0"/>
+  <text x="720" y="370" text-anchor="start" font-size="12" fill="#475569">double</text>
+  <text x="802" y="370" text-anchor="start" font-size="12">kwh</text>
+  <line x1="710" y1="376" x2="980" y2="376" stroke="#e2e8f0"/>
+  <text x="720" y="392" text-anchor="start" font-size="12" fill="#475569">smallint</text>
+  <text x="802" y="392" text-anchor="start" font-size="12">quality</text>
+  <text x="802" y="406" text-anchor="start" font-size="11" font-style="italic" fill="#475569">0 measured, 1 estimated</text>
+  <rect x="365" y="490" width="270" height="164" rx="4" fill="#ffffff" stroke="#047857"/>
+  <path d="M365,516 L365,494 Q365,490 369,490 L631,490 Q635,490 635,494 L635,516 Z" fill="#ecfdf5" stroke="#047857"/>
+  <text x="500.0" y="508" text-anchor="middle" font-weight="bold">INVOICE</text>
+  <text x="375" y="532" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="457" y="532" text-anchor="start" font-size="12">id</text>
+  <text x="625" y="532" text-anchor="end" font-size="11" font-weight="bold" fill="#b45309">PK</text>
+  <line x1="365" y1="538" x2="635" y2="538" stroke="#e2e8f0"/>
+  <text x="375" y="554" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="457" y="554" text-anchor="start" font-size="12">site_id</text>
+  <text x="625" y="554" text-anchor="end" font-size="11" font-weight="bold" fill="#1d4ed8">FK</text>
+  <line x1="365" y1="560" x2="635" y2="560" stroke="#e2e8f0"/>
+  <text x="375" y="576" text-anchor="start" font-size="12" fill="#475569">date</text>
+  <text x="457" y="576" text-anchor="start" font-size="12">period_start</text>
+  <line x1="365" y1="582" x2="635" y2="582" stroke="#e2e8f0"/>
+  <text x="375" y="598" text-anchor="start" font-size="12" fill="#475569">date</text>
+  <text x="457" y="598" text-anchor="start" font-size="12">period_end</text>
+  <line x1="365" y1="604" x2="635" y2="604" stroke="#e2e8f0"/>
+  <text x="375" y="620" text-anchor="start" font-size="12" fill="#475569">numeric</text>
+  <text x="457" y="620" text-anchor="start" font-size="12">total_cents</text>
+  <line x1="365" y1="626" x2="635" y2="626" stroke="#e2e8f0"/>
+  <text x="375" y="642" text-anchor="start" font-size="12" fill="#475569">text</text>
+  <text x="457" y="642" text-anchor="start" font-size="12">status</text>
+  <rect x="710" y="501" width="270" height="142" rx="4" fill="#ffffff" stroke="#047857"/>
+  <path d="M710,527 L710,505 Q710,501 714,501 L976,501 Q980,501 980,505 L980,527 Z" fill="#ecfdf5" stroke="#047857"/>
+  <text x="845.0" y="519" text-anchor="middle" font-weight="bold">INVOICE_LINE</text>
+  <text x="720" y="543" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="802" y="543" text-anchor="start" font-size="12">id</text>
+  <text x="970" y="543" text-anchor="end" font-size="11" font-weight="bold" fill="#b45309">PK</text>
+  <line x1="710" y1="549" x2="980" y2="549" stroke="#e2e8f0"/>
+  <text x="720" y="565" text-anchor="start" font-size="12" fill="#475569">uuid</text>
+  <text x="802" y="565" text-anchor="start" font-size="12">invoice_id</text>
+  <text x="970" y="565" text-anchor="end" font-size="11" font-weight="bold" fill="#1d4ed8">FK</text>
+  <line x1="710" y1="571" x2="980" y2="571" stroke="#e2e8f0"/>
+  <text x="720" y="587" text-anchor="start" font-size="12" fill="#475569">text</text>
+  <text x="802" y="587" text-anchor="start" font-size="12">description</text>
+  <line x1="710" y1="593" x2="980" y2="593" stroke="#e2e8f0"/>
+  <text x="720" y="609" text-anchor="start" font-size="12" fill="#475569">numeric</text>
+  <text x="802" y="609" text-anchor="start" font-size="12">quantity</text>
+  <line x1="710" y1="615" x2="980" y2="615" stroke="#e2e8f0"/>
+  <text x="720" y="631" text-anchor="start" font-size="12" fill="#475569">numeric</text>
+  <text x="802" y="631" text-anchor="start" font-size="12">amount_cents</text>
+  <path d="M290,100 L365,100" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="298" y1="107" x2="298" y2="93" stroke="#475569" stroke-width="1.6"/>
+  <line x1="305" y1="107" x2="305" y2="93" stroke="#475569" stroke-width="1.6"/>
+  <line x1="353" y1="100" x2="365" y2="93" stroke="#475569" stroke-width="1.6"/>
+  <line x1="353" y1="100" x2="365" y2="107" stroke="#475569" stroke-width="1.6"/>
+  <circle cx="342" cy="100" r="5" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
+  <rect x="310.5" y="78.5" width="33" height="16" fill="#ffffff"/>
+  <text x="327" y="90" text-anchor="middle" font-size="12" fill="#475569">owns</text>
+  <path d="M635,100 L710,100" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="643" y1="107" x2="643" y2="93" stroke="#475569" stroke-width="1.6"/>
+  <line x1="650" y1="107" x2="650" y2="93" stroke="#475569" stroke-width="1.6"/>
+  <line x1="698" y1="100" x2="710" y2="93" stroke="#475569" stroke-width="1.6"/>
+  <line x1="698" y1="100" x2="710" y2="107" stroke="#475569" stroke-width="1.6"/>
+  <circle cx="687" cy="100" r="5" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
+  <rect x="639" y="76.5" width="66" height="16" fill="#ffffff"/>
+  <text x="672" y="88" text-anchor="middle" font-size="12" fill="#475569">over time</text>
+  <rect x="652" y="60.5" width="40" height="16" fill="#ffffff"/>
+  <text x="672" y="72" text-anchor="middle" font-size="12" fill="#475569">hosts</text>
+  <path d="M420,196 L420,337 L290,337" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="420" y1="208" x2="413" y2="196" stroke="#475569" stroke-width="1.6"/>
+  <line x1="420" y1="208" x2="427" y2="196" stroke="#475569" stroke-width="1.6"/>
+  <circle cx="420" cy="219" r="5" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
+  <line x1="298" y1="344" x2="298" y2="330" stroke="#475569" stroke-width="1.6"/>
+  <line x1="305" y1="344" x2="305" y2="330" stroke="#475569" stroke-width="1.6"/>
+  <rect x="322" y="315.5" width="66" height="16" fill="#ffffff"/>
+  <text x="355" y="327" text-anchor="middle" font-size="12" fill="#475569">billed on</text>
+  <path d="M845,196 L845,270" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="838" y1="204" x2="852" y2="204" stroke="#475569" stroke-width="1.6"/>
+  <line x1="838" y1="211" x2="852" y2="211" stroke="#475569" stroke-width="1.6"/>
+  <line x1="845" y1="258" x2="852" y2="270" stroke="#475569" stroke-width="1.6"/>
+  <line x1="845" y1="258" x2="838" y2="270" stroke="#475569" stroke-width="1.6"/>
+  <circle cx="845" cy="247" r="5" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
+  <rect x="853" y="225.5" width="53" height="16" fill="#ffffff"/>
+  <text x="856" y="237" text-anchor="start" font-size="12" fill="#475569">records</text>
+  <path d="M500,196 L500,490" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="493" y1="204" x2="507" y2="204" stroke="#475569" stroke-width="1.6"/>
+  <line x1="493" y1="211" x2="507" y2="211" stroke="#475569" stroke-width="1.6"/>
+  <line x1="500" y1="478" x2="507" y2="490" stroke="#475569" stroke-width="1.6"/>
+  <line x1="500" y1="478" x2="493" y2="490" stroke="#475569" stroke-width="1.6"/>
+  <circle cx="500" cy="467" r="5" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
+  <rect x="508" y="333.5" width="53" height="16" fill="#ffffff"/>
+  <text x="511" y="345" text-anchor="start" font-size="12" fill="#475569">accrues</text>
+  <path d="M635,572 L710,572" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="643" y1="579" x2="643" y2="565" stroke="#475569" stroke-width="1.6"/>
+  <line x1="650" y1="579" x2="650" y2="565" stroke="#475569" stroke-width="1.6"/>
+  <line x1="698" y1="572" x2="710" y2="565" stroke="#475569" stroke-width="1.6"/>
+  <line x1="698" y1="572" x2="710" y2="579" stroke="#475569" stroke-width="1.6"/>
+  <line x1="692" y1="565" x2="692" y2="579" stroke="#475569" stroke-width="1.6"/>
+  <rect x="642" y="550.5" width="60" height="16" fill="#ffffff"/>
+  <text x="672" y="562" text-anchor="middle" font-size="12" fill="#475569">contains</text>
+  <rect x="20" y="470" width="270" height="190" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+  <text x="30" y="488" text-anchor="start" font-size="12" font-weight="bold" fill="#475569">Crow's foot ends (entity on the right)</text>
+  <path d="M40,516 L110,516" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="110" y1="507" x2="110" y2="525" stroke="#1d4ed8"/>
+  <line x1="102" y1="509" x2="102" y2="523" stroke="#475569" stroke-width="1.6"/>
+  <line x1="95" y1="509" x2="95" y2="523" stroke="#475569" stroke-width="1.6"/>
+  <text x="124" y="520" text-anchor="start" font-size="12">exactly one  ||</text>
+  <path d="M40,542 L110,542" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="110" y1="533" x2="110" y2="551" stroke="#1d4ed8"/>
+  <line x1="102" y1="535" x2="102" y2="549" stroke="#475569" stroke-width="1.6"/>
+  <circle cx="90" cy="542" r="5" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
+  <text x="124" y="546" text-anchor="start" font-size="12">at most one  |o</text>
+  <path d="M40,568 L110,568" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="110" y1="559" x2="110" y2="577" stroke="#1d4ed8"/>
+  <line x1="98" y1="568" x2="110" y2="561" stroke="#475569" stroke-width="1.6"/>
+  <line x1="98" y1="568" x2="110" y2="575" stroke="#475569" stroke-width="1.6"/>
+  <circle cx="87" cy="568" r="5" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
+  <text x="124" y="572" text-anchor="start" font-size="12">zero or more  o{</text>
+  <path d="M40,594 L110,594" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <line x1="110" y1="585" x2="110" y2="603" stroke="#1d4ed8"/>
+  <line x1="98" y1="594" x2="110" y2="587" stroke="#475569" stroke-width="1.6"/>
+  <line x1="98" y1="594" x2="110" y2="601" stroke="#475569" stroke-width="1.6"/>
+  <line x1="92" y1="587" x2="92" y2="601" stroke="#475569" stroke-width="1.6"/>
+  <text x="124" y="598" text-anchor="start" font-size="12">one or more  |{</text>
+  <text x="30" y="636" text-anchor="start" font-size="11" fill="#475569">PK primary, FK foreign, UK unique key</text>
+</svg>

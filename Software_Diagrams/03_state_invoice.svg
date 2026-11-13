@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="1000" height="650" font-family="Helvetica, Arial, sans-serif" font-size="13">
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+</defs>
+<rect width="1000" height="650" fill="#ffffff"/>
+<line x1="170" y1="247" x2="170" y2="310" stroke="#b45309" stroke-width="1.2" stroke-dasharray="3,3"/>
+<path d="M95,205 H295 L305,215 V247 H95 Z" fill="#fef3c7" stroke="#b45309" stroke-width="1.2"/>
+<path d="M295,205 V215 H305" fill="none" stroke="#b45309" stroke-width="1.2"/>
+<text x="105" y="224" font-size="11" fill="#0f172a">The only state where line items</text>
+<text x="105" y="239" font-size="11" fill="#0f172a">can still be edited.</text>
+<line x1="820" y1="207" x2="850" y2="310" stroke="#b45309" stroke-width="1.2" stroke-dasharray="3,3"/>
+<path d="M673,150 H865 L875,160 V207 H673 Z" fill="#fef3c7" stroke="#b45309" stroke-width="1.2"/>
+<path d="M865,150 V160 H875" fill="none" stroke="#b45309" stroke-width="1.2"/>
+<text x="683" y="169" font-size="10.5" fill="#0f172a">Reachable from two states and</text>
+<text x="683" y="184" font-size="10.5" fill="#0f172a">escapable to two. This is where</text>
+<text x="683" y="199" font-size="10.5" fill="#0f172a">the if-blocks always go wrong.</text>
+<path d="M38,330 L113,330" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="38" y="289" width="73" height="15" fill="#ffffff"/>
+<text x="75" y="300" text-anchor="middle" font-size="11" fill="#0f172a">billing run</text>
+<rect x="42" y="303" width="67" height="15" fill="#ffffff"/>
+<text x="75" y="314" text-anchor="middle" font-size="11" fill="#0f172a">creates it</text>
+<path d="M225,330 L383,330" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="234" y="289" width="140" height="15" fill="#ffffff"/>
+<text x="304" y="300" text-anchor="middle" font-size="11" fill="#0f172a">issue, email customer,</text>
+<rect x="255" y="303" width="98" height="15" fill="#ffffff"/>
+<text x="304" y="314" text-anchor="middle" font-size="11" fill="#0f172a">lock the period</text>
+<path d="M170,350 L170,458" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="175" y="389" width="134" height="15" fill="#ffffff"/>
+<text x="178" y="400" text-anchor="start" font-size="11" fill="#0f172a">cancel, no email sent</text>
+<path d="M170,500 L170,549" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<path d="M495,330 L544,330" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<path d="M560,314 L560,110 L623,110" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="494" y="189" width="61" height="15" fill="#ffffff"/>
+<text x="552" y="200" text-anchor="end" font-size="11" fill="#0f172a">total &gt; 0</text>
+<path d="M576,330 L638,330" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="574" y="311" width="67" height="15" fill="#ffffff"/>
+<text x="607" y="322" text-anchor="middle" font-size="11" fill="#0f172a">total == 0</text>
+<path d="M665,130 L665,308" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="569" y="234" width="91" height="15" fill="#ffffff"/>
+<text x="657" y="245" text-anchor="end" font-size="11" fill="#0f172a">payment clears</text>
+<path d="M775,110 L890,110 L890,308" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="781" y="73" width="104" height="15" fill="#ffffff"/>
+<text x="833" y="84" text-anchor="middle" font-size="11" fill="#0f172a">due date passed,</text>
+<rect x="790" y="87" width="85" height="15" fill="#ffffff"/>
+<text x="833" y="98" text-anchor="middle" font-size="11" fill="#0f172a">nightly sweep</text>
+<path d="M745,90 L745,55 L975,55 L975,620 L745,620 L745,582" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="778" y="38" width="165" height="15" fill="#ffffff"/>
+<text x="860" y="49" text-anchor="middle" font-size="11" fill="#0f172a">payment received &lt; balance</text>
+<path d="M625,550 L595,550 L595,572 L623,572" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="487" y="537" width="104" height="15" fill="#ffffff"/>
+<text x="588" y="548" text-anchor="end" font-size="11" fill="#0f172a">payment received</text>
+<rect x="530" y="551" width="61" height="15" fill="#ffffff"/>
+<text x="588" y="562" text-anchor="end" font-size="11" fill="#0f172a">&lt; balance</text>
+<path d="M775,560 L915,560 L915,352" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="788" y="567" width="104" height="15" fill="#ffffff"/>
+<text x="840" y="578" text-anchor="middle" font-size="11" fill="#0f172a">due date passed,</text>
+<rect x="797" y="581" width="85" height="15" fill="#ffffff"/>
+<text x="840" y="592" text-anchor="middle" font-size="11" fill="#0f172a">nightly sweep</text>
+<path d="M690,540 L690,352" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="695" y="494" width="85" height="15" fill="#ffffff"/>
+<text x="698" y="505" text-anchor="start" font-size="11" fill="#0f172a">final payment</text>
+<rect x="695" y="508" width="43" height="15" fill="#ffffff"/>
+<text x="698" y="519" text-anchor="start" font-size="11" fill="#0f172a">clears</text>
+<path d="M840,330 L742,330" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="745" y="311" width="91" height="15" fill="#ffffff"/>
+<text x="791" y="322" text-anchor="middle" font-size="11" fill="#0f172a">payment clears</text>
+<path d="M860,350 L860,428" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="751" y="377" width="104" height="15" fill="#ffffff"/>
+<text x="852" y="388" text-anchor="end" font-size="11" fill="#0f172a">90 days elapsed,</text>
+<rect x="739" y="391" width="116" height="15" fill="#ffffff"/>
+<text x="852" y="402" text-anchor="end" font-size="11" fill="#0f172a">notify collections</text>
+<path d="M810,470 L810,494" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<path d="M655,350 L655,418" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="552" y="369" width="98" height="15" fill="#ffffff"/>
+<text x="647" y="380" text-anchor="end" font-size="11" fill="#0f172a">refund, reverse</text>
+<rect x="546" y="383" width="104" height="15" fill="#ffffff"/>
+<text x="647" y="394" text-anchor="end" font-size="11" fill="#0f172a">the ledger entry</text>
+<path d="M610,460 L610,479" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<path d="M728,350 L728,374" stroke="#475569" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<circle cx="30" cy="330" r="8" fill="#0f172a"/>
+<rect x="120.0" y="310.0" width="100" height="40" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="170" y="335" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Draft</text>
+<rect x="120.0" y="460.0" width="100" height="40" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="170" y="485" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Cancelled</text>
+<circle cx="170" cy="560" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+<circle cx="170" cy="560" r="5" fill="#0f172a"/>
+<rect x="390.0" y="310.0" width="100" height="40" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="440" y="335" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Issued</text>
+<path d="M560,316 L574,330 L560,344 L546,330 Z" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="540" y="360" text-anchor="middle" font-size="10" fill="#475569">check_amount</text>
+<rect x="625.0" y="90.0" width="150" height="40" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="700" y="115" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">AwaitingPayment</text>
+<rect x="640.0" y="310.0" width="100" height="40" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="690" y="335" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Settled</text>
+<circle cx="728" cy="384" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+<circle cx="728" cy="384" r="5" fill="#0f172a"/>
+<rect x="625.0" y="540.0" width="150" height="40" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="700" y="565" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">PartiallyPaid</text>
+<rect x="840.0" y="310.0" width="100" height="40" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="890" y="335" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Overdue</text>
+<rect x="755.0" y="430.0" width="110" height="40" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="810" y="455" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">WrittenOff</text>
+<circle cx="810" cy="504" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+<circle cx="810" cy="504" r="5" fill="#0f172a"/>
+<rect x="560.0" y="420.0" width="100" height="40" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="1.4"/>
+<text x="610" y="445" text-anchor="middle" font-size="13" font-weight="bold" fill="#0f172a">Refunded</text>
+<circle cx="610" cy="489" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+<circle cx="610" cy="489" r="5" fill="#0f172a"/>
+</svg>

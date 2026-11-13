@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" width="960" height="640" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#475569" stroke-width="1.4"/></marker>
+  </defs>
+  <rect width="960" height="640" fill="#ffffff"/>
+  <rect x="200" y="20" width="570" height="600" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6,4"/>
+  <text x="212" y="40" font-size="12" fill="#475569" font-weight="bold">MeterHub, release 1</text>
+  <polyline points="113,147 285.281,98.296" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="113,147 250.975,151.657" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="113,147 293.47,210.203" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="113,392 288.01,338.832" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="113,392 250.975,396.657" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="113,392 295.716,459.844" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="113,557 250.975,561.657" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="847,567 719.959,565.773" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="847,237 449.828,231.406" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="847,462 448.88,476.419" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <polyline points="418.023,97.5921 579.407,139.329" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#o)"/>
+  <polyline points="450,155 560,155" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#o)"/>
+  <polyline points="418.023,212.408 579.407,170.671" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#o)"/>
+  <polyline points="350,376 350,344" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#o)"/>
+  <ellipse cx="350" cy="80" rx="100" ry="24" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <text x="350" y="84.5" text-anchor="middle" fill="#0f172a">View usage</text>
+  <ellipse cx="350" cy="155" rx="100" ry="24" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <text x="350" y="159.5" text-anchor="middle" fill="#0f172a">Download invoice</text>
+  <ellipse cx="350" cy="230" rx="100" ry="24" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <text x="350" y="234.5" text-anchor="middle" fill="#0f172a">Pay invoice</text>
+  <ellipse cx="350" cy="320" rx="100" ry="24" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <text x="350" y="324.5" text-anchor="middle" fill="#0f172a">Run billing</text>
+  <ellipse cx="350" cy="400" rx="100" ry="24" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <text x="350" y="404.5" text-anchor="middle" fill="#0f172a">Correct a reading</text>
+  <ellipse cx="350" cy="480" rx="100" ry="24" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <text x="350" y="484.5" text-anchor="middle" fill="#0f172a">Export regulatory report</text>
+  <ellipse cx="350" cy="565" rx="100" ry="24" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <text x="350" y="569.5" text-anchor="middle" fill="#0f172a">Commission a meter</text>
+  <ellipse cx="640" cy="155" rx="80" ry="24" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <text x="640" y="159.5" text-anchor="middle" fill="#0f172a">Authenticate</text>
+  <ellipse cx="640" cy="565" rx="80" ry="24" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.4"/>
+  <text x="640" y="569.5" text-anchor="middle" fill="#0f172a">Ingest reading</text>
+  <rect x="461.8" y="111.5" width="73.8" height="15.0" fill="#ffffff"/>
+  <text x="498.715" y="122.461" font-size="11" text-anchor="middle" fill="#475569">&lt;&lt;include&gt;&gt;</text>
+  <rect x="468.1" y="148.0" width="73.8" height="15.0" fill="#ffffff"/>
+  <text x="505" y="159" font-size="11" text-anchor="middle" fill="#475569">&lt;&lt;include&gt;&gt;</text>
+  <rect x="461.8" y="184.5" width="73.8" height="15.0" fill="#ffffff"/>
+  <text x="498.715" y="195.539" font-size="11" text-anchor="middle" fill="#475569">&lt;&lt;include&gt;&gt;</text>
+  <rect x="357.0" y="353.0" width="67.6" height="15.0" fill="#ffffff"/>
+  <text x="360" y="364" font-size="11" fill="#475569">&lt;&lt;extend&gt;&gt;</text>
+  <g fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"><circle cx="95" cy="125" r="8" fill="#ffffff"/><line x1="95" y1="133" x2="95" y2="157"/><line x1="81" y1="143" x2="109" y2="143"/><line x1="95" y1="157" x2="84" y2="175"/><line x1="95" y1="157" x2="106" y2="175"/></g>
+  <text x="95" y="192" font-size="12" text-anchor="middle" fill="#0f172a">Customer</text>
+  <g fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"><circle cx="95" cy="370" r="8" fill="#ffffff"/><line x1="95" y1="378" x2="95" y2="402"/><line x1="81" y1="388" x2="109" y2="388"/><line x1="95" y1="402" x2="84" y2="420"/><line x1="95" y1="402" x2="106" y2="420"/></g>
+  <text x="95" y="437" font-size="12" text-anchor="middle" fill="#0f172a">Billing operator</text>
+  <g fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"><circle cx="95" cy="535" r="8" fill="#ffffff"/><line x1="95" y1="543" x2="95" y2="567"/><line x1="81" y1="553" x2="109" y2="553"/><line x1="95" y1="567" x2="84" y2="585"/><line x1="95" y1="567" x2="106" y2="585"/></g>
+  <text x="95" y="602" font-size="12" text-anchor="middle" fill="#0f172a">Field technician</text>
+  <g fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"><circle cx="865" cy="215" r="8" fill="#ffffff"/><line x1="865" y1="223" x2="865" y2="247"/><line x1="851" y1="233" x2="879" y2="233"/><line x1="865" y1="247" x2="854" y2="265"/><line x1="865" y1="247" x2="876" y2="265"/></g>
+  <text x="865" y="282" font-size="12" text-anchor="middle" fill="#0f172a">Payment gateway</text>
+  <g fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"><circle cx="865" cy="440" r="8" fill="#ffffff"/><line x1="865" y1="448" x2="865" y2="472"/><line x1="851" y1="458" x2="879" y2="458"/><line x1="865" y1="472" x2="854" y2="490"/><line x1="865" y1="472" x2="876" y2="490"/></g>
+  <text x="865" y="507" font-size="12" text-anchor="middle" fill="#0f172a">Regulator portal</text>
+  <g fill="none" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"><circle cx="865" cy="545" r="8" fill="#ffffff"/><line x1="865" y1="553" x2="865" y2="577"/><line x1="851" y1="563" x2="879" y2="563"/><line x1="865" y1="577" x2="854" y2="595"/><line x1="865" y1="577" x2="876" y2="595"/></g>
+  <text x="865" y="612" font-size="12" text-anchor="middle" fill="#0f172a">Meter firmware</text>
+</svg>

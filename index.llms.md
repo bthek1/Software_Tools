@@ -1,0 +1,124 @@
+# Software Tools
+
+The working environment rather than the code: Linux, the terminal, the editors, the build runners, the virtualization layer, and how to draw the result.
+
+Author
+
+Benedict Thekkel
+
+Every project in this collection is written on the same machine, in the same terminal, against the same set of tools. This site documents that layer. Not what to build, but what you build it with.
+
+Pages are written the way you would actually want to read them at the moment something breaks: the mental model first, then the commands, then the gotcha that cost an evening. Several are explicitly comparisons, because the useful question is usually which of two tools rather than how one works.
+
+For the physical machines see [Hardware Tools](https://bthek1.github.io/Hardware_Tools/), and for containers and services see [IaaS](https://bthek1.github.io/IaaS_docs/).
+
+------------------------------------------------------------------------
+
+## Linux
+
+| Page | Covers |
+|----|----|
+| [Shell Commands](Linux/shell_commands.llms.md) | The broad tour: what a shell is, file and text manipulation, redirection and pipes, permissions, process and system management, networking, packages, environment variables, and archiving |
+| [Users, Groups and Permissions](Linux/linux_users.llms.md) | The longest page here. User types and management, the files behind them, UIDs and GIDs, groups, the permission bits, switching users, and session management |
+| [Bash Scripts](Linux/bash_scritps.llms.md) | Variables, conditionals, loops, functions, arguments, and error handling, with worked examples |
+| [systemd Services](Linux/service.llms.md) | Unit files, creating and enabling a service, resource management through cgroups, and the practices that keep units maintainable |
+| [journalctl](Linux/journalctl.llms.md) | Reading the logs that systemd produces |
+| [Display Systems](Linux/display_system.llms.md) | X11 against Wayland, the desktop environments on top (GNOME, KDE Plasma, XFCE), and a multi-monitor runbook for GNOME on NVIDIA: identical-EDID twins, a screen left black after unlock, and the monitor input-source trap |
+| [New Linux Computer](Linux/linux_computer.llms.md) | The setup checklist for a fresh Ubuntu box: git, VS Code, stow, tmux, SSH keys, curl, and battery charge limits |
+| [WSL](wsl.llms.md) | Running Linux under Windows: enabling the feature, the config files, and port forwarding back to Windows |
+
+------------------------------------------------------------------------
+
+## Terminal and Editors
+
+| Page | Covers |
+|----|----|
+| [Tmux](tmux.llms.md) | Sessions, windows, and panes, which is the whole model |
+| [Vim](0_vim.llms.md) | Modes, the basic commands, the advanced features, and customisation |
+| [Neovim](1_neovim.llms.md) | What it adds over Vim, and its plugin ecosystem |
+
+------------------------------------------------------------------------
+
+## Build and Task Runners
+
+Two pages that answer one question between them.
+
+| Page | Covers |
+|----|----|
+| [Make](0_make.llms.md) | GNU make properly: the core mental model, special variables, phony targets as the number one gotcha, the fact that each recipe line runs in a new shell, the four assignment operators, includes, pattern rules, and the functions you reach for constantly |
+| [Just](1_just.llms.md) | A command runner that looks like make but is not a build system, because it does not do timestamp-based rebuilds. Recipes, dependencies, arguments, dotenv behaviour, portability, and a direct comparison against make |
+
+------------------------------------------------------------------------
+
+## Virtualization
+
+| Page | Covers |
+|----|----|
+| [Proxmox](0_proxmox.llms.md) | The platform end to end: what it is, requirements, getting started, storage and partitioning, users, GPU passthrough, cloud-init, device discovery, and maintenance |
+| [Proxmox Storage](1_proxmox_storage.llms.md) | All ten backends compared, directory through LVM, LVM-thin, ZFS, Ceph, NFS, CIFS, iSCSI, and GlusterFS, with what each is actually for. Worth reading before creating a guest, because the choice is hard to undo |
+
+------------------------------------------------------------------------
+
+## Development Environment
+
+| Page | Covers |
+|----|----|
+| [JupyterLab](jupyter_labs.llms.md) | Server configuration: logging, security, SSL, performance, working directory, terminals, extensions, and kernel management |
+| [VS Code Debugging](vscode_debugging.llms.md) | debugpy and the `launch.json` that drives it |
+| [Quarto](quarto.llms.md) | Installing the renderer behind every site in this collection |
+| [LaTeX](latex_setup.llms.md) | Installation |
+| [PlatformIO](Platform_IO/platformio_basics.llms.md) | The embedded toolchain: project anatomy, the `platformio.ini` recipe, everyday CLI, library resolution gotchas, build flags, multi-board environments, debugging, Unity testing, and selective builds |
+
+------------------------------------------------------------------------
+
+## Programming Concepts
+
+| Page | Covers |
+|----|----|
+| [Design Patterns](0_coding_design_patterns.llms.md) | The three families: creational, structural, and behavioural |
+| [Algorithms](1_coding_algorithms.llms.md) | The algorithms worth knowing, ordered by learning priority |
+| [C++](C++/c++.llms.md) | Syntax through to modern C++: types, control flow, functions, OOP, memory management, templates, the STL, and the C++11 to C++23 additions |
+| [Abstract Syntax Trees](ast.llms.md) | What an AST is and why “abstract”, how one is produced, traversal patterns, where they show up in real tooling, and how they differ from related representations |
+| [Regex](regex.llms.md) | Syntax, groups and alternation, lookarounds, Python’s `re`, practical cases, and performance |
+
+------------------------------------------------------------------------
+
+## Diagrams
+
+A six-part folder on drawing software, organised by what the diagram is for rather than by notation. Most pages carry copy-paste Mermaid.
+
+| Page | Covers |
+|----|----|
+| [Overview](Software_Diagrams/diagram_overview.llms.md) | The map of diagram types |
+| [Structural](Software_Diagrams/structural_diagrams.llms.md) | Class, ER, component, deployment, and package diagrams, and what each is actually good for |
+| [Behavioural](Software_Diagrams/behavioural_diagrams.llms.md) | Sequence, state machine, and activity diagrams, plus why to skip the communication diagram |
+| [Requirements and Scope](Software_Diagrams/requirements_or_scope_diagrams.llms.md) | Use cases, user flows, journey maps, and requirement traceability: what the system is for and where it stops |
+| [Architectural](Software_Diagrams/architectural_diagrams.llms.md) | The non-UML notations that most architecture questions actually want: the four C4 levels, data flow diagrams with a threat model on top, and network topology |
+| [Process and Ops](Software_Diagrams/process_ops_diagrams.llms.md) | Gantt and dependency charts, swimlanes, and timing diagrams |
+
+------------------------------------------------------------------------
+
+## Security, Capture, and Agents
+
+| Page | Covers |
+|----|----|
+| [MFA](mfa.llms.md) | Multi-factor authentication end to end: the three factors, methods ranked by security, the attacks against each, how MFA differs from 2FA and passwordless, cloud platform support, and compliance |
+| [Sound Testing](Camera_sound/sound_testing.llms.md) | Recording from a microphone inside a notebook, visualising the waveform, playing it back, and basic quality metrics |
+| [Sound Testing 2](Camera_sound/sound_testing2.llms.md) | A second pass over the same ground with additional quality checks |
+| [Camera Testing](Camera_sound/camera_testing.llms.md) | Capturing from a camera |
+| [Browser Use](browser_use.llms.md) | The library that gives an LLM control of Chromium by serialising the page into indexed interactive elements and looping. Architecture, API surface, model choice, the commercial layer, where it earns its keep, and the gotchas |
+
+------------------------------------------------------------------------
+
+## Not Covered Yet
+
+- **Git has no page**, despite being the tool used most. Version control is covered from the GitHub side in [Web Development](https://bthek1.github.io/Web_development/).
+- **No editor configuration page.** Vim and Neovim are covered as tools, but the actual dotfiles and plugin setup are not written down anywhere.
+- **Nothing on ssh and remote work** as a subject, only the key setup buried in the new-computer checklist.
+- **[Graphify](graphify.llms.md) is a stub**, three cells with no content.
+- **The two sound testing pages duplicate each other** and should be merged.
+- `Linux/04_Bash_Scritps.ipynb` is misspelled in the filename, which is why the URL looks wrong.
+
+------------------------------------------------------------------------
+
+Back to top

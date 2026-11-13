@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 816 320" width="816" height="320" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+    <pattern id="hx" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#f1f5f9"/><line x1="0" y1="0" x2="0" y2="6" stroke="#94a3b8" stroke-width="1.5"/></pattern>
+  </defs>
+  <rect width="816" height="320" fill="#ffffff"/>
+  <text x="408.0" y="24" text-anchor="middle" font-size="15" fill="#0f172a" font-weight="bold">SPI read: MCU to energy-measurement chip</text>
+  <line x1="90" y1="40" x2="90" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="148" y1="40" x2="148" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="206" y1="40" x2="206" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="264" y1="40" x2="264" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="322" y1="40" x2="322" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="380" y1="40" x2="380" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="438" y1="40" x2="438" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="496" y1="40" x2="496" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="554" y1="40" x2="554" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="612" y1="40" x2="612" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="670" y1="40" x2="670" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="728" y1="40" x2="728" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <line x1="786" y1="40" x2="786" y2="290" stroke="#e2e8f0" stroke-dasharray="3,3"/>
+  <text x="119.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">0</text>
+  <text x="177.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">1</text>
+  <text x="235.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">2</text>
+  <text x="293.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">3</text>
+  <text x="351.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">4</text>
+  <text x="409.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">5</text>
+  <text x="467.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">6</text>
+  <text x="525.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">7</text>
+  <text x="583.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">8</text>
+  <text x="641.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">9</text>
+  <text x="699.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">10</text>
+  <text x="757.0" y="308" text-anchor="middle" font-size="10" fill="#94a3b8">11</text>
+  <text x="78" y="69.0" text-anchor="end" font-size="13" fill="#0f172a" font-weight="bold">CS</text>
+  <polyline points="90,52.0 148,52.0 148,78.0 206,78.0 264,78.0 322,78.0 380,78.0 438,78.0 496,78.0 554,78.0 612,78.0 670,78.0 728,78.0 728,52.0 786,52.0" fill="none" stroke="#0f172a" stroke-width="2"/>
+  <text x="78" y="119.0" text-anchor="end" font-size="13" fill="#0f172a" font-weight="bold">SCLK</text>
+  <polyline points="90,128.0 148,128.0 206,128.0 206,128.0 206,102.0 235.0,102.0 235.0,128.0 264,128.0 264,128.0 264,102.0 293.0,102.0 293.0,128.0 322,128.0 322,128.0 322,102.0 351.0,102.0 351.0,128.0 380,128.0 380,128.0 380,102.0 409.0,102.0 409.0,128.0 438,128.0 438,128.0 438,102.0 467.0,102.0 467.0,128.0 496,128.0 496,128.0 496,102.0 525.0,102.0 525.0,128.0 554,128.0 554,128.0 554,102.0 583.0,102.0 583.0,128.0 612,128.0 612,128.0 612,102.0 641.0,102.0 641.0,128.0 670,128.0 670,128.0 670,102.0 699.0,102.0 699.0,128.0 728,128.0 786,128.0" fill="none" stroke="#0f172a" stroke-width="2"/>
+  <text x="78" y="169.0" text-anchor="end" font-size="13" fill="#0f172a" font-weight="bold">MOSI</text>
+  <path d="M90,165.0 L95,152.0 L201,152.0 L206,165.0 L201,178.0 L95,178.0 z" fill="url(#hx)" stroke="#0f172a" stroke-width="1.5"/>
+  <path d="M206,165.0 L211,152.0 L259,152.0 L264,165.0 L259,178.0 L211,178.0 z" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="235.0" y="170.0" text-anchor="middle" font-size="13" fill="#0f172a">A7</text>
+  <path d="M264,165.0 L269,152.0 L317,152.0 L322,165.0 L317,178.0 L269,178.0 z" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="293.0" y="170.0" text-anchor="middle" font-size="13" fill="#0f172a">A6</text>
+  <path d="M322,165.0 L327,152.0 L375,152.0 L380,165.0 L375,178.0 L327,178.0 z" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="351.0" y="170.0" text-anchor="middle" font-size="13" fill="#0f172a">A5</text>
+  <path d="M380,165.0 L385,152.0 L433,152.0 L438,165.0 L433,178.0 L385,178.0 z" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="409.0" y="170.0" text-anchor="middle" font-size="13" fill="#0f172a">A4</text>
+  <path d="M438,165.0 L443,152.0 L781,152.0 L786,165.0 L781,178.0 L443,178.0 z" fill="url(#hx)" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="78" y="219.0" text-anchor="end" font-size="13" fill="#0f172a" font-weight="bold">MISO</text>
+  <path d="M90,215.0 L95,202.0 L491,202.0 L496,215.0 L491,228.0 L95,228.0 z" fill="url(#hx)" stroke="#0f172a" stroke-width="1.5"/>
+  <path d="M496,215.0 L501,202.0 L549,202.0 L554,215.0 L549,228.0 L501,228.0 z" fill="#fef3c7" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="525.0" y="220.0" text-anchor="middle" font-size="13" fill="#0f172a">D7</text>
+  <path d="M554,215.0 L559,202.0 L607,202.0 L612,215.0 L607,228.0 L559,228.0 z" fill="#fef3c7" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="583.0" y="220.0" text-anchor="middle" font-size="13" fill="#0f172a">D6</text>
+  <path d="M612,215.0 L617,202.0 L665,202.0 L670,215.0 L665,228.0 L617,228.0 z" fill="#fef3c7" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="641.0" y="220.0" text-anchor="middle" font-size="13" fill="#0f172a">D5</text>
+  <path d="M670,215.0 L675,202.0 L723,202.0 L728,215.0 L723,228.0 L675,228.0 z" fill="#fef3c7" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="699.0" y="220.0" text-anchor="middle" font-size="13" fill="#0f172a">D4</text>
+  <path d="M728,215.0 L733,202.0 L781,202.0 L786,215.0 L781,228.0 L733,228.0 z" fill="url(#hx)" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="78" y="269.0" text-anchor="end" font-size="13" fill="#0f172a" font-weight="bold">IRQ</text>
+  <polyline points="90,252.0 148,252.0 206,252.0 264,252.0 322,252.0 380,252.0 438,252.0 496,252.0 554,252.0 612,252.0 670,252.0 670,278.0 728,278.0 786,278.0" fill="none" stroke="#0f172a" stroke-width="2"/>
+</svg>

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1016.0 524" width="1016.0" height="524" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+  </defs>
+  <rect width="1016.0" height="524" fill="#ffffff"/>
+  <text x="508.0" y="28" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="bold">MeterHub release 1</text>
+  <text x="508.0" y="48" text-anchor="middle" font-size="11" fill="#475569">working days only, weekends shaded</text>
+  <rect x="10" y="70" width="996.0" height="84" fill="#f8fafc"/>
+  <text x="18" y="84" text-anchor="start" font-size="11" fill="#475569" font-weight="bold">Platform</text>
+  <rect x="10" y="154" width="996.0" height="84" fill="#eff6ff"/>
+  <text x="18" y="168" text-anchor="start" font-size="11" fill="#475569" font-weight="bold">Ingest</text>
+  <rect x="10" y="238" width="996.0" height="84" fill="#f8fafc"/>
+  <text x="18" y="252" text-anchor="start" font-size="11" fill="#475569" font-weight="bold">Billing</text>
+  <rect x="10" y="322" width="996.0" height="56" fill="#eff6ff"/>
+  <text x="18" y="336" text-anchor="start" font-size="11" fill="#475569" font-weight="bold">Customer facing</text>
+  <rect x="10" y="378" width="996.0" height="56" fill="#f8fafc"/>
+  <text x="18" y="392" text-anchor="start" font-size="11" fill="#475569" font-weight="bold">Gates</text>
+  <rect x="402.5" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="414.0" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="483.0" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="494.5" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="563.5" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="575.0" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="644.0" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="655.5" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="724.5" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="736.0" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="805.0" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="816.5" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="885.5" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <rect x="897.0" y="70" width="11.5" height="364" fill="#94a3b8" fill-opacity="0.18"/>
+  <line x1="345" y1="434" x2="966.0" y2="434" stroke="#475569"/>
+  <line x1="345.0" y1="70" x2="345.0" y2="439" stroke="#cbd5e1"/>
+  <text x="345.0" y="452" text-anchor="middle" font-size="11" fill="#475569">03 Aug</text>
+  <line x1="425.5" y1="70" x2="425.5" y2="439" stroke="#cbd5e1"/>
+  <text x="425.5" y="452" text-anchor="middle" font-size="11" fill="#475569">10 Aug</text>
+  <line x1="506.0" y1="70" x2="506.0" y2="439" stroke="#cbd5e1"/>
+  <text x="506.0" y="452" text-anchor="middle" font-size="11" fill="#475569">17 Aug</text>
+  <line x1="586.5" y1="70" x2="586.5" y2="439" stroke="#cbd5e1"/>
+  <text x="586.5" y="452" text-anchor="middle" font-size="11" fill="#475569">24 Aug</text>
+  <line x1="667.0" y1="70" x2="667.0" y2="439" stroke="#cbd5e1"/>
+  <text x="667.0" y="452" text-anchor="middle" font-size="11" fill="#475569">31 Aug</text>
+  <line x1="747.5" y1="70" x2="747.5" y2="439" stroke="#cbd5e1"/>
+  <text x="747.5" y="452" text-anchor="middle" font-size="11" fill="#475569">07 Sep</text>
+  <line x1="828.0" y1="70" x2="828.0" y2="439" stroke="#cbd5e1"/>
+  <text x="828.0" y="452" text-anchor="middle" font-size="11" fill="#475569">14 Sep</text>
+  <line x1="908.5" y1="70" x2="908.5" y2="439" stroke="#cbd5e1"/>
+  <text x="908.5" y="452" text-anchor="middle" font-size="11" fill="#475569">21 Sep</text>
+  <text x="125" y="90.0" text-anchor="start" font-size="12" fill="#0f172a">Provision LXC and network</text>
+  <rect x="345.0" y="77.0" width="45.0" height="18" rx="4" fill="#d1fae5" stroke="#047857" stroke-width="1.2"/>
+  <text x="395.0" y="90.0" text-anchor="start" font-size="10" fill="#475569">inf1</text>
+  <text x="125" y="118.0" text-anchor="start" font-size="12" fill="#0f172a">Certificate authority for meters</text>
+  <rect x="391.0" y="105.0" width="56.5" height="18" rx="4" fill="#d1fae5" stroke="#047857" stroke-width="1.2"/>
+  <text x="452.5" y="118.0" text-anchor="start" font-size="10" fill="#475569">inf2</text>
+  <text x="125" y="146.0" text-anchor="start" font-size="12" fill="#0f172a">TimescaleDB and retention policy</text>
+  <rect x="391.0" y="133.0" width="91.0" height="18" rx="4" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.2"/>
+  <text x="487.0" y="146.0" text-anchor="start" font-size="10" fill="#475569">inf3</text>
+  <text x="125" y="174.0" text-anchor="start" font-size="12" fill="#0f172a">MQTT broker with client certs</text>
+  <rect x="448.5" y="161.0" width="79.5" height="18" rx="4" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.2"/>
+  <text x="533.0" y="174.0" text-anchor="start" font-size="10" fill="#475569">ing1</text>
+  <text x="125" y="202.0" text-anchor="start" font-size="12" fill="#0f172a">Validation and dedupe</text>
+  <rect x="529.0" y="189.0" width="114.0" height="18" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="1.2"/>
+  <text x="648.0" y="202.0" text-anchor="start" font-size="10" fill="#475569">ing2</text>
+  <text x="125" y="230.0" text-anchor="start" font-size="12" fill="#0f172a">Load test to 10k per second</text>
+  <rect x="667.0" y="217.0" width="45.0" height="18" rx="4" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="717.0" y="230.0" text-anchor="start" font-size="10" fill="#475569">ing3</text>
+  <text x="125" y="258.0" text-anchor="start" font-size="12" fill="#0f172a">Tariff engine, flat rate</text>
+  <rect x="506.0" y="245.0" width="91.0" height="18" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="1.2"/>
+  <text x="602.0" y="258.0" text-anchor="start" font-size="10" fill="#475569">bil1</text>
+  <text x="125" y="286.0" text-anchor="start" font-size="12" fill="#0f172a">Tariff engine, time of use</text>
+  <rect x="598.0" y="273.0" width="102.5" height="18" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="1.2"/>
+  <text x="705.5" y="286.0" text-anchor="start" font-size="10" fill="#475569">bil2</text>
+  <text x="125" y="314.0" text-anchor="start" font-size="12" fill="#0f172a">Invoice PDF and email</text>
+  <rect x="701.5" y="301.0" width="79.5" height="18" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="1.2"/>
+  <text x="786.0" y="314.0" text-anchor="start" font-size="10" fill="#475569">bil3</text>
+  <text x="125" y="342.0" text-anchor="start" font-size="12" fill="#0f172a">Usage charts</text>
+  <rect x="506.0" y="329.0" width="114.0" height="18" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="1.2"/>
+  <text x="625.0" y="342.0" text-anchor="start" font-size="10" fill="#475569">web1</text>
+  <text x="125" y="370.0" text-anchor="start" font-size="12" fill="#0f172a">Payment flow with gateway</text>
+  <rect x="782.0" y="357.0" width="148.5" height="18" rx="4" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="935.5" y="370.0" text-anchor="start" font-size="10" fill="#475569">web2</text>
+  <text x="125" y="398.0" text-anchor="start" font-size="12" fill="#0f172a">Meters in the field</text>
+  <path d="M713.0,385.0 L722.0,394.0 L713.0,403.0 L704.0,394.0 z" fill="#0f172a"/>
+  <text x="727.0" y="398.0" text-anchor="start" font-size="11" fill="#475569">Fri 04 Sep</text>
+  <text x="125" y="426.0" text-anchor="start" font-size="12" fill="#0f172a">First live bill issued</text>
+  <path d="M931.5,413.0 L940.5,422.0 L931.5,431.0 L922.5,422.0 z" fill="#0f172a"/>
+  <text x="945.5" y="426.0" text-anchor="start" font-size="11" fill="#475569">Wed 23 Sep</text>
+  <rect x="345" y="472" width="26" height="12" rx="3" fill="#d1fae5" stroke="#047857" stroke-width="1.2"/>
+  <text x="377" y="482" text-anchor="start" font-size="11" fill="#475569">done</text>
+  <rect x="450" y="472" width="26" height="12" rx="3" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.2"/>
+  <text x="482" y="482" text-anchor="start" font-size="11" fill="#475569">active</text>
+  <rect x="555" y="472" width="26" height="12" rx="3" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="587" y="482" text-anchor="start" font-size="11" fill="#475569">critical</text>
+  <rect x="660" y="472" width="26" height="12" rx="3" fill="#e2e8f0" stroke="#475569" stroke-width="1.2"/>
+  <text x="692" y="482" text-anchor="start" font-size="11" fill="#475569">planned</text>
+  <path d="M774,469 L782,478 L774,487 L766,478 z" fill="#0f172a"/>
+  <text x="789" y="482" text-anchor="start" font-size="11" fill="#475569">milestone</text>
+</svg>
